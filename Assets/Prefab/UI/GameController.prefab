@@ -1,0 +1,1071 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7167905574573003516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7167905574573003519}
+  - component: {fileID: 7167905574573003518}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7167905574573003519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905574573003516}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7167905574618856511}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7167905574573003518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905574573003516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4257bfacca89e574b9f88c5a45f7a6bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainQuestSlots:
+    slotNum: 0
+    questName: []
+    questLevel: []
+    questDistance: []
+    questLocationName: []
+    highLight: []
+    questData: []
+  sideQuestSlots:
+    slotNum: 0
+    questName: []
+    questLevel: []
+    questDistance: []
+    questLocationName: []
+    highLight: []
+    questData: []
+  miniMapLocationIcon: {fileID: 21300086, guid: b2ff3b281537fbc4d91af3e848afde5c, type: 3}
+  miniMapIconColor: {r: 253, g: 255, b: 0, a: 230}
+  miniMapIconAreaColor: {r: 253, g: 255, b: 0, a: 230}
+  neutralColor: {r: 0, g: 0, b: 0, a: 0.7490196}
+  highlightColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.7490196}
+  selectColor: {r: 0.8392157, g: 0.8392157, b: 0.8392157, a: 0.7490196}
+  completeColor: {r: 0.94509804, g: 0.8352941, b: 0, a: 0.7490196}
+  questAddedType: {fileID: 0}
+  questAddedName: {fileID: 0}
+  questAddedfadeUI: {fileID: 0}
+  rewardItems:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  createSlotPrefab: {fileID: 7500509029880651741, guid: 7d2c49d76c9815f4b9135df4dcb39f39, type: 3}
+  questSlotOptions: {fileID: 0}
+  questName: {fileID: 0}
+  questLocation: {fileID: 0}
+  questLevel: {fileID: 0}
+  questDescription: {fileID: 0}
+  questObjectiveTitle: {fileID: 0}
+  questHint: {fileID: 0}
+--- !u!1 &7167905574618856509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7167905574618856511}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7167905574618856511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905574618856509}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7167905575935915345}
+  - {fileID: 7167905575381221640}
+  - {fileID: 7167905575827750790}
+  - {fileID: 7167905575518502060}
+  - {fileID: 7167905576050164071}
+  - {fileID: 7167905574573003519}
+  - {fileID: 7167905576064702965}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7167905575381221641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7167905575381221640}
+  - component: {fileID: 7167905575381221643}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7167905575381221640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905575381221641}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7167905574618856511}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7167905575381221643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905575381221641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f087526bd18a804aad997549ffaf1c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponInv:
+    slotNum: 0
+    slotWeaponEquipped: 0
+    removeNullSlots: 0
+    weaponSlotActive: 0
+    counter: 
+    statCounter: 
+    image: []
+    highLight: []
+    outLineBorder: []
+    statValueBG: []
+    quantity: []
+    statValue: []
+    itemData: []
+  bowAndArrowInv:
+    slotNum: 0
+    slotBowEquipped: 0
+    slotArrowEquipped: 0
+    removeNullSlots: 0
+    bowAndArrowSlotActive: 0
+    counter: 
+    statCounter: 
+    image: []
+    highLight: []
+    outLineBorder: []
+    statValueBG: []
+    quantity: []
+    statValue: []
+    itemData: []
+  shieldInv:
+    slotNum: 0
+    slotShieldEquipped: 0
+    removeNullSlots: 0
+    shieldSlotActive: 0
+    counter: 
+    statCounter: 
+    image: []
+    highLight: []
+    outLineBorder: []
+    statValueBG: []
+    quantity: []
+    statValue: []
+    itemData: []
+  armorInv:
+    slotNum: 0
+    slotArmorHeadEquipped: 0
+    slotArmorChestEquipped: 0
+    slotArmorLegEquipped: 0
+    slotArmorAmuletEquipped: 0
+    removeNullSlots: 0
+    armorSlotActive: 0
+    counter: 
+    statCounter: 
+    image: []
+    highLight: []
+    outLineBorder: []
+    statValueBG: []
+    quantity: []
+    statValue: []
+    itemData: []
+  materialInv:
+    slotNum: 0
+    removeNullSlots: 0
+    materialSlotActive: 0
+    counter: 
+    statCounter: 
+    image: []
+    highLight: []
+    outLineBorder: []
+    statValueBG: []
+    quantity: []
+    statValue: []
+    itemData: []
+  healingInv:
+    slotNum: 0
+    removeNullSlots: 0
+    healingSlotActive: 0
+    counter: 
+    statCounter: 
+    image: []
+    highLight: []
+    outLineBorder: []
+    statValueBG: []
+    quantity: []
+    statValue: []
+    itemData: []
+  keyInv:
+    slotNum: 0
+    removeNullSlots: 0
+    keySlotActive: 0
+    counter: 
+    statCounter: 
+    image: []
+    highLight: []
+    outLineBorder: []
+    statValueBG: []
+    quantity: []
+    statValue: []
+    itemData: []
+  weaponSlots: 5
+  bowAndArrowSlots: 5
+  shieldSlots: 5
+  armorSlots: 5
+  materialSlots: 5
+  healingSlots: 5
+  keySlots: 5
+  itemRepair: 1
+  unityCoins: 999999
+  rank1Color1: {r: 1, g: 0.3801653, b: 0, a: 1}
+  rank1Color2: {r: 0.36200002, g: 0.13876668, b: 0, a: 1}
+  rank2Color1: {r: 0, g: 0.7174115, b: 1, a: 1}
+  rank2Color2: {r: 0, g: 0.40762356, b: 0.568, a: 1}
+  rank3Color1: {r: 1, g: 0.68333334, b: 0, a: 1}
+  rank3Color2: {r: 0.689, g: 0.46743923, b: 0, a: 1}
+  brokenColor1: {r: 1, g: 0, b: 0, a: 1}
+  brokenColor2: {r: 0.6, g: 0, b: 0, a: 1}
+  outLineHover: {r: 1, g: 1, b: 1, a: 1}
+  outLineSelected: {r: 0, g: 0.8172679, b: 1, a: 1}
+  UIcanvas: {fileID: 0}
+  itemIconData:
+  - {fileID: 7199393342757284327, guid: aa98d9f31cf51a74eabf1d064eb11f2a, type: 3}
+  - {fileID: 8056701494828327768, guid: 91f5587a803b4f246bb73f6ed38681cb, type: 3}
+  - {fileID: 1467140474345013030, guid: f92fada9e8094464f95768e76d47231e, type: 3}
+  - {fileID: 2336610605566860822, guid: d9b2fd60698c0ec4fb5cb879be94e399, type: 3}
+  - {fileID: 2909810912187158967, guid: 4d7e4ff50f0d1a94abe8f2489ea031f3, type: 3}
+  - {fileID: 459568085028516250, guid: d3562c12a19b20e4ba3a37b533ff90e8, type: 3}
+  - {fileID: 1684272761724035687, guid: 3713745b4bc63604cad682275006f339, type: 3}
+  - {fileID: 6149891725418330891, guid: 1d3bd453e1cef3943a18c624b8930f32, type: 3}
+  - {fileID: 4881614664373929022, guid: c69a8fe058d9c8b4a9f6efe54aaba8ee, type: 3}
+  - {fileID: 7605990796662672494, guid: d6a40e8f726bdf744a2f5944e7df7730, type: 3}
+  - {fileID: 6242805369246616896, guid: 084b6fa0cdb40a94da6a63e6e3e13372, type: 3}
+  - {fileID: 4380772284011502609, guid: 36b9aa4566cb5ab45b1bdd3f95730c87, type: 3}
+  - {fileID: 4466431259971825360, guid: 8c51c64c69402434cbec86eebe7b3dd9, type: 3}
+  - {fileID: 2357710324861674571, guid: acba65a5cc9ddea47828c8440c58a84b, type: 3}
+  - {fileID: 6382992938444451798, guid: dda008d532e95d941b768691f428f140, type: 3}
+  - {fileID: 1066970767676405154, guid: bc80d0728f72c024d959954824831ff7, type: 3}
+  - {fileID: 6115287951860445001, guid: 9041e7f1c3cb01a4d9c63001029b4e6e, type: 3}
+  - {fileID: 4212741702106217447, guid: e0d62f24a7a107944b715edac72ee631, type: 3}
+  - {fileID: 3954566297033815348, guid: a240f187f83777c48bf8063093478230, type: 3}
+  referencesObj:
+    UIBorder: {fileID: 0}
+    menuParticleSystem: {fileID: 0}
+    pauseMenu: {fileID: 0}
+    mapSection: {fileID: 0}
+    questSection: {fileID: 0}
+    inventorySection: {fileID: 0}
+    skillsSection: {fileID: 0}
+    systemSection: {fileID: 0}
+    weaponGrid: {fileID: 0}
+    bowAndArrowGrid: {fileID: 0}
+    shieldGrid: {fileID: 0}
+    armorGrid: {fileID: 0}
+    materialGrid: {fileID: 0}
+    healingGrid: {fileID: 0}
+    keyGrid: {fileID: 0}
+    abilityAssignMenu: {fileID: 0}
+    storeM: {fileID: 0}
+    buyStoreM: {fileID: 0}
+    sellStoreM: {fileID: 0}
+    repairStoreM: {fileID: 0}
+    upgradeStoreM: {fileID: 0}
+    specialStoreM: {fileID: 0}
+    inputFieldOptions: {fileID: 0}
+    itemOptionsGroup: {fileID: 0}
+    itemOptionsEquipObj: {fileID: 0}
+    itemOptionsRemoveObj: {fileID: 0}
+    itemOptionsDropObj: {fileID: 0}
+    itemOptionsPreviewObj: {fileID: 0}
+    itemOptionsConsumeObj: {fileID: 0}
+    itemOptionsBuyObj: {fileID: 0}
+    itemOptionsSellObj: {fileID: 0}
+    itemOptionsRepairObj: {fileID: 0}
+    itemOptionsUpgradeObj: {fileID: 0}
+    itemOptionsWeaponSpecialObj: {fileID: 0}
+    itemOptionsBowSpecialObj: {fileID: 0}
+    itemOptionsShieldSpecialObj: {fileID: 0}
+    itemOptionsArmorSpecialObj: {fileID: 0}
+    primaryItemImage: {fileID: 0}
+    primaryValueBG: {fileID: 0}
+    shieldItemImage: {fileID: 0}
+    shieldValueBG: {fileID: 0}
+    secondaryItemImage: {fileID: 0}
+    secondaryValueBG: {fileID: 0}
+    arrowItemImage: {fileID: 0}
+    arrowValueBG: {fileID: 0}
+    headItemImage: {fileID: 0}
+    headValueBG: {fileID: 0}
+    chestItemImage: {fileID: 0}
+    chestValueBG: {fileID: 0}
+    legItemImage: {fileID: 0}
+    legValueBG: {fileID: 0}
+    amuletItemImage: {fileID: 0}
+    amuletValueBG: {fileID: 0}
+    playerGuage: {fileID: 0}
+    levelGuage: {fileID: 0}
+    questObjective: {fileID: 0}
+    inventoryHUD: {fileID: 0}
+    abilityHUD: {fileID: 0}
+    buttonsHUD: {fileID: 0}
+    mainCursor: {fileID: 0}
+    coinHUD: {fileID: 0}
+    mapCursorObj: {fileID: 0}
+  createSlotPrefab: {fileID: 7961555754271178165, guid: 92aa25956a3f36942a96f7ad3615a98c, type: 3}
+  addedItemPrefab: {fileID: 4904176843467672559, guid: f6c43fe66ced5db4fa8d298eba27c9b8, type: 3}
+  unityCoinsText: {fileID: 0}
+  itemEquippedCheck: {fileID: 0}
+  defaultRenderPipelineAsset: {fileID: 11400000, guid: 5c8c317c414295a4d94361d6d9674aeb, type: 2}
+  isPauseMenuOn: 0
+  preSwordEquipped: 0
+  preDaggerEquipped: 0
+  pre2HSwordEquipped: 0
+  preSpearEquipped: 0
+  preStaffEquipped: 0
+  preBowEquipped: 0
+  preGunEquipped: 0
+  preShieldEquipped: 0
+  pauseMenuNavigation: 0
+  wpnHolster: {fileID: 0}
+  itemObtained: {fileID: 0}
+  cc: {fileID: 0}
+  miniMap: {fileID: 0}
+  storeM: {fileID: 0}
+  dialogueM: {fileID: 0}
+  systemM: {fileID: 0}
+  itemDescription: {fileID: 0}
+  startItems: []
+  addedItemList: {fileID: 0}
+  cursorVirtual: {fileID: 0}
+  addedItemPanel: {fileID: 0}
+  prefabHolder: {fileID: 0}
+  initWpns: []
+  inventoryHUD: {fileID: 0}
+  pauseMenuS: 0
+  inventoryS: 0
+--- !u!1 &7167905575518502061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7167905575518502060}
+  - component: {fileID: 7167905575518502063}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7167905575518502060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905575518502061}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7167905574618856511}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7167905575518502063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905575518502061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c66039cf9d5a7da42ab9e9a0516a4a2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curDialogue:
+    npcName: 
+    dialogueType: 0
+    dialogueSegmentNum: 0
+    dialogueSegment: []
+    isDeactivated: 0
+    storeItemPrefab: []
+    questSequenceNameReceipt: 
+    questPhaseReceipt: 0
+    addQuestPhaseBy: 1
+    addQuestQuantityBy: 0
+    globalUpdatePhase: 0
+    itemName: 
+    removeQuantity: 0
+    questData: {fileID: 0}
+    controller: {fileID: 0}
+    dialogueState: 0
+    defaultSegment: 0
+    completeSegment: 0
+    completedSegment: 0
+    optionASegment: 0
+    optionBSegment: 0
+    dialogueAltered: 0
+  dialogueStart: {fileID: 0}
+  dialogueType: {fileID: 0}
+  dialogueNext: {fileID: 0}
+  dialogueEnd: {fileID: 0}
+  buttonSelect: {fileID: 0}
+  fadeUI: {fileID: 0}
+  npcName: {fileID: 0}
+  dialogue: {fileID: 0}
+  optionA: {fileID: 0}
+  optionB: {fileID: 0}
+  timerQuestion: {fileID: 0}
+  optionButton: {fileID: 0}
+  continueButton: {fileID: 0}
+  fadeUIOnDialogue:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  questM: {fileID: 0}
+  currentQuest: {fileID: 0}
+  previousQuest: {fileID: 0}
+  inventoryM: {fileID: 0}
+  sentenceType: 0
+--- !u!1 &7167905575827750791
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7167905575827750790}
+  - component: {fileID: 7167905575827750785}
+  m_Layer: 0
+  m_Name: SkillsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7167905575827750790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905575827750791}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7167905574618856511}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7167905575827750785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905575827750791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e095527df9a42564091b4469895f2e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topAbilityNameMenu: 
+  topAbilityIconMenu: {fileID: 0}
+  topButtonIconMenu: {fileID: 0}
+  leftAbilityNameMenu: 
+  leftAbilityIconMenu: {fileID: 0}
+  leftButtonIconMenu: {fileID: 0}
+  rightAbilityNameMenu: 
+  rightAbilityIconMenu: {fileID: 0}
+  rightButtonIconMenu: {fileID: 0}
+  bottomAbilityNameMenu: 
+  bottomAbilityIconMenu: {fileID: 0}
+  bottomButtonIconMenu: {fileID: 0}
+  topHighlight: {fileID: 0}
+  topAbilityHUD: {fileID: 0}
+  topAbilityIconHUD: {fileID: 0}
+  topButtonIconHUD: {fileID: 0}
+  topAbilityNameHUD: 
+  leftHighlight: {fileID: 0}
+  leftAbilityHUD: {fileID: 0}
+  leftAbilityIconHUD: {fileID: 0}
+  leftButtonIconHUD: {fileID: 0}
+  leftAbilityNameHUD: 
+  rightHighlight: {fileID: 0}
+  rightAbilityHUD: {fileID: 0}
+  rightAbilityIconHUD: {fileID: 0}
+  rightButtonIconHUD: {fileID: 0}
+  rightAbilityNameHUD: 
+  bottomHighlight: {fileID: 0}
+  bottomAbilityHUD: {fileID: 0}
+  bottomAbilityIconHUD: {fileID: 0}
+  bottomButtonIconHUD: {fileID: 0}
+  bottomAbilityNameHUD: 
+  buttonIconAlphaHUD:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  listOfValidAbilityNames:
+  - Launch
+  triggerButtonIconHUD: {fileID: 0}
+  skillTreeRect: {fileID: 0}
+  horizontalSpeed: 400
+  verticalSpeed: 400
+  MaxOffSetPosition: {x: 800, y: 800}
+  launchAbilityIcon: {fileID: 21300000, guid: c946b86b6e38b9a4dace475fb545b28b, type: 3}
+--- !u!1 &7167905575935915351
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7167905575935915345}
+  - component: {fileID: 7167905575935915350}
+  m_Layer: 0
+  m_Name: InteractUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7167905575935915345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905575935915351}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7167905574618856511}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7167905575935915350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905575935915351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e85f6cb46199d45b37da0c79459c2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardButtonIcons:
+    eButton: {fileID: 21300000, guid: 81082cf7dc932ca4da9ccff73ef6fa47, type: 3}
+    cButton: {fileID: 21300000, guid: b8b4496839c1ffa4da9bc7b045b0e82c, type: 3}
+    vButton: {fileID: 21300000, guid: 981ac2c204441c94984030b4e40ef57a, type: 3}
+    xButton: {fileID: 21300000, guid: 303360869434e8a4a8a3e58ce46a3350, type: 3}
+    zButton: {fileID: 21300000, guid: 55056c7397522ac4b97c6abdf153c902, type: 3}
+    spaceButton: {fileID: 21300000, guid: 3b209ab9f2319744b8e914ff964ee798, type: 3}
+    shiftButton: {fileID: 21300000, guid: 75228257cbfa41446910c6f37941bdc5, type: 3}
+    wasd: {fileID: 21300000, guid: 181ac275156669841a07d2af09ea39d2, type: 3}
+    mouseWheel: {fileID: 21300000, guid: 62aa82472a4d0e943b90e37172493855, type: 3}
+    escapeButton: {fileID: 21300000, guid: 161934347f72b734fb4a6fd8caa67f45, type: 3}
+    mouseMove: {fileID: 21300000, guid: eff5c64783b0d2b4eac4a71fcdcf72e1, type: 3}
+    aimClick: {fileID: 21300000, guid: 7cda2a9462b73c64ab0ed1956dd3809f, type: 3}
+    attackClick: {fileID: 21300000, guid: d7f5d0b17ebe9b64791b9646e5212bca, type: 3}
+    oneButton: {fileID: 21300000, guid: 6c9e925939d3adf42baff516719a09b7, type: 3}
+    twoButton: {fileID: 21300000, guid: c154d3e0a1b646c45a5a7adbb295b16e, type: 3}
+    threeButton: {fileID: 21300000, guid: 1ce9423f9e9b6724b836bf761e18dc73, type: 3}
+    fourButton: {fileID: 21300000, guid: eb8cd7caecdce914da764493db9de019, type: 3}
+  xboxButtonIcons:
+    xButton: {fileID: 21300000, guid: e56fe20573b536a42a53fb4d864d9df0, type: 3}
+    aButton: {fileID: 21300000, guid: 8aa2e14e51c2e3e48aecc6649066d7d8, type: 3}
+    bButton: {fileID: 21300000, guid: 048202c69bda4a8429158cce84019c3b, type: 3}
+    yButton: {fileID: 21300000, guid: 51e0c17882baea7468f733ec99349060, type: 3}
+    leftStickButton: {fileID: 21300000, guid: 2bf4ccb6e37163840be666e5d88d4ac6, type: 3}
+    rightStickButton: {fileID: 21300000, guid: 0a0494436a48ef544bbf8a9943bd0293, type: 3}
+    leftStickAxis: {fileID: 21300000, guid: a7f53d8073cbc4b468036145d784aa7f, type: 3}
+    rightStickAxis: {fileID: 21300000, guid: 0da5064701b92294f95a05288386c1ee, type: 3}
+    start: {fileID: 21300000, guid: 40332714e4ff0a844af8308d3d536e9f, type: 3}
+    select: {fileID: 21300000, guid: 2476d04e16fd38b4d8d02221aa1a5589, type: 3}
+    leftTrigger: {fileID: 21300000, guid: c906b2741674736428b4b48d55f19077, type: 3}
+    rightTrigger: {fileID: 21300000, guid: 36bd36d7712ae8c4c8644c339588ae5c, type: 3}
+    leftBumber: {fileID: 21300000, guid: ec380aba2681ab149b59afc584fa7bec, type: 3}
+    rightBumber: {fileID: 21300000, guid: af59cdb4a95204d4aa636fa401343e36, type: 3}
+    DPadUp: {fileID: 21300000, guid: c08d526cdfcb2d942be44ffef3ac1b82, type: 3}
+    DPadLeft: {fileID: 21300000, guid: 6ddc454801c82ae4ea660e39890c1d04, type: 3}
+    DPadRight: {fileID: 21300000, guid: b95241e6356aaff47851d53bdc6d8052, type: 3}
+    DPadDown: {fileID: 21300000, guid: 30ba8772743fba646957669104ab36d0, type: 3}
+  playstationButtonIcons:
+    squareButton: {fileID: 21300000, guid: b601b88ab3fc9ab45bcc38d9b728ee17, type: 3}
+    crossButton: {fileID: 21300000, guid: e547e01cba76cbe48a88c1c95b5026e3, type: 3}
+    circleButton: {fileID: 21300000, guid: 3c8270f18d927d947883e5c3b5e1f071, type: 3}
+    triangleButton: {fileID: 21300000, guid: 3ed04d487de6a0c44961e206aaaf71ba, type: 3}
+    leftStickButton: {fileID: 21300000, guid: daa8df90687d4c746a482d52d07d797f, type: 3}
+    rightStickButton: {fileID: 21300000, guid: 0a0494436a48ef544bbf8a9943bd0293, type: 3}
+    leftStickAxis: {fileID: 21300000, guid: 2bf4ccb6e37163840be666e5d88d4ac6, type: 3}
+    rightStickAxis: {fileID: 21300000, guid: 1239cba4a06b97547b49168f1f704a0f, type: 3}
+    share: {fileID: 21300000, guid: 6c23f42969a0c204782f5ad4824d873f, type: 3}
+    option: {fileID: 21300000, guid: 86cc288f71432314692f55e6af1ce647, type: 3}
+    L1: {fileID: 21300000, guid: fe6b226d47820c64c880eca63ce47460, type: 3}
+    R1: {fileID: 21300000, guid: ee76ea47c23355244abe3bec16ed8cf4, type: 3}
+    L2: {fileID: 21300000, guid: 6133c017b4edf1342a97a3b0bbda80fc, type: 3}
+    R2: {fileID: 21300000, guid: 2d1a62c0518200747ba7e03171809dba, type: 3}
+    DPadUp: {fileID: 21300000, guid: 802162cba32596c458207f0dd76bb3e1, type: 3}
+    DPadLeft: {fileID: 21300000, guid: fc82828e0c57f9c49b7ca48a0f0fb563, type: 3}
+    DPadRight: {fileID: 21300000, guid: 66639684bd6018646ab6afbf585a8af0, type: 3}
+    DPadDown: {fileID: 21300000, guid: 8676bc7c40214bb41a08d24e49e38937, type: 3}
+--- !u!1 &7167905576050164068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7167905576050164071}
+  - component: {fileID: 7167905576050164070}
+  m_Layer: 0
+  m_Name: HUDManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7167905576050164071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905576050164068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7167905574618856511}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7167905576050164070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905576050164068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 419dd7d6d20ca26419a6b52d3c56ee1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  strength: 0
+  defence: 0
+  agility: 0
+  curLevel: 1
+  maxLevel: 50
+  curExp: 0
+  expRequired: 0
+  curSkillPoint: 5
+  newSkillPoint: 0
+  levelSlider: {fileID: 0}
+  levelFadeUI: {fileID: 0}
+  curLevelText: {fileID: 0}
+  nextLevelText: {fileID: 0}
+  expCounterText: {fileID: 0}
+  fadeUISkillPoint: {fileID: 0}
+  newSkillPointText: {fileID: 0}
+  hpSliderStat: {fileID: 0}
+  hpCounterText: {fileID: 0}
+  epSliderStat: {fileID: 0}
+  epCounterText: {fileID: 0}
+  strengthText: {fileID: 0}
+  defenceText: {fileID: 0}
+  agilityText: {fileID: 0}
+  curHealth: 0
+  maxHealth: 100
+  curEnegry: 0
+  maxEnegry: 140
+  healthSlider: {fileID: 0}
+  healthSliderGhost: {fileID: 0}
+  healthGlow: {fileID: 0}
+  enegrySlider: {fileID: 0}
+  enegrySliderGhost: {fileID: 0}
+  enegryGlow: {fileID: 0}
+  canCharge: 0
+  minGlow: {r: 1, g: 1, b: 1, a: 0.4}
+  maxGlow: {r: 1, g: 1, b: 1, a: 0.8}
+  keyboardHK: {fileID: 0}
+  xboxHK: {fileID: 0}
+  pSHK: {fileID: 0}
+  hudKBButton1: {fileID: 0}
+  hudKBButton2: {fileID: 0}
+  hudKBButton3: {fileID: 0}
+  hudKBButton4: {fileID: 0}
+  hudXBButton1: {fileID: 0}
+  hudXBButton2: {fileID: 0}
+  hudXBButton3: {fileID: 0}
+  hudXBButton4: {fileID: 0}
+  hudPSButton1: {fileID: 0}
+  hudPSButton2: {fileID: 0}
+  hudPSButton3: {fileID: 0}
+  hudPSButton4: {fileID: 0}
+  weaponHUDIcon: {fileID: 21300000, guid: f742aa32737423346b5593e68ef83d2a, type: 3}
+  bowHUDIcon: {fileID: 21300000, guid: 1b04c3c1c10ac4afb990af705d26c1bc, type: 3}
+  shieldHUDIcon: {fileID: 21300000, guid: e5a8ddb71725f4711a397ec9f4e31623, type: 3}
+  arrowHUDIcon: {fileID: 21300000, guid: 81f801ff157514c43897b2522efd9b93, type: 3}
+  swordHUD: 0
+  shieldHUD: 0
+  bowHUD: 0
+  arrowHUD: 0
+  aimCrossHairAlpha: {fileID: 0}
+  aimAmmoText: {fileID: 0}
+  lockOnCrossHairAlpha: {fileID: 0}
+  interactiveOverlayIcon1: {fileID: 0}
+  interactiveOverlayIcon2: {fileID: 0}
+  questName: {fileID: 0}
+  questCurrentObjective: {fileID: 0}
+  questHint: {fileID: 0}
+  fadeUIFadeGroup: {fileID: 0}
+  fadeUIBG: {fileID: 0}
+  fadeUIQuestObjective: {fileID: 0}
+  currentObjectiveBG: {fileID: 0}
+  fadeUIQuestCompleteBG: {fileID: 0}
+  fadeUIQuestCompleteTitle: {fileID: 0}
+  fadeUIQuestCompleteEXP: {fileID: 0}
+  completedQuestName: {fileID: 0}
+  expReward: {fileID: 0}
+  curExpReward: 0
+  invertCameraVertical: {fileID: 0}
+  invertCameraHorizontal: {fileID: 0}
+  cameraSensivitySlider: {fileID: 0}
+  sFXToggle: {fileID: 0}
+  musicToggle: {fileID: 0}
+--- !u!1 &7167905576064702954
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7167905576064702965}
+  - component: {fileID: 7167905576064702964}
+  m_Layer: 0
+  m_Name: SystemManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7167905576064702965
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905576064702954}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7167905574618856511}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7167905576064702964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7167905576064702954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c624edae86da4f46a35f09270cc1aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invertCameraV: 0
+  invertCameraH: 0
+  cameraSensitivity: 25
+  SFX: 1
+  music: 1
+  itemDataPrefab: {fileID: 4041449059502982418, guid: ed5a25e537f9c034f96cbd6c6bd313dc, type: 3}
+  questSlotPrefab: {fileID: 7500509029880651741, guid: 7d2c49d76c9815f4b9135df4dcb39f39, type: 3}
+  questObjectivePosPrefab: {fileID: 2844878340615023206, guid: 8fb2f9e9454017c40af6d906482169d7, type: 3}
+  rootCtrlLayout: {fileID: 0}
+  KeyboardFadeUI: {fileID: 0}
+  XboxFadeUI: {fileID: 0}
+  PSFadeUI: {fileID: 0}
+  blackScreenFUI: {fileID: 0}
+  loadingScreenFUI: {fileID: 0}
+  loadingText: {fileID: 0}
+  loadingDataNameText: {fileID: 0}
+  gameOverFUI: {fileID: 0}
+  gameOverOptionFUI: {fileID: 0}
+  hudM: {fileID: 0}
+  miniMap: {fileID: 0}
+  questM: {fileID: 0}
+  cc: {fileID: 0}
+  inventoryM: {fileID: 0}
+  skillM: {fileID: 0}
+  itemObtained: {fileID: 0}
+  skillSlots: []
+  questData: []
+  questSlots: []
+  inventorySlot: []
+  dialogueData: []
+  locationCPData: []
+  triggerActionData: []
+  sitems: []
+  globalData:
+    level: 0
+    curhealth: 0
+    maxhealth: 0
+    curEnegry: 0
+    maxEnegry: 0
+    curExp: 0
+    reqExp: 0
+    skillPoint: 0
+    playerPosition: []
+    playerRotation: []
+    npcData: []
+    isMarkerOnMap: 0
+    mapMarkerPosition: []
+    mainQuestSlot: 0
+    sideQuestSlot: 0
+    mainQuestData: []
+    sideQuestData: []
+    wpnData: []
+    bowData: []
+    shdData: []
+    armData: []
+    matData: []
+    healData: []
+    keyData: []
+    itemActive: 
+    unityCoins: 0
+    inventorySection: 0
+    wpnSlots: 0
+    bowSlots: 0
+    shdSlots: 0
+    armSlots: 0
+    matSlots: 0
+    healSlots: 0
+    keySlots: 0
+    preSwordEquipped: 0
+    pre2HSwordEquipped: 0
+    preSpearEquipped: 0
+    preStaffEquipped: 0
+    preBowEquipped: 0
+    preshieldEquipped: 0
+    wpnSlotNum: 0
+    wpnSlotEquipped: 0
+    bowSlotNum: 0
+    bowSlotEquipped: 0
+    arrowSlotEquipped: 0
+    shieldSlotNum: 0
+    shieldSlotEquipped: 0
+    armSlotNum: 0
+    armSlotHeadEquipped: 0
+    armSlotChestEquipped: 0
+    armSlotLegEquipped: 0
+    armSlotAmuletEquipped: 0
+    matSlotNum: 0
+    healSlotNum: 0
+    keySlotNum: 0
+    topAbilityName: 
+    leftAbilityName: 
+    rightAbilityName: 
+    bottomAbilityName: 
+    purchasedSkillName: []
+    explored: 
+    triggerAction: []
+  localData:
+    level: 0
+    curhealth: 0
+    maxhealth: 0
+    curEnegry: 0
+    maxEnegry: 0
+    curExp: 0
+    reqExp: 0
+    skillPoint: 0
+    playerPosition: []
+    playerRotation: []
+    npcData: []
+    isMarkerOnMap: 0
+    mapMarkerPosition: []
+    mainQuestSlot: 0
+    sideQuestSlot: 0
+    mainQuestData: []
+    sideQuestData: []
+    wpnData: []
+    bowData: []
+    shdData: []
+    armData: []
+    matData: []
+    healData: []
+    keyData: []
+    itemActive: 
+    unityCoins: 0
+    inventorySection: 0
+    wpnSlots: 0
+    bowSlots: 0
+    shdSlots: 0
+    armSlots: 0
+    matSlots: 0
+    healSlots: 0
+    keySlots: 0
+    preSwordEquipped: 0
+    pre2HSwordEquipped: 0
+    preSpearEquipped: 0
+    preStaffEquipped: 0
+    preBowEquipped: 0
+    preshieldEquipped: 0
+    wpnSlotNum: 0
+    wpnSlotEquipped: 0
+    bowSlotNum: 0
+    bowSlotEquipped: 0
+    arrowSlotEquipped: 0
+    shieldSlotNum: 0
+    shieldSlotEquipped: 0
+    armSlotNum: 0
+    armSlotHeadEquipped: 0
+    armSlotChestEquipped: 0
+    armSlotLegEquipped: 0
+    armSlotAmuletEquipped: 0
+    matSlotNum: 0
+    healSlotNum: 0
+    keySlotNum: 0
+    topAbilityName: 
+    leftAbilityName: 
+    rightAbilityName: 
+    bottomAbilityName: 
+    purchasedSkillName: []
+    explored: 
+    triggerAction: []
+  sceneData:
+    level: 0
+    curhealth: 0
+    maxhealth: 0
+    curEnegry: 0
+    maxEnegry: 0
+    curExp: 0
+    reqExp: 0
+    skillPoint: 0
+    playerPosition: []
+    playerRotation: []
+    npcData: []
+    isMarkerOnMap: 0
+    mapMarkerPosition: []
+    mainQuestSlot: 0
+    sideQuestSlot: 0
+    mainQuestData: []
+    sideQuestData: []
+    wpnData: []
+    bowData: []
+    shdData: []
+    armData: []
+    matData: []
+    healData: []
+    keyData: []
+    itemActive: 
+    unityCoins: 0
+    inventorySection: 0
+    wpnSlots: 0
+    bowSlots: 0
+    shdSlots: 0
+    armSlots: 0
+    matSlots: 0
+    healSlots: 0
+    keySlots: 0
+    preSwordEquipped: 0
+    pre2HSwordEquipped: 0
+    preSpearEquipped: 0
+    preStaffEquipped: 0
+    preBowEquipped: 0
+    preshieldEquipped: 0
+    wpnSlotNum: 0
+    wpnSlotEquipped: 0
+    bowSlotNum: 0
+    bowSlotEquipped: 0
+    arrowSlotEquipped: 0
+    shieldSlotNum: 0
+    shieldSlotEquipped: 0
+    armSlotNum: 0
+    armSlotHeadEquipped: 0
+    armSlotChestEquipped: 0
+    armSlotLegEquipped: 0
+    armSlotAmuletEquipped: 0
+    matSlotNum: 0
+    healSlotNum: 0
+    keySlotNum: 0
+    topAbilityName: 
+    leftAbilityName: 
+    rightAbilityName: 
+    bottomAbilityName: 
+    purchasedSkillName: []
+    explored: 
+    triggerAction: []
+  isLoadingData: 0

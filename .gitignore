@@ -9,6 +9,14 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/Assets/Improted/
+/Assets/TextMesh Pro/
+/Assets/ProjectSettings/
+/Assets/Settings/
+/Assets/ProjectSettings/
+/Assets/Art/
+/Packages/
+
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -64,8 +72,17 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+
+
+Assets/Improted/RPG Cameras & Controllers/
+Assets/Improted/Blink/
+
+
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+Assets/Improted/RPG Cameras & Controllers/
+
 
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
