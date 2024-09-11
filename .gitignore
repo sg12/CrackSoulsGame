@@ -15,7 +15,6 @@
 /Assets/Settings/
 /Assets/ProjectSettings/
 /Assets/Art/
-/Packages/
 
 
 # MemoryCaptures can get excessive in size.
@@ -56,9 +55,9 @@ ExportedObj/
 *.VC.db
 
 # Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
+#*.pidb.meta
+#*.pdb.meta
+#*.mdb.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
@@ -72,6 +71,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+!*.*.meta
 
 
 Assets/Improted/RPG Cameras & Controllers/

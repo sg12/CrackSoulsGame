@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 085ef7529ba39af4993cb63ec34c2e07
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ActionsAsset: {fileID: -944628639613478452, guid: c2da68a33934478429331becc93eca32,
+      type: 3}
+  - m_PointAction: {instanceID: 0}
+  - m_MoveAction: {instanceID: 0}
+  - m_SubmitAction: {instanceID: 0}
+  - m_CancelAction: {instanceID: 0}
+  - m_LeftClickAction: {instanceID: 0}
+  - m_MiddleClickAction: {instanceID: 0}
+  - m_RightClickAction: {instanceID: 0}
+  - m_ScrollWheelAction: {instanceID: 0}
+  - m_TrackedDevicePositionAction: {instanceID: 0}
+  - m_TrackedDeviceOrientationAction: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
