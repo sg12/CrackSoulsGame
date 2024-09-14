@@ -636,7 +636,7 @@ public class WeaponHolster : MonoBehaviour
         if (itemObj.GetComponentInChildren<HitBox>() != null)
             itemObj.GetComponentInChildren<HitBox>().equipped = true;
 
-        if (itemObj.GetComponent<HealthPoints>().curHealthPoints == itemObj.GetComponent<HealthPoints>().maxHealthPoints)
+        if (itemObj.GetComponent<HealthPoints>()?.curHealthPoints == itemObj.GetComponent<HealthPoints>()?.maxHealthPoints)
         {
 
         }

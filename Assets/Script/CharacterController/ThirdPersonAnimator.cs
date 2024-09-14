@@ -988,8 +988,8 @@ namespace RPGAE.CharacterController
             if (context == "Right Punch")
             {
                 hudM.ReduceEnegry(14, false);
-                animator.GetBoneTransform(HumanBodyBones.RightHand).GetComponent<HitBox>().hurtID = 1;
-                animator.GetBoneTransform(HumanBodyBones.RightHand).GetComponent<HitBox>().BeginAttack("Small Blood Hit");
+                animator.GetBoneTransform(HumanBodyBones.RightHand).GetComponentInChildren<HitBox>().hurtID = 1;
+                animator.GetBoneTransform(HumanBodyBones.RightHand).GetComponentInChildren<HitBox>().BeginAttack("Small Blood Hit");
             }
 
             if (context == "Right Kick")
@@ -1008,10 +1008,10 @@ namespace RPGAE.CharacterController
 
             if (context == "End")
             {
-                animator.GetBoneTransform(HumanBodyBones.LeftHand).GetComponent<HitBox>().EndAttack();
-                animator.GetBoneTransform(HumanBodyBones.RightHand).GetComponent<HitBox>().EndAttack();
-                animator.GetBoneTransform(HumanBodyBones.LeftFoot).GetComponent<HitBox>().EndAttack();
-                animator.GetBoneTransform(HumanBodyBones.RightFoot).GetComponent<HitBox>().EndAttack();
+                animator.GetBoneTransform(HumanBodyBones.LeftHand).GetComponentInChildren<HitBox>().EndAttack();
+                animator.GetBoneTransform(HumanBodyBones.RightHand).GetComponentInChildren<HitBox>().EndAttack();
+                animator.GetBoneTransform(HumanBodyBones.LeftFoot).GetComponentInChildren<HitBox>().EndAttack();
+                animator.GetBoneTransform(HumanBodyBones.RightFoot).GetComponentInChildren<HitBox>().EndAttack();
             }
 
             #endregion
