@@ -344,8 +344,8 @@ public class InventoryManager : MonoBehaviour
         UIcanvas.worldCamera = GameObject.Find("TPCamera").GetComponent<Camera>();
         UIcanvas.planeDistance = 1;
 
-        GraphicsSettings.defaultRenderPipeline = defaultRenderPipelineAsset;
-        QualitySettings.renderPipeline = defaultRenderPipelineAsset;
+        //GraphicsSettings.defaultRenderPipeline = defaultRenderPipelineAsset;
+        //QualitySettings.renderPipeline = defaultRenderPipelineAsset;
 
         allMesh = FindObjectsOfType<MeshRenderer>();
         allSkinMesh = FindObjectsOfType<SkinnedMeshRenderer>();
@@ -572,16 +572,16 @@ public class InventoryManager : MonoBehaviour
     // and the render pipeline defined in overrideRenderPipelineAsset
     void SwitchOverrideRenderPipeline()
     {
-        if (QualitySettings.renderPipeline == defaultRenderPipelineAsset)
-        {
-            //GraphicsSettings.defaultRenderPipeline = null;
-            //QualitySettings.renderPipeline = null;
-        }
-        else
-        {
-            GraphicsSettings.defaultRenderPipeline = defaultRenderPipelineAsset;
-            QualitySettings.renderPipeline = defaultRenderPipelineAsset;
-        }
+        //if (QualitySettings.renderPipeline == defaultRenderPipelineAsset)
+        //{
+        //    //GraphicsSettings.defaultRenderPipeline = null;
+        //    //QualitySettings.renderPipeline = null;
+        //}
+        //else
+        //{
+        //    GraphicsSettings.defaultRenderPipeline = defaultRenderPipelineAsset;
+        //    QualitySettings.renderPipeline = defaultRenderPipelineAsset;
+        //}
     }
 
     #region Add, Remove Inventory Items 
@@ -1614,8 +1614,8 @@ public class InventoryManager : MonoBehaviour
                 if (isPauseMenuOn)
                 {
                     IsWorldSpaceActive(true);
-                    GraphicsSettings.defaultRenderPipeline = defaultRenderPipelineAsset;
-                    QualitySettings.renderPipeline = defaultRenderPipelineAsset;
+                    //GraphicsSettings.defaultRenderPipeline = defaultRenderPipelineAsset;
+                    //QualitySettings.renderPipeline = defaultRenderPipelineAsset;
 
                     miniMap.fadeUI.canvasGroup.alpha = 1;
                     UIcanvas.renderMode = RenderMode.ScreenSpaceOverlay;
