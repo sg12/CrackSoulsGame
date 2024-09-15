@@ -15,8 +15,10 @@
 /Assets/Settings/
 /Assets/ProjectSettings/
 /Assets/Art/
-/ProjectSettings/QualitySettings.asset
-/ProjectSettings/GraphicsSettings.asset
+/ProjectSettings/
+/ProjectSettings/
+ProjectSettings/QualitySettings.asset
+ProjectSettings/GraphicsSettings.asset
 
 
 # MemoryCaptures can get excessive in size.
