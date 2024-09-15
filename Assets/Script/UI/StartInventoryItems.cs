@@ -56,7 +56,7 @@ public class StartInventoryItems : MonoBehaviour
                 {
                     if (itemData.itemName == "Windscar" + itemData.rankTag)
                     {
-                        //wpnHolster.windScarNoParticlesH.SetActive(true);
+                        wpnHolster.windScarNoParticlesH.SetActive(true);
                         wpnHolster.windScarNoParticlesEP.SetActive(true);
                         wpnHolster.swordHP = wpnHolster.windScarNoParticlesHP;
                         wpnHolster.swordEP = wpnHolster.windScarNoParticlesEP;
@@ -71,8 +71,8 @@ public class StartInventoryItems : MonoBehaviour
 
                     if (itemData.itemName == "The Tuning fork" + itemData.rankTag)
                     {
-                        //wpnHolster.theTuningForkH.SetActive(true);
-                        //wpnHolster.theTuningForkEP.SetActive(true);
+                        wpnHolster.theTuningForkH.SetActive(true);
+                        wpnHolster.theTuningForkEP.SetActive(true);
                         wpnHolster.dSwordHP = wpnHolster.theTuningForkHP;
                         wpnHolster.dSwordEP = wpnHolster.theTuningForkEP;
                         wpnHolster.primaryEP = wpnHolster.theTuningForkEP;
@@ -85,8 +85,8 @@ public class StartInventoryItems : MonoBehaviour
 
                     if (itemData.itemName == "Assassin Dagger" + itemData.rankTag)
                     {
-                        //wpnHolster.assasinsDaggerH.SetActive(true);
-                        //wpnHolster.assasinsDaggerEP.SetActive(true);
+                        wpnHolster.assasinsDaggerH.SetActive(true);
+                        wpnHolster.assasinsDaggerEP.SetActive(true);
                         wpnHolster.swordHP = wpnHolster.assasinsDaggerHP;
                         wpnHolster.swordEP = wpnHolster.assasinsDaggerEP;
                         wpnHolster.primaryEP = wpnHolster.assasinsDaggerEP;
@@ -99,8 +99,8 @@ public class StartInventoryItems : MonoBehaviour
 
                     if (itemData.itemName == "Cleric's Staff" + itemData.rankTag)
                     {
-                        //wpnHolster.clericsStaffH.SetActive(true);
-                        //wpnHolster.clericsStaffEP.SetActive(true);
+                        wpnHolster.clericsStaffH.SetActive(true);
+                        wpnHolster.clericsStaffEP.SetActive(true);
                         wpnHolster.staffHP = wpnHolster.clericsStaffHP;
                         wpnHolster.staffEP = wpnHolster.clericsStaffEP;
                         wpnHolster.primaryH = wpnHolster.clericsStaffH;
@@ -112,8 +112,8 @@ public class StartInventoryItems : MonoBehaviour
 
                     if (itemData.itemName == "Glaive" + itemData.rankTag)
                     {
-                        //wpnHolster.glaiveH.SetActive(true);
-                        //wpnHolster.glaiveEP.SetActive(true);
+                        wpnHolster.glaiveH.SetActive(true);
+                        wpnHolster.glaiveEP.SetActive(true);
                         wpnHolster.spearHP = wpnHolster.glaiveHP;
                         wpnHolster.spearEP = wpnHolster.glaiveEP;
                         wpnHolster.primaryH = wpnHolster.glaiveH;
@@ -125,8 +125,8 @@ public class StartInventoryItems : MonoBehaviour
 
                     if (itemData.itemName == "Obsidian Fury" + itemData.rankTag)
                     {
-                        //wpnHolster.obsidianFuryH.SetActive(true);
-                        //wpnHolster.obsidianFuryEP.SetActive(true);
+                        wpnHolster.obsidianFuryH.SetActive(true);
+                        wpnHolster.obsidianFuryEP.SetActive(true);
                         wpnHolster.hammerHP = wpnHolster.obsidianFuryHP;
                         wpnHolster.hammerEP = wpnHolster.obsidianFuryEP;
                         wpnHolster.primaryH = wpnHolster.obsidianFuryH;
