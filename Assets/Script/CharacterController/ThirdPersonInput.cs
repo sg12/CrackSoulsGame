@@ -237,9 +237,9 @@ namespace RPGAE.CharacterController
            systemM.blackScreenFUI.canvasGroup.alpha != 0 ||
            systemM.loadingScreenFUI.canvasGroup.alpha != 0) return;
 
-            cc.input.x = rpgaeIM.PlayerControls.Movement.ReadValue<Vector2>().x;
-            cc.input.z = rpgaeIM.PlayerControls.Movement.ReadValue<Vector2>().y;
-            cc.input.Normalize();
+            //cc.input.x = rpgaeIM.PlayerControls.Movement.ReadValue<Vector2>().x;
+            //cc.input.z = rpgaeIM.PlayerControls.Movement.ReadValue<Vector2>().y;
+            //cc.input.Normalize();
         }
 
         protected void SprintInput()

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace RPGAE.CharacterController
 {
@@ -50,6 +51,10 @@ namespace RPGAE.CharacterController
 
         #endregion
 
+        public NavMeshAgent navAgent;
+        public Camera camera;
+        public Vector3 targetRun;
+
         public virtual void UpdateAnimator()
         {
             if (animator == null || !animator.enabled) return;
@@ -57,7 +62,7 @@ namespace RPGAE.CharacterController
             AnimationBehaviour();
 
             animator.SetBool("CanMove", canMove);
-            animator.SetBool("Strafing", isStrafing);
+            //animator.SetBool("Strafing", isStrafing);
             animator.SetBool("IsCarrying", isCarrying);
             animator.SetInteger("ActionState", actionState);
             animator.SetBool("Grounded", grounded);
@@ -68,40 +73,57 @@ namespace RPGAE.CharacterController
 
             #region Movement
 
-            if (canMove)
+            ////navAgent.destination;
+            ////input = new Vector3(1f, 0f, 0.0f);
+            if (!navAgent.isStopped && navAgent.velocity.magnitude > 0.1f)
             {
-                animator.SetFloat("InputMagnitude", isSprinting ? input.magnitude + 0.5f : input.magnitude, 0.2f, Time.deltaTime);
+                //input = navAgent.velocity.normalized;
+                //input = Convert3DPositionTo2DPosition(camera, navAgent.transform.position, targetRun).normalized;
+                animator.SetFloat("InputMagnitude", 1.0f, 0f, Time.deltaTime);
             }
             else
             {
-                if (grounded)
-                {
-                    animator.SetFloat("InputMagnitude", 0);
-                }
+                //input = Vector3.zero;
+                animator.SetFloat("InputMagnitude", 0f, 0.2f, Time.deltaTime);
             }
+            //Debug.Log(input);
+            //input.Normalize();
+            //Debug.Log(navAgent.velocity.magnitude);
 
-            if (isStrafing)
-            {
-                animator.SetFloat("InputVertical", isDodging ? dodgeLastInput.z : input.z, 0.25f, Time.deltaTime);
-                animator.SetFloat("InputHorizontal", isDodging ? dodgeLastInput.x : input.x, 0.25f, Time.deltaTime);
-            }
-            else
-            {
-                if (climbData.inPosition)
-                {
-                    animator.SetFloat("InputVertical", input.z, 0.25f, Time.deltaTime);
-                    animator.SetFloat("InputHorizontal", input.x, 0.25f, Time.deltaTime);
-                }
-            }
+            //if (canMove)
+            //{
+            //    animator.SetFloat("InputMagnitude", isSprinting ? input.magnitude + 0.5f : input.magnitude, 0.2f, Time.deltaTime);
+            //}
+            //else
+            //{
+            //    if (grounded)
+            //    {
+            //        animator.SetFloat("InputMagnitude", 0);
+            //    }
+            //}
+
+            //if (isStrafing)
+            //{
+            //    animator.SetFloat("InputVertical", isDodging ? dodgeLastInput.z : input.z, 0.25f, Time.deltaTime);
+            //    animator.SetFloat("InputHorizontal", isDodging ? dodgeLastInput.x : input.x, 0.25f, Time.deltaTime);
+            //}
+            //else
+            //{
+            //    if (climbData.inPosition)
+            //    {
+            //        animator.SetFloat("InputVertical", input.z, 0.25f, Time.deltaTime);
+            //        animator.SetFloat("InputHorizontal", input.x, 0.25f, Time.deltaTime);
+            //    }
+            //}
 
             #endregion
 
-            if (cc.inventoryM.inventoryHUD.fadeUI.canvasGroup.alpha == 0)
-            {
-                animator.SetFloat("InputAngle", inputAngle, 0.2f, Time.deltaTime);
-                animator.SetFloat("RawInputAngle", inputAngle);
-                animator.SetFloat("WalkStartAngle", walkStartAngle);
-            }
+            //if (cc.inventoryM.inventoryHUD.fadeUI.canvasGroup.alpha == 0)
+            //{
+            //    animator.SetFloat("InputAngle", inputAngle, 0.2f, Time.deltaTime);
+            //    animator.SetFloat("RawInputAngle", inputAngle);
+            //    animator.SetFloat("WalkStartAngle", walkStartAngle);
+            //}
 
             isDodging = cc.baseLayerInfo.IsName("Dodge.Dodge");
 
@@ -115,6 +137,13 @@ namespace RPGAE.CharacterController
             DodgeAnimation();
             JumpingAnimation();
             IntroWakeUpInput();
+        }
+
+        public Vector2 Convert3DPositionTo2DPosition(Camera camera3D, Vector3 position3DCurrent, Vector3 position3DDestination)
+        {
+            var tempPos = camera3D.WorldToViewportPoint(position3DDestination - position3DCurrent);
+
+            return tempPos;
         }
 
         private void GetSignedAngle()
@@ -162,6 +191,7 @@ namespace RPGAE.CharacterController
 
         void IdleAnimation()
         {
+            //Debug.Log(isStrafing);
             if (fullBodyInfo.IsTag("StandardAttack") || isAiming || isStrafing)
             {
                 idleVariationTimer = 0.0f;
@@ -232,6 +262,11 @@ namespace RPGAE.CharacterController
 
         protected void CombatAnimation()
         {
+            //Debug.Log(isAiming);
+            //Debug.Log(isBlocking);
+            //Debug.Log(isAttacking);
+            //Debug.Log(upperBodyID);
+            //Debug.Log(isBlocking);
             animator.SetBool("Aiming", isAiming);
             animator.SetBool("IsBlocking", isBlocking);
             animator.SetBool("IsAttacking", isAttacking);

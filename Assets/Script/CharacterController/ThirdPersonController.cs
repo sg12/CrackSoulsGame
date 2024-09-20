@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEngine.AI;
 
 namespace RPGAE.CharacterController
 {
     public class ThirdPersonController : ThirdPersonAnimator
     {
+        //public NavMeshAgent navAgent:
+
         public virtual void Sprint(bool sprintingButton)
         {
             isSprinting = sprintingButton;

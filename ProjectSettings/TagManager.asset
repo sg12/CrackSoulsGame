@@ -16,6 +16,7 @@ TagManager:
   - Effects
   - QuestPosPrefab
   - Environment
+  - Terrain
   layers:
   - Default
   - TransparentFX
@@ -30,8 +31,8 @@ TagManager:
   - WorldSpaceUI
   - PostProcessing
   - Breakable
-  - 
-  - 
+  - NavMesh
+  - Environment
   - 
   - 
   - 
