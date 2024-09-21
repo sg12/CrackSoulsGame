@@ -337,6 +337,8 @@ public class InventoryManager : MonoBehaviour
         inventoryHUD = FindObjectOfType<InventoryHUD>();
         systemM = FindObjectOfType<SystemManager>();
 
+        inventoryHUD.gameObject.SetActive(false);
+
         pauseMenuNavigation = 0;
         pauseMenuS = PauseMenuSection.Inventory;
 
@@ -395,6 +397,7 @@ public class InventoryManager : MonoBehaviour
             miniMap.fadeUI.canvasGroup.alpha == 1 && ConditionsToOpenMenu())
             {
                 isPauseMenuOn = true;
+                inventoryHUD.gameObject.SetActive(false);
                 StartCoroutine(PauseMenuFade());
             }
         }
@@ -405,6 +408,7 @@ public class InventoryManager : MonoBehaviour
             referencesObj.inventoryHUD.GetComponent<FadeUI>().canvasGroup.alpha == 0 && ConditionsToOpenMenu())
             {
                 isPauseMenuOn = false;
+                inventoryHUD.gameObject.SetActive(true);
                 StartCoroutine(PauseMenuFade());
             }
         }
@@ -438,6 +442,7 @@ public class InventoryManager : MonoBehaviour
 
     IEnumerator PauseMenuFade()
     {
+
         systemM.blackScreenFUI.isFading = true;
         systemM.blackScreenFUI.canvasGroup.alpha = 0;
 
