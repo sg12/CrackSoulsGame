@@ -239,6 +239,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IsometricTest
       objectReference: {fileID: 0}
+    - target: {fileID: 6927383954351545055, guid: 4233ba37ddb98424b8600e17ac559d25, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6929428374623051959, guid: 4233ba37ddb98424b8600e17ac559d25, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -626,54 +630,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9823020e3b88e4943a08823f18c03fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraToUse: 0
-  ViewportMargin: {x: 0.2, y: 0.2}
-  UsedCamera: {fileID: 0}
-  FollowBehavior: 0
-  UsedSkybox: {fileID: 0}
-  CameraPivotLocalPosition: {x: 0, y: 1.5, z: 0}
-  EnableIntelligentPivot: 0
-  IntelligentPivotSmoothTime: 0.7
-  PivotSmoothTime: 0.2
-  ActivateControl: 1
-  UseLegacyInputSystem: 0
-  AlwaysActivateOrbiting: 0
-  HideCursor: 0
-  CursorBehaviorOrbiting: 0
-  LockRotationX: 1
-  LockRotationY: 1
-  InvertRotationX: 1
-  InvertRotationY: 1
-  RotationXSensitivity: 4
-  RotationYSensitivity: 4
-  ConstrainRotationX: 0
-  RotationXMin: -90
-  RotationXMax: 90
-  RotationYMin: -89.9
-  RotationYMax: 89.9
-  RotationSmoothTime: 0.1
-  ZoomSensitivity: 15
-  MinDistance: 2
-  MaxDistance: 12
-  DistanceSmoothTime: 0.7
-  StartRotationX: 0
-  StartRotationRelativeToCharacterRotation: 0
-  StartRotationY: 40
-  StartDistance: 8
-  StartWithZoomOut: 0
-  AlignWhenMoving: 0
-  OrbitingPausesCharacterAlignment: 1
-  AlignOnlyIfLockedOnTarget: 0
-  AlignmentSmoothTime: 0.2
-  SupportMovingBackwards: 0
-  ShakeFrequency: 5
-  ShakeAmplitude: 10
-  ShakeAmplitudeVariance: 2
-  SkipWaterSurface: 1
-  EnableUnderwaterEffect: 1
-  UnderwaterFogColor: {r: 0, g: 0.13, b: 0.59, a: 1}
-  UnderwaterFogDensity: 0.06
-  UnderwaterThresholdTuning: 0.16
 --- !u!114 &662926174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,32 +672,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8bc9d4ccfbce2e439703e966939ea12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Shape: 0
-  RaysPerEdge: 1
-  OccludingLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  FadeObjectsBy: 0
-  TagsForFading:
-  - Environment
-  LayersForFading:
-    serializedVersion: 2
-    m_Bits: 0
-  EnableCameraLookUp: 0
-  LookUpTrigger: 0
-  TagsCausingLookUp:
-  - Terrain
-  LayersCausingLookUp:
-    serializedVersion: 2
-    m_Bits: 0
-  FadeOutAlpha: 0.2
-  FadeInAlpha: 1
-  FadeOutDuration: 0.2
-  FadeInDuration: 0.2
-  EnableCharacterFading: 1
-  CharacterFadeOutAlpha: 0
-  CharacterFadeStartDistance: 1
-  CharacterFadeEndDistance: 0.3
 --- !u!143 &662926178
 CharacterController:
   m_ObjectHideFlags: 0
@@ -878,6 +808,142 @@ MonoBehaviour:
   ActivateControl: 1
   UseLegacyInputSystem: 0
   NormalizeInputValues: 0
+--- !u!114 &662926182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662926172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07b58ec3b797a734bafb5568e05bd34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Shape: 0
+  RaysPerEdge: 1
+  OccludingLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  FadeObjectsBy: 0
+  TagsForFading:
+  - Environment
+  LayersForFading:
+    serializedVersion: 2
+    m_Bits: 0
+  EnableCameraLookUp: 1
+  LookUpTrigger: 0
+  TagsCausingLookUp:
+  - Terrain
+  LayersCausingLookUp:
+    serializedVersion: 2
+    m_Bits: 0
+  FadeOutAlpha: 0.2
+  FadeInAlpha: 1
+  FadeOutDuration: 0.2
+  FadeInDuration: 0.2
+  EnableCharacterFading: 1
+  CharacterFadeOutAlpha: 0
+  CharacterFadeStartDistance: 1
+  CharacterFadeEndDistance: 0.3
+--- !u!114 &662926183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662926172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0bcfa43c1e73b418203e8ff968b3b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraToUse: 0
+  ViewportMargin: {x: 0.2, y: 0.2}
+  UsedCamera: {fileID: 0}
+  FollowBehavior: 0
+  UsedSkybox: {fileID: 0}
+  CameraPivotLocalPosition: {x: 0, y: 1.5, z: 0}
+  EnableIntelligentPivot: 0
+  IntelligentPivotSmoothTime: 0.7
+  PivotSmoothTime: 0.2
+  ActivateControl: 1
+  UseLegacyInputSystem: 0
+  AlwaysActivateOrbiting: 0
+  HideCursor: 0
+  CursorBehaviorOrbiting: 2
+  LockRotationX: 1
+  LockRotationY: 1
+  InvertRotationX: 1
+  InvertRotationY: 1
+  RotationXSensitivity: 4
+  RotationYSensitivity: 4
+  ConstrainRotationX: 0
+  RotationXMin: -90
+  RotationXMax: 90
+  RotationYMin: -89.9
+  RotationYMax: 89.9
+  RotationSmoothTime: 0.1
+  ZoomSensitivity: 15
+  MinDistance: 2
+  MaxDistance: 12
+  DistanceSmoothTime: 0.7
+  StartRotationX: 90
+  StartRotationRelativeToCharacterRotation: 0
+  StartRotationY: 40
+  StartDistance: 8
+  StartWithZoomOut: 0
+  AlignWhenMoving: 0
+  OrbitingPausesCharacterAlignment: 1
+  AlignOnlyIfLockedOnTarget: 0
+  AlignmentSmoothTime: 0.2
+  SupportMovingBackwards: 0
+  ShakeFrequency: 5
+  ShakeAmplitude: 10
+  ShakeAmplitudeVariance: 2
+  SkipWaterSurface: 1
+  EnableUnderwaterEffect: 1
+  UnderwaterFogColor: {r: 0, g: 0.12941177, b: 0.5882353, a: 1}
+  UnderwaterFogDensity: 0.06
+  UnderwaterThresholdTuning: 0.16
+--- !u!114 &662926184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662926172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07b58ec3b797a734bafb5568e05bd34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Shape: 0
+  RaysPerEdge: 1
+  OccludingLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  FadeObjectsBy: 0
+  TagsForFading:
+  - Environment
+  LayersForFading:
+    serializedVersion: 2
+    m_Bits: 0
+  EnableCameraLookUp: 1
+  LookUpTrigger: 0
+  TagsCausingLookUp:
+  - Terrain
+  LayersCausingLookUp:
+    serializedVersion: 2
+    m_Bits: 0
+  FadeOutAlpha: 0.2
+  FadeInAlpha: 1
+  FadeOutDuration: 0.2
+  FadeInDuration: 0.2
+  EnableCharacterFading: 1
+  CharacterFadeOutAlpha: 0
+  CharacterFadeStartDistance: 1
+  CharacterFadeEndDistance: 0.3
 --- !u!1 &702702233
 GameObject:
   m_ObjectHideFlags: 0
@@ -1108,7 +1174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6927383954351545055, guid: 636ddbf22f359354093ccbf0b83f09c9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6929428374623051959, guid: 636ddbf22f359354093ccbf0b83f09c9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1641,6 +1707,114 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1156713155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1156713156}
+  - component: {fileID: 1156713159}
+  - component: {fileID: 1156713158}
+  - component: {fileID: 1156713157}
+  m_Layer: 0
+  m_Name: WallForTest (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1156713156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156713155}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: 13.02, y: 4, z: -10.01}
+  m_LocalScale: {x: 12.57256, y: 7.5962024, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1379860100}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &1156713157
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156713155}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1156713158
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156713155}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 0fb4e54dc028838479737d57f973400d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1156713159
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1156713155}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1379860099
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,6 +1847,7 @@ Transform:
   - {fileID: 147930061}
   - {fileID: 710090815}
   - {fileID: 858547390}
+  - {fileID: 1156713156}
   - {fileID: 278887967}
   - {fileID: 1980703110}
   - {fileID: 39063175}
@@ -1879,6 +2054,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100308, guid: 04a905f024e5dc54087fe538dbe25688, type: 3}
       insertIndex: -1
       addedObject: {fileID: 662926178}
+    - targetCorrespondingSourceObject: {fileID: 100308, guid: 04a905f024e5dc54087fe538dbe25688, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 662926184}
+    - targetCorrespondingSourceObject: {fileID: 100308, guid: 04a905f024e5dc54087fe538dbe25688, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 662926183}
+    - targetCorrespondingSourceObject: {fileID: 100308, guid: 04a905f024e5dc54087fe538dbe25688, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 662926182}
   m_SourcePrefab: {fileID: 100100000, guid: 04a905f024e5dc54087fe538dbe25688, type: 3}
 --- !u!1 &1980703109
 GameObject:
