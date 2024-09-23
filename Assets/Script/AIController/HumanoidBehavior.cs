@@ -206,8 +206,8 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
         SheathingWeapon();
         AttackRecoveryTimer();
 
-        if (!controller.dialogue.isDeactivated)
-            StartDialogueWithPlayer();
+        /*if (!controller.dialogue.isDeactivated)
+            StartDialogueWithPlayer();*/
 
         controller.animator.SetBool("Stunned", controller.stunned);
         if (hp != null)
@@ -1055,6 +1055,8 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
 
     #endregion
 
+    
+    /*
     #region Dialogue
 
     void StartDialogueWithPlayer()
@@ -1150,6 +1152,8 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
     }
 
     #endregion
+    */
+    
 
     #region Damage
 
