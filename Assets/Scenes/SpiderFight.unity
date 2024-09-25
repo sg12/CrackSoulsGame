@@ -729,7 +729,9 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 0
     target: {fileID: 0}
+  followStoppingDistance: 3
   enemyTarget: {fileID: 0}
+  followCompanion: {fileID: 0}
 --- !u!136 &343984505
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -802,6 +804,69 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &343984510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343984502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b1fe18f59f14b94c80b1a143be51018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDead: 0
+  stunned: 0
+  canPerfectDodge: 0
+  finisherInProcess: 0
+  subjectedToSlowDown: 0
+  dialogue:
+    npcName: 
+    dialogueType: 0
+    dialogueSegmentNum: 0
+    dialogueSegment: []
+    isDeactivated: 0
+    storeItemPrefab: []
+    questSequenceNameReceipt: 
+    questPhaseReceipt: 0
+    addQuestPhaseBy: 1
+    addQuestQuantityBy: 0
+    globalUpdatePhase: 0
+    itemName: 
+    removeQuantity: 0
+    questData: {fileID: 0}
+    controller: {fileID: 0}
+    dialogueState: 0
+    defaultSegment: 0
+    completeSegment: 0
+    completedSegment: 0
+    optionASegment: 0
+    optionBSegment: 0
+    dialogueAltered: 0
+  dialogueActive: 0
+  dialogueAltered: 0
+  rotateOnY: 0
+  questSequenceNameReceipt: 
+  questPhaseReceipt: 0
+  addQuestPhaseBy: 1
+  addQuestQuantityBy: 0
+  state: 0
+  upperBodyID: 0
+  faceLayerWeight: 0
+  rightArmLayerWeight: 0
+  leftArmLayerWeight: 0
+  upperBodyWeight: 0
+  fullBodyWeight: 0
+  animator: {fileID: 0}
+  rigidBody: {fileID: 0}
+  capsuleC: {fileID: 0}
+  navmeshAgent: {fileID: 0}
+  cc: {fileID: 0}
+  wpnHolster: {fileID: 0}
+  grounded: 0
+  k_GroundedRayDistance: 0.8
+  m_UnderExternalForce: 0
 --- !u!1 &747215345 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
@@ -2276,19 +2341,22 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 343984503}
-    - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 343984507}
-    - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 343984506}
     - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 343984505}
     - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 343984507}
+    - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 343984503}
+    - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 343984504}
+    - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 343984510}
   m_SourcePrefab: {fileID: 100100000, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
 --- !u!1 &1162147942
 GameObject:
