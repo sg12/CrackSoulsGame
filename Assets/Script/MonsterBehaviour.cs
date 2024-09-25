@@ -1,15 +1,18 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.AI;
 using UnityEngine;
 
 public class MonsterBehaviour : MonoBehaviour
 {
     [Header("SCANNER SETTINGS")]
     public TargetScanner targetScanner;
-    public float followStoppingDistance; // Расстояние, при котором персонаж перестает преследовать цель
+    public float followStoppingDistance; 
     public GameObject enemyTarget;
-    public Transform followCompanion; // Компаньон, за которым будет следовать NPC
+    public Transform followCompanion;
     public float timeToStopPursuit = 6f;
-    
+
     private float m_TimerSinceLostTarget = 0.0f;
     private Vector3 originalPosition;
     private float distanceFromTarget;
@@ -21,17 +24,24 @@ public class MonsterBehaviour : MonoBehaviour
     private bool isAttacking;
     private bool battleStanceDecisionMade = false;
     private float signedAngle; // Угол для управления поворотом NPC
+   
     private State state;
-    private AIController controller;
+    public float maxDetectionRadius = 10f;
+    private float distanceToStopTracking = 15f; // Дистанция, после которой персонаж прекратит отслеживание
 
+    private AIController controller;
     private enum State
     {
+        Patrol,
         Pursuit,
         CombatStance,
         WalkBackToBase,
         FollowCompanion,
         Stunned
     }
+
+    // Добавленные переменные для новой логики обнаружения
+    
 
     void Start()
     {
@@ -56,6 +66,8 @@ public class MonsterBehaviour : MonoBehaviour
 
         switch (state)
         {
+            case State.Patrol:
+                break;
             case State.Pursuit:
                 PursuitState();
                 break;
@@ -76,107 +88,59 @@ public class MonsterBehaviour : MonoBehaviour
         AttackRecoveryTimer();
     }
 
-    /*public void FindTarget()
-    {
-        GameObject targetScanned = targetScanner.Detect(transform, enemyTarget == null);
+    #region Find Target
 
-        if (enemyTarget == null && targetScanned != null)
-        {
-            HealthPoints distributor = targetScanned.GetComponent<HealthPoints>();
-            if (distributor != null && distributor.curHealthPoints > 0)
-            {
-                enemyTarget = distributor.gameObject;
-                targetScanner.detectionRadius += targetScanner.detectionRadiusWhenSpotted;
-                state = State.Pursuit;
-            }
-        }
-        else if (enemyTarget != null)
-        {
-            PursuitState();
-        }
-    }*/
-    
-     public void FindTarget()
+    public void FindTarget()
     {
-        // we ignore height difference if the target was already seen
+        // Обнаружение цели
         GameObject targetScanned = targetScanner.Detect(transform, enemyTarget == null);
 
         if (enemyTarget == null)
         {
-            // we just saw the player for the first time, pick an empty spot to target around them
+            // Если цель не была найдена ранее, сохраняем её и увеличиваем радиус обнаружения
             if (targetScanned != null)
             {
-                HealthPoints distributor = targetScanned.GetComponent<HealthPoints>();
-                if (distributor != null && distributor.curHealthPoints > 0)
+                HealthPoints targetHealth = targetScanned.GetComponent<HealthPoints>();
+                if (targetHealth != null && targetHealth.curHealthPoints > 0)
                 {
-                    enemyTarget = distributor.gameObject;
+                    enemyTarget = targetHealth.gameObject;
                     targetScanner.detectionRadius += targetScanner.detectionRadiusWhenSpotted;
+                    state = State.Pursuit; // Переход в режим преследования
                 }
             }
         }
         else
         {
+            // Если цель была найдена ранее, проверяем её состояние
             if (enemyTarget.GetComponent<HealthPoints>().curHealthPoints <= 0)
             {
-                controller.animator.SetBool("Patrol", true);
-                controller.animator.SetBool("Pursuit", false);
-
-                if (followCompanion != null)
-                {
-                    state = State.FollowCompanion;
-
-                    enemyTarget = null;
-                    targetScanner.detectionRadius -= targetScanner.detectionRadiusWhenSpotted;
-                }
-                else
-                {
-                    Vector3 toOriginPosition = originalPosition - transform.position;
-                    toOriginPosition.y = 0;
-                    if (toOriginPosition.sqrMagnitude > 1)
-                        state = State.WalkBackToBase;
-
-                    enemyTarget = null;
-                    targetScanner.detectionRadius -= targetScanner.detectionRadiusWhenSpotted;
-                }
-                return;
+                StopTrackingTarget();
             }
-
-            if (state != State.Pursuit) 
-                return;
-
-            m_TimerSinceLostTarget += Time.deltaTime;
-            if (m_TimerSinceLostTarget >= timeToStopPursuit)
+            else
             {
-                Vector3 toTarget = enemyTarget.transform.position - transform.position;
+                float distanceToTarget = Vector3.Distance(enemyTarget.transform.position, transform.position);
 
-                if (toTarget.sqrMagnitude > targetScanner.detectionRadius * targetScanner.detectionRadius || 
-                    enemyTarget.GetComponent<HealthPoints>().curHealthPoints <= 0)
+                // Прекращаем отслеживание, если цель слишком далеко
+                if (distanceToTarget > distanceToStopTracking)
                 {
-                    // the target move out of range, reset the target
-                    enemyTarget = null;
-                    targetScanner.detectionRadius -= targetScanner.detectionRadiusWhenSpotted;
+                    StopTrackingTarget();
                 }
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
+    void StopTrackingTarget()
+    {
+        // Прекращаем отслеживание цели
+        enemyTarget = null;
+        targetScanner.detectionRadius -= targetScanner.detectionRadiusWhenSpotted;
+        controller.navmeshAgent.enabled = true; // Возвращаем персонажа в обычное состояние
+        state = State.Patrol; // Возвращаем в режим патрулирования
+    }
+
+    #endregion
+
+    #region Pursuit
     public void PursuitState()
     {
         if (enemyTarget == null)
@@ -225,7 +189,7 @@ public class MonsterBehaviour : MonoBehaviour
                 state = State.CombatStance;
         }
     }
-
+    #endregion
     public void FollowCompanionState()
     {
         if (followCompanion == null || controller == null) return;
@@ -235,8 +199,8 @@ public class MonsterBehaviour : MonoBehaviour
         controller.animator.SetBool("Patrol", true);
         controller.navmeshAgent.stoppingDistance = followStoppingDistance;
 
-        if (!controller.IsAnimatorTag("Heavy Charge") || !controller.IsAnimatorTag("Attack") || !controller.IsAnimatorTag("Hit"))
-            EquipWeapon(false);
+        /*if (!controller.IsAnimatorTag("Heavy Charge") || !controller.IsAnimatorTag("Attack") || !controller.IsAnimatorTag("Hit"))
+            EquipWeapon(false);*/
 
         if (enemyTarget != null)
         {
@@ -332,58 +296,33 @@ public class MonsterBehaviour : MonoBehaviour
         if (!controller.IsAnimatorTag("Attack") && !controller.IsAnimatorTag("Hit"))
         {
             controller.SetDestination(enemyTarget.transform.position);
-            targetDirection.y = 0;
-            targetDirection.Normalize();
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2 * Time.deltaTime);
+            controller.animator.SetBool("Attack", true); // Запускаем анимацию атаки
+            isAttacking = true; // Устанавливаем флаг атаки
         }
 
         if (distanceFromTarget > maxAtkDistance)
         {
-            controller.animator.SetBool("BattleStance", false);
-            controller.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+            // Если цель слишком далеко, переходим в режим преследования
             state = State.Pursuit;
-        }
-        else if (distanceFromTarget < 2)
-        {
-            controller.animator.SetFloat("Vertical", -1, 0.1f, Time.deltaTime);
-        }
-        else
-        {
-            controller.animator.SetBool("BattleStance", true);
-            controller.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
-        }
-
-        if (!isAttacking && distanceFromTarget <= maxAtkDistance && atkRecoveryTimer <= 0)
-        {
-            Attack();
-        }
-    }
-
-    void Attack()
-    {
-        if (distanceFromTarget <= maxAtkDistance && distanceFromTarget >= minAtkDistance)
-        {
-            isAttacking = true;
-            controller.animator.SetTrigger("Attack");
-            atkRecoveryTimer = atkRecoveryRate;
-            isAttacking = false;
         }
     }
 
     void AttackRecoveryTimer()
     {
-        if (atkRecoveryTimer > 0)
+        if (isAttacking)
         {
-            atkRecoveryTimer -= Time.deltaTime;
+            atkRecoveryTimer += Time.deltaTime;
+
+            if (atkRecoveryTimer >= atkRecoveryRate)
+            {
+                atkRecoveryTimer = 0f;
+                isAttacking = false;
+                controller.animator.SetBool("Attack", false);
+            }
         }
     }
-
-    private void EquipWeapon(bool equip)
-    {
-        // Логика экипировки оружия
-    }
-
+    
+    //отрисовка сканнера на сцене
     private void OnDrawGizmosSelected()
     {
         targetScanner.EditorGizmo(transform);
