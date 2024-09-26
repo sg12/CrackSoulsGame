@@ -892,13 +892,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   weaponTrail: 0
   stickOnContact: 0
   destroyOnContact: 0
   projectileVel: {x: 0, y: 0, z: 0}
   attackPoints:
-  - radius: 0.25
+  - radius: 0.35
     offset: {x: -0.15, y: 0, z: 0}
     attackRoot: {fileID: 624989867}
   effects:
@@ -963,13 +963,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   weaponTrail: 0
   stickOnContact: 0
   destroyOnContact: 0
   projectileVel: {x: 0, y: 0, z: 0}
   attackPoints:
-  - radius: 0.25
+  - radius: 0.35
     offset: {x: -0.15, y: 0, z: 0}
     attackRoot: {fileID: 672327638}
   effects:
@@ -1059,7 +1059,7 @@ MonoBehaviour:
   hitForwardRotation: 360
   useBossHPOverlay: 0
   onDamageMessageReceivers:
-  - {fileID: 747215352}
+  - {fileID: 0}
   isInvulnerable: 0
   stickOnEffectTimer: 0
   stickOnActive: 0
@@ -1072,26 +1072,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 747215345}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ee0c2c5295439458b70aa8b5741fff, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d90c6e9db2d93a469b4fee6c0419a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetScanner:
-    targetLayer:
-      serializedVersion: 2
-      m_Bits: 0
-    heightOffset: 0
-    detectionRadius: 10
-    detectionRadiusWhenSpotted: 0
-    detectionAngle: 0
-    maxHeightDifference: 1
-    viewBlockerLayerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    target: {fileID: 0}
-  followStoppingDistance: 0
-  enemyTarget: {fileID: 0}
-  timeToStopPursuit: 6
-  maxDetectionRadius: 10
 --- !u!1 &761788180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1697,7 +1680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7516960271366481240, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.14
+      value: 1.56
       objectReference: {fileID: 0}
     - target: {fileID: 7516960271366481240, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1705,7 +1688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7516960271366481240, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.38
+      value: 6.64
       objectReference: {fileID: 0}
     - target: {fileID: 7516960271366481240, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1793,10 +1776,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 747215349}
+      addedObject: {fileID: 747215348}
     - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 747215348}
+      addedObject: {fileID: 747215349}
     - targetCorrespondingSourceObject: {fileID: 7141102789340807138, guid: 786300786208ede4195a1e7cf403fb64, type: 3}
       insertIndex: -1
       addedObject: {fileID: 747215352}
