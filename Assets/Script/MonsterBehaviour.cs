@@ -175,18 +175,41 @@ public class MonsterBehaviour : MonoBehaviour
 
         if (distanceFromTarget > maxAtkDistance)
         {
-            state = State.Pursuit; // Если цель далеко, продолжаем преследование
+            state = State.Pursuit;
             controller.animator.SetTrigger("Run");
         }
         else
         {
             if (!isAttacking)
             {
-                controller.animator.SetTrigger("Attack"); // Включаем анимацию атаки
+                controller.animator.SetTrigger("Attack");
+                ApplyDamageToTarget(); // Применяем урон
                 isAttacking = true;
             }
         }
     }
+    
+    
+    private void ApplyDamageToTarget()
+    {
+        if (enemyTarget != null)
+        {
+            HealthPoints targetHealth = enemyTarget.GetComponent<HealthPoints>();
+            if (targetHealth != null)
+            {
+                HealthPoints.DamageData damageData = new HealthPoints.DamageData
+                {
+                    damager = this,
+                    damageSource = transform.position,
+                    wpnAtk = 20 // Задайте значение урона
+                };
+                targetHealth.ApplyDamage(damageData);
+                Debug.Log("Нанесен урон NPC.");
+            }
+        }
+    }
+    
+    
     #endregion
 
     #region Death
