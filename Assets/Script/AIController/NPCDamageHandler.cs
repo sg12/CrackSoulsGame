@@ -4,6 +4,9 @@ using RPGAE.CharacterController;
 public class NPCDamageHandler : MonoBehaviour, DamageReceiver
 {
     private HealthPoints healthPoints;
+    private AIController controller;
+    private Animator animator; // Добавляем ссылку на аниматор
+    private bool isDead = false; // Флаг для предотвращения повторного вызова смерти
 
     void Start()
     {
@@ -12,6 +15,13 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
         if (healthPoints == null)
         {
             Debug.LogError("На NPC отсутствует компонент HealthPoints");
+        }
+
+        // Получаем компонент аниматора
+        animator = GetComponent<Animator>();
+        if (animator == null)
+        {
+            Debug.LogError("На NPC отсутствует компонент Animator");
         }
     }
 
@@ -42,7 +52,31 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
 
     private void HandleDeath(HealthPoints.DamageData damageData)
     {
+        if (isDead) return; // Если NPC уже мертв, пропускаем
+
         Debug.Log("NPC умер.");
-        // Логика при смерти (например, анимация смерти, удаление объекта)
+        isDead = true; // Ставим флаг смерти
+
+        // Проверяем, есть ли аниматор, и включаем анимацию смерти
+        if (animator != null)
+        {
+            animator.SetTrigger("Death"); // Включаем триггер "Death", чтобы воспроизвести анимацию смерти
+        }
+
+        // Дополнительная логика при смерти (например, отключение коллайдеров)
+        DisableNPC();
+    }
+
+    private void DisableNPC()
+    {
+        // Отключаем коллайдеры или логику движения NPC после смерти
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (var col in colliders)
+        {
+            col.enabled = false;
+        }
+
+        // Можно добавить логику удаления объекта через определенное время:
+        // Destroy(gameObject, 5f); // Уничтожение объекта через 5 секунд после смерти
     }
 }
