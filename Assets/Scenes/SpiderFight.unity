@@ -1059,7 +1059,7 @@ MonoBehaviour:
   hitForwardRotation: 360
   useBossHPOverlay: 0
   onDamageMessageReceivers:
-  - {fileID: 0}
+  - {fileID: 747215352}
   isInvulnerable: 0
   stickOnEffectTimer: 0
   stickOnActive: 0
