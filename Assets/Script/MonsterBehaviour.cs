@@ -5,7 +5,7 @@ public class MonsterBehaviour : MonoBehaviour
     public TargetScanner targetScanner;
     public float followStoppingDistance; 
     public GameObject enemyTarget;
-    public float timeToStopPursuit = 6f;
+    //public float timeToStopPursuit = 6f;
 
     private float distanceFromTarget;
     private float maxAtkDistance = 5f;
@@ -13,9 +13,9 @@ public class MonsterBehaviour : MonoBehaviour
     private float atkRecoveryRate = 2f;
     private bool isAttacking;
    
-    private State state;
-    public float maxDetectionRadius = 10f;
-    private float distanceToStopTracking = 15f; // Дистанция, после которой персонаж прекратит отслеживание
+    private State state; 
+    // public float maxDetectionRadius = 10f;
+    private float distanceToStopTracking = 15f;
     private AIController controller;
     
     private enum State
@@ -86,8 +86,8 @@ public class MonsterBehaviour : MonoBehaviour
                 {
                     enemyTarget = targetHealth.gameObject;
                     targetScanner.detectionRadius += targetScanner.detectionRadiusWhenSpotted;
-                    state = State.Pursuit; // Переход в режим преследования
-                    controller.animator.SetTrigger("Run"); // Включаем анимацию бега
+                    state = State.Pursuit;
+                    controller.animator.SetTrigger("Run"); 
                 }
             }
         }
@@ -111,13 +111,12 @@ public class MonsterBehaviour : MonoBehaviour
         }
     }
 
-    void StopTrackingTarget()
+    private void StopTrackingTarget()
     {
-        // Прекращаем отслеживание цели
         enemyTarget = null;
         targetScanner.detectionRadius -= targetScanner.detectionRadiusWhenSpotted;
-        state = State.Idle; // Возвращаем в режим ожидания
-        controller.animator.SetTrigger("Idle"); // Включаем анимацию стояния на месте
+        state = State.Idle;
+        controller.animator.SetTrigger("Idle");
     }
 
     #endregion
@@ -125,7 +124,7 @@ public class MonsterBehaviour : MonoBehaviour
     #region Idle
     private void IdleState()
     {
-        controller.animator.SetFloat("Vertical", 0); // Останавливаем движение в Idle
+        controller.animator.SetFloat("Vertical", 0);
     }
     #endregion
 
@@ -134,7 +133,7 @@ public class MonsterBehaviour : MonoBehaviour
     {
         if (enemyTarget == null)
         {
-            state = State.Idle; // Если цели нет, возвращаемся в состояние ожидания
+            state = State.Idle;
             controller.animator.SetTrigger("Idle");
             return;
         }
@@ -143,8 +142,8 @@ public class MonsterBehaviour : MonoBehaviour
 
         if (distanceFromTarget <= followStoppingDistance)
         {
-            state = State.Attack; // Переход в состояние атаки
-            controller.animator.SetTrigger("Attack"); // Включаем анимацию атаки
+            state = State.Attack; 
+            controller.animator.SetTrigger("Attack");
         }
         else
         {
@@ -161,7 +160,7 @@ public class MonsterBehaviour : MonoBehaviour
 
         if (!controller.animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
         {
-            controller.animator.SetTrigger("Run"); // Включаем анимацию бега
+            controller.animator.SetTrigger("Run");
         }
     }
     #endregion
@@ -172,6 +171,14 @@ public class MonsterBehaviour : MonoBehaviour
         if (enemyTarget == null) return;
 
         distanceFromTarget = Vector3.Distance(enemyTarget.transform.position, transform.position);
+        
+        // Проверяем, жив ли NPC
+        HealthPoints targetHealth = enemyTarget.GetComponent<HealthPoints>();
+        if (targetHealth != null && targetHealth.curHealthPoints <= 0)
+        {
+            StopTrackingTarget(); // Останавливаем атаку и отслеживание, если NPC мертв
+            return;
+        }
 
         if (distanceFromTarget > maxAtkDistance)
         {
@@ -188,41 +195,45 @@ public class MonsterBehaviour : MonoBehaviour
             }
         }
     }
-    
-    
+
     private void ApplyDamageToTarget()
     {
         if (enemyTarget != null)
         {
             HealthPoints targetHealth = enemyTarget.GetComponent<HealthPoints>();
-            if (targetHealth != null)
+
+            // Проверяем, жив ли NPC перед нанесением урона
+            if (targetHealth != null && targetHealth.curHealthPoints > 0)
             {
                 HealthPoints.DamageData damageData = new HealthPoints.DamageData
                 {
                     damager = this,
                     damageSource = transform.position,
-                    wpnAtk = 20 // Задайте значение урона
+                    wpnAtk = 20
                 };
                 targetHealth.ApplyDamage(damageData);
                 Debug.Log("Нанесен урон NPC.");
             }
+            else
+            {
+                // Если NPC мертв, прекращаем атаку и переходим в Idle
+                StopTrackingTarget();
+            }
         }
     }
-    
     
     #endregion
 
     #region Death
     public void DeathState()
     {
-        controller.animator.SetTrigger("Death"); // Включаем анимацию смерти
+        controller.animator.SetTrigger("Death"); 
         controller.navmeshAgent.enabled = false; // Отключаем навигацию
-        // Дополнительная логика, если нужна (например, уничтожение объекта)
     }
     #endregion
 
     #region Attack Recovery
-    void AttackRecoveryTimer()
+    private void AttackRecoveryTimer()
     {
         if (isAttacking)
         {
@@ -238,7 +249,7 @@ public class MonsterBehaviour : MonoBehaviour
     }
     #endregion
 
-    //отрисовка сканнера на сцене
+    // Отрисовываем сканнер на сцене
     private void OnDrawGizmosSelected()
     {
         targetScanner.EditorGizmo(transform);
