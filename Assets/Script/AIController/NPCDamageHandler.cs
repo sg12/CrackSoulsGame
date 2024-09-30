@@ -1,31 +1,29 @@
 using UnityEngine;
-using RPGAE.CharacterController;
 
 public class NPCDamageHandler : MonoBehaviour, DamageReceiver
 {
     private HealthPoints healthPoints;
     private AIController controller;
-    private Animator animator; // Добавляем ссылку на аниматор
-    private bool isDead = false; // Флаг для предотвращения повторного вызова смерти
-
-    void Start()
+    private Animator animator; 
+    private bool isDead = false; 
+    
+    private void Start()
     {
-        // Получаем компонент здоровья
         healthPoints = GetComponent<HealthPoints>();
         if (healthPoints == null)
         {
             Debug.LogError("На NPC отсутствует компонент HealthPoints");
         }
-
-        // Получаем компонент аниматора
+        
         animator = GetComponent<Animator>();
         if (animator == null)
         {
             Debug.LogError("На NPC отсутствует компонент Animator");
         }
     }
-
-    // Реализация интерфейса DamageReceiver
+    
+    #region Message Handling
+    
     public void OnReceiveMessage(MsgType type, object sender, object msg)
     {
         // Обработка сообщения в зависимости от типа
@@ -40,13 +38,14 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
                 break;
         }
     }
+    #endregion
 
+    #region Damage and Death Handling
     private void HandleDamage(HealthPoints.DamageData damageData)
     {
         if (healthPoints != null && healthPoints.curHealthPoints > 0)
         {
             Debug.Log($"NPC получил урон: {damageData.wpnAtk}");
-            // Дополнительная логика при получении урона
         }
     }
 
@@ -55,15 +54,14 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
         if (isDead) return; // Если NPC уже мертв, пропускаем
 
         Debug.Log("NPC умер.");
-        isDead = true; // Ставим флаг смерти
-
-        // Проверяем, есть ли аниматор, и включаем анимацию смерти
+        isDead = true; 
+        
+        // Запускаем анимацию смерти
         if (animator != null)
         {
-            animator.SetTrigger("Death"); // Включаем триггер "Death", чтобы воспроизвести анимацию смерти
+            animator.SetTrigger("Death"); 
         }
 
-        // Дополнительная логика при смерти (например, отключение коллайдеров)
         DisableNPC();
     }
 
@@ -79,4 +77,5 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
         // Можно добавить логику удаления объекта через определенное время:
         // Destroy(gameObject, 5f); // Уничтожение объекта через 5 секунд после смерти
     }
+    #endregion
 }
