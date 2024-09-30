@@ -29,7 +29,7 @@ public partial class HealthPoints : MonoBehaviour
 
     public DamageData tempData;
     private HUDManager hudM;
-    private ThirdPersonController cc;
+    // private ThirdPersonController cc; // Отключено, так как не используется
     private ItemData itemData;
 
     [HideInInspector] public bool isInvulnerable;
@@ -45,7 +45,7 @@ public partial class HealthPoints : MonoBehaviour
         ResetDamage();
 
         hudM = FindObjectOfType<HUDManager>();
-        cc = FindObjectOfType<ThirdPersonController>();
+        // cc = FindObjectOfType<ThirdPersonController>(); // Закомментировано, так как не используется
         itemData = GetComponent<ItemData>();
 
         if (itemData)
@@ -144,52 +144,12 @@ public partial class HealthPoints : MonoBehaviour
             for (var i = 0; i < onDamageMessageReceivers.Count; ++i)
             {
                 var receiver = onDamageMessageReceivers[i] as DamageReceiver;
-                receiver.OnReceiveMessage(messageType1, this, data);
+                if (receiver != null)
+                {
+                    receiver.OnReceiveMessage(messageType1, this, data);
+                }
             }
             return;
-        }
-
-        if(GetComponent<AIController>() != null)
-        {
-            if (curStunPoints <= 0 && GetComponent<AIController>().finisherInProcess)
-            {
-                #region Hit SFX
-
-                if (GetComponent<ThirdPersonController>())
-                {
-                    if (data.damager.GetComponent<ItemData>() != null)
-                    {
-                        if (data.damager.GetComponent<ItemData>().itemType == ItemData.ItemType.Weapon)
-                            data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", false);
-                        if (data.damager.GetComponent<ItemData>().itemType == ItemData.ItemType.Arrow)
-                            data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", true);
-                    }
-                    else
-                        data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", false);
-                }
-                else if (GetComponent<AIController>())
-                {
-                    if (data.damager.GetComponent<ItemData>() != null)
-                    {
-                        if (data.damager.GetComponent<ItemData>().itemType == ItemData.ItemType.Weapon)
-                            data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", false);
-                        if (data.damager.GetComponent<ItemData>().itemType == ItemData.ItemType.Arrow)
-                            data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", true);
-                    }
-                    else
-                        data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", false);
-                }
-
-                #endregion
-
-                var messageType2 = MsgType.DAMAGED;
-                for (var i = 0; i < onDamageMessageReceivers.Count; ++i)
-                {
-                    var receiver = onDamageMessageReceivers[i] as DamageReceiver;
-                    receiver.OnReceiveMessage(messageType2, this, data);
-                }
-                return;
-            }
         }
 
         if (isInvulnerable)
@@ -197,120 +157,8 @@ public partial class HealthPoints : MonoBehaviour
             return;
         }
 
-        Vector3 forward = transform.forward;
-        forward = Quaternion.AngleAxis(hitForwardRotation, transform.up) * forward;
-
-        #region Shield Defence
-
-        bool vulnerability = cc.IsAnimatorTag("Light Attack") && cc.fullBodyInfo.IsName("Heavy Charge") &&
-        cc.IsAnimatorTag("Heavy Attack") && cc.IsAnimatorTag("Shield Attack");
-
-        bool conditionsToBeHurt = !cc.isBlocking;
-        // Prevents enemy damage on a 280 frontal angle while blocking with a shield equipped.
-        if (gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            if (conditionsToBeHurt && !vulnerability)
-            {
-                hitAngle = 360f;
-                forward = -transform.forward;
-            }
-            else
-            {
-                hitAngle = 280f;
-                forward = -transform.forward;
-            }
-        }
-
-        #endregion
-
-        // Project the direction to damager to the plane formed by the direction of damage.
-        Vector3 positionToDamager = data.damageSource - transform.position;
-        positionToDamager -= transform.up * Vector3.Dot(transform.up, positionToDamager);
-
-        if (Vector3.Angle(forward, positionToDamager) > hitAngle * 0.5f)
-            return;
-
-        if (invulnerabiltyTime > 0)
-            isInvulnerable = true;
-
-        #region Hit SFX
-
-        if (GetComponent<ThirdPersonController>())
-        {
-            if (data.damager.GetComponent<ItemData>() != null)
-            {
-                if (data.damager.GetComponent<ItemData>().itemType == ItemData.ItemType.Weapon)
-                    data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", false);
-                if (data.damager.GetComponent<ItemData>().itemType == ItemData.ItemType.Arrow)
-                    data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", true);
-            }
-            else
-                data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", false);
-        }
-        else if (GetComponent<AIController>())
-        {
-            if (data.damager.GetComponent<ItemData>() != null)
-            {
-                if (data.damager.GetComponent<ItemData>().itemType == ItemData.ItemType.Weapon)
-                    data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", false);
-                if (data.damager.GetComponent<ItemData>().itemType == ItemData.ItemType.Arrow)
-                    data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", true);
-            }
-            else
-                data.damager.GetComponent<HitBox>().PlayRandomSound("HitEnemyAS", false);
-        }
-
-        #endregion
-
-        #region Damage Resistance
-
-        // Player damage resistance to enemy attacks
-        if (gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            data.wpnAtk -= (int)hudM.defence;
-            data.arrowAtk -= (int)hudM.defence;
-            data.shdAtk -= (int)hudM.defence;
-
-            /*
-            if (cc.wpnHolster.headArmorE != null)
-                maxArmorDefence += cc.wpnHolster.headArmorE.GetComponent<ItemData>().maxArm;
-            if (cc.wpnHolster.chestArmorE != null)
-                maxArmorDefence += cc.wpnHolster.chestArmorE.GetComponent<ItemData>().maxArm;
-            if (cc.wpnHolster.legsArmorE != null)
-                maxArmorDefence += cc.wpnHolster.legsArmorE.GetComponent<ItemData>().maxArm;
-            if (cc.wpnHolster.amuletArmorE != null)
-                maxArmorDefence += cc.wpnHolster.amuletArmorE.GetComponent<ItemData>().maxArm;
-
-            int maxArmorDefence = 0;
-
-            data.wpnAtk -= maxArmorDefence;
-            data.wpnCritHit -= maxArmorDefence;
-            data.arrowAtk -= maxArmorDefence;
-            data.arrowHdShot -= maxArmorDefence;
-            data.arrowCritHit -= maxArmorDefence;
-            data.shdAtk -= maxArmorDefence;
-            data.shdCritHit -= maxArmorDefence;
-            */
-        }
-
-        #endregion
-
-        curStunPoints -= data.wpnStun;
-        curStunPoints -= data.arrowStun;
-        curStunPoints -= data.shdStun;
-
         curHealthPoints -= data.wpnAtk;
-        curHealthPoints -= data.arrowAtk;
-        curHealthPoints -= data.shdAtk;
-
-        for (int i = 0; i < data.damager.GetComponent<HitBox>().attackPoints.Length; i++)
-        {
-            if (data.damager.GetComponent<HitBox>().effects.meleeEffectsHit != null)
-            {
-                data.damager.GetComponent<HitBox>().CreateParticle(data.damager.GetComponent<HitBox>().effects.meleeEffectsHit,
-                data.damager.GetComponent<HitBox>().attackPoints[i].attackRoot.transform.position);
-            }
-        }
+        Debug.Log("NPC получил урон: " + data.wpnAtk + " Очки здоровья: " + curHealthPoints);
 
         tempData = data;
         var messageType = curHealthPoints <= 0 ? MsgType.DEAD : MsgType.DAMAGED;
@@ -318,34 +166,30 @@ public partial class HealthPoints : MonoBehaviour
         for (var i = 0; i < onDamageMessageReceivers.Count; ++i)
         {
             var receiver = onDamageMessageReceivers[i] as DamageReceiver;
-            receiver.OnReceiveMessage(messageType, this, data);
+            if (receiver != null)
+            {
+                receiver.OnReceiveMessage(messageType, this, data);
+            }
         }
 
-        if (data.damager.GetComponent<HitBox>().isAttacking)
-            data.damager.GetComponent<HitBox>().isAttacking = false;
+        if (data.damager != null) // Проверка на null для damager
+        {
+            HitBox hitBox = data.damager.GetComponent<HitBox>(); // Проверка наличия HitBox
+            if (hitBox != null && hitBox.isAttacking)
+            {
+                hitBox.isAttacking = false;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Damager is null in ApplyDamage.");
+        }
+
+        if (curHealthPoints <= 0)
+        {
+            Debug.Log("NPC is dead.");
+        }
     }
 
-#if UNITY_EDITOR
-    /*
-   private void OnDrawGizmosSelected()
-   {
-        if(GetComponent<ThirdPersonController>())
-        {
-            Vector3 forward = transform.forward;
-            forward = Quaternion.AngleAxis(hitForwardRotation, transform.up) * forward;
 
-            if (Event.current.type == EventType.Repaint)
-            {
-                UnityEditor.Handles.color = Color.blue;
-                UnityEditor.Handles.ArrowHandleCap(0, transform.position, Quaternion.LookRotation(forward), 1.0f,
-                    EventType.Repaint);
-            }
-
-            UnityEditor.Handles.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
-            forward = Quaternion.AngleAxis(-hitAngle * 0.5f, transform.up) * forward;
-            UnityEditor.Handles.DrawSolidArc(transform.position, transform.up, forward, hitAngle, 1.0f);
-        }
-   }
-   */
-#endif
 }
