@@ -16,6 +16,7 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
         }
         
         animator = GetComponent<Animator>();
+        
         if (animator == null)
         {
             Debug.LogError("На NPC отсутствует компонент Animator");
@@ -46,6 +47,8 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
         if (healthPoints != null && healthPoints.curHealthPoints > 0)
         {
             Debug.Log($"NPC получил урон: {damageData.wpnAtk}");
+
+            PlayHitAnimation();
         }
     }
 
@@ -54,14 +57,9 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
         if (isDead) return; // Если NPC уже мертв, пропускаем
 
         Debug.Log("NPC умер.");
-        isDead = true; 
-        
-        // Запускаем анимацию смерти
-        if (animator != null)
-        {
-            animator.SetTrigger("Death"); 
-        }
+        isDead = true;
 
+        PlayDeathAnimation();
         DisableNPC();
     }
 
@@ -77,5 +75,24 @@ public class NPCDamageHandler : MonoBehaviour, DamageReceiver
         // Можно добавить логику удаления объекта через определенное время:
         // Destroy(gameObject, 5f); // Уничтожение объекта через 5 секунд после смерти
     }
+    #endregion
+    
+    #region Animations
+    private void PlayHitAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Hit");
+        }
+    }
+    
+    private void PlayDeathAnimation()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Death"); 
+        }
+    }
+    
     #endregion
 }
