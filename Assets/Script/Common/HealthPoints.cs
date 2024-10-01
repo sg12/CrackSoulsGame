@@ -68,8 +68,8 @@ public partial class HealthPoints : MonoBehaviour
             }
         }
 
-        WeaponDamage();
-        StickOnDamage();
+        //WeaponDamage();
+        //StickOnDamage();
     }
 
     void StickOnDamage()
