@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using TMPro;
 
@@ -9,6 +10,7 @@ public class Dialogue
 {
     [Header("DIALOGUE")]
     public string npcName;
+    public Texture background;
     public DialogueType dialogueType;
     public int dialogueSegmentNum;
     public DialogueSegment[] dialogueSegment;

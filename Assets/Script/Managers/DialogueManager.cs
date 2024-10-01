@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
 
     [Header("REFERENCES")]
     public FadeUI fadeUI;
+    public RawImage background;
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogue;
     public TextMeshProUGUI optionA;
@@ -116,6 +117,7 @@ public class DialogueManager : MonoBehaviour
         curDialogue.controller = dialogue.controller;
 
         npcName.text = curDialogue.npcName;
+        background.texture = curDialogue.background;
 
         optionA.text = curDialogue.dialogueSegment[curDialogue.dialogueSegmentNum].optionAAnswer;
         optionB.text = curDialogue.dialogueSegment[curDialogue.dialogueSegmentNum].optionBAnswer;
