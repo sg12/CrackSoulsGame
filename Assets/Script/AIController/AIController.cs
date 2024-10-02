@@ -101,7 +101,7 @@ public class AIController : MonoBehaviour
         if (rigidBody == null)
             rigidBody = gameObject.AddComponent<Rigidbody>();
 
-       // cc = FindObjectOfType<ThirdPersonController>();
+        cc = FindObjectOfType<ThirdPersonController>();
 
         rigidBody.isKinematic = true;
         rigidBody.useGravity = true;
@@ -115,7 +115,7 @@ public class AIController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // if (cc.slowDown) return;
+        if (cc.slowDown) return;
 
         CheckGrounded();
         LockOnColliderSize();
@@ -162,12 +162,12 @@ public class AIController : MonoBehaviour
 
     void LockOnColliderSize()
     {
-        /*if (cc.tpCam.lockedOn)
+        if (cc.tpCam.lockedOn)
         {
             capsuleC.radius = 1;
         }
         else
-            capsuleC.radius = defaultRadius;*/
+            capsuleC.radius = defaultRadius;
     }
 
     public void AddForce(Vector3 force, ForceMode forceMode)
