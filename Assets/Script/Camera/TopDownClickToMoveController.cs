@@ -23,7 +23,6 @@ namespace BLINK.Controller
     [RequireComponent(typeof(NavMeshAgent))]
     public class TopDownClickToMoveController : MonoBehaviour
     {
-
         // REFERENCES
         public AudioSource cameraAudio;
         public Animator anim;
@@ -87,6 +86,8 @@ namespace BLINK.Controller
         private static readonly int Standing = Animator.StringToHash("IsStanding");
         private static readonly int IsStunned = Animator.StringToHash("IsStunned");
 
+        public ThirdPersonInput controlP;
+
         private void Awake()
         {
             InitCameraValues();
@@ -96,6 +97,14 @@ namespace BLINK.Controller
 
         private void Update()
         {
+            if (controlP == null)
+                controlP = GameObject.FindAnyObjectByType<ThirdPersonAnimator>();
+            else
+            {
+                if (controlP.inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
+                    return;
+            }
+
             StandingLogic();
             MovementLogic();
             CameraLogic();
@@ -389,14 +398,11 @@ namespace BLINK.Controller
 
         private void TriggerNewDestination(Vector3 location)
         {
+            //ThirdPersonAnimator controlP = GameObject.FindAnyObjectByType<ThirdPersonAnimator>();
+            //if (controlP.inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
+            //    return;
             agent.SetDestination(location);
             StartCoroutine(SetCharacterState(CharacterState.Moving));
-            ThirdPersonAnimator controlP = GameObject.FindAnyObjectByType<ThirdPersonAnimator>();
-            controlP.targetRun = location;
-            //controlP.cc.input.x = 1;
-            //controlP.cc.input.x = 1;
-            //controlP.cc.input.Normalize();
-            Debug.Log(location);
         }
 
         private bool IsDestinationReached()
