@@ -113,6 +113,7 @@ public class MonsterBehaviour : MonoBehaviour
 
     private void StopTrackingTarget()
     {
+        Debug.Log("StopTrackingTarget");
         enemyTarget = null;
         targetScanner.detectionRadius -= targetScanner.detectionRadiusWhenSpotted;
         state = State.Idle;
@@ -142,8 +143,10 @@ public class MonsterBehaviour : MonoBehaviour
 
         if (distanceFromTarget <= followStoppingDistance)
         {
+            Debug.Log("Attack");
             state = State.Attack; 
             controller.animator.SetTrigger("Attack");
+            controller.LookAtTarget(enemyTarget.transform);
         }
         else
         {
@@ -157,7 +160,7 @@ public class MonsterBehaviour : MonoBehaviour
 
         distanceFromTarget = Vector3.Distance(enemyTarget.transform.position, transform.position);
         controller.SetDestination(enemyTarget.transform.position);
-
+        controller.LookAtTarget(enemyTarget.transform);
         if (!controller.animator.GetCurrentAnimatorStateInfo(0).IsName("Run"))
         {
             controller.animator.SetTrigger("Run");
@@ -184,6 +187,7 @@ public class MonsterBehaviour : MonoBehaviour
         {
             state = State.Pursuit;
             controller.animator.SetTrigger("Run");
+            controller.LookAtTarget(enemyTarget.transform);
         }
         else
         {
@@ -192,6 +196,7 @@ public class MonsterBehaviour : MonoBehaviour
                 controller.animator.SetTrigger("Attack");
                 ApplyDamageToTarget(); // Применяем урон
                 isAttacking = true;
+                controller.LookAtTarget(enemyTarget.transform);
             }
         }
     }

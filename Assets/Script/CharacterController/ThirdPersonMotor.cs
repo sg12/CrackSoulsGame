@@ -2630,9 +2630,9 @@ namespace RPGAE.CharacterController
 
             #region Particle Effect
 
-            if (data.damager.GetComponent<HitBox>().effects.stickOnContactEffectHit != null)
+            if (data.damager.GetComponentInChildren<HitBox>().effects.stickOnContactEffectHit != null)
             {
-                GameObject stickEffect = Instantiate(data.damager.GetComponent<HitBox>().effects.stickOnContactEffectHit.gameObject, 
+                GameObject stickEffect = Instantiate(data.damager.GetComponentInChildren<HitBox>().effects.stickOnContactEffectHit.gameObject, 
                 animator.GetBoneTransform(HumanBodyBones.Hips).transform.position, transform.rotation) as GameObject;
 
                 stickEffect.transform.parent = transform;

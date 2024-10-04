@@ -66,7 +66,7 @@ public class AIController : MonoBehaviour
     [HideInInspector] public Rigidbody rigidBody;
     [HideInInspector] public CapsuleCollider capsuleC;
     [HideInInspector] public NavMeshAgent navmeshAgent;
-    //[HideInInspector] public ThirdPersonController cc;
+    [HideInInspector] public ThirdPersonController cc;
     [HideInInspector] public WeaponHolster wpnHolster;
 
     [HideInInspector]
@@ -94,6 +94,7 @@ public class AIController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         animator.updateMode = AnimatorUpdateMode.Fixed;
+
         if (navmeshAgent)
             navmeshAgent.updatePosition = false;
 
@@ -118,13 +119,14 @@ public class AIController : MonoBehaviour
         //if (cc.slowDown) return;
 
         CheckGrounded();
-        LockOnColliderSize();
-        IgnoreColllisionOnForce();
+        //LockOnColliderSize();
+        //IgnoreColllisionOnForce();
 
         if (grounded && navmeshAgent && !m_UnderExternalForce)
         {
+            //Debug.Log("nextPosition: " + navmeshAgent.nextPosition);
             transform.position = navmeshAgent.nextPosition;
-            navmeshAgent.velocity = (animator.deltaPosition / Time.deltaTime);
+            //navmeshAgent.velocity = (animator.deltaPosition / Time.deltaTime);
         }
     }
 
@@ -162,12 +164,12 @@ public class AIController : MonoBehaviour
 
     void LockOnColliderSize()
     {
-        /*if (cc.tpCam.lockedOn)
+        if (cc.tpCam.lockedOn)
         {
             capsuleC.radius = 1;
         }
         else
-            capsuleC.radius = defaultRadius;*/
+            capsuleC.radius = defaultRadius;
     }
 
     public void AddForce(Vector3 force, ForceMode forceMode)
@@ -216,8 +218,7 @@ public class AIController : MonoBehaviour
 
     public bool SetDestination(Vector3 position)
     {
-        if (!navmeshAgent.enabled) return false;
-
+        if (!navmeshAgent.enabled) return false;        
         return navmeshAgent.SetDestination(position);
     }
 
@@ -227,13 +228,18 @@ public class AIController : MonoBehaviour
             navmeshAgent.angularSpeed * Time.deltaTime);
     }
 
+    public void LookAtTarget(Transform transformTarget)
+    {
+        transform.LookAt(transformTarget);
+    }
+
     public void CheckGrounded()
     {
         RaycastHit hit;
         Ray ray = new Ray(transform.position + Vector3.up * k_GroundedRayDistance * 0.5f, -Vector3.up);
         grounded = Physics.Raycast(ray, out hit, k_GroundedRayDistance, Physics.AllLayers,
         QueryTriggerInteraction.Ignore);
-
+        
         if (navmeshAgent)
             navmeshAgent.enabled = grounded;
         if (rigidBody)
