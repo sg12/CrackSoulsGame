@@ -4289,6 +4289,9 @@ MonoBehaviour:
   signedAngle: 0
   resultPositiveAngle: 0
   resultNegativeAngle: 0
+  navAgent: {fileID: 0}
+  camera: {fileID: 0}
+  targetRun: {x: 0, y: 0, z: 0}
 --- !u!114 &242534115071033738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41573,6 +41576,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3098646588127988969, guid: 2195ed6bed794409eb682cfa75fc541c, type: 3}
+      propertyPath: cacheTypes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363108460247933462, guid: 2195ed6bed794409eb682cfa75fc541c, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 3363108460247933472, guid: 2195ed6bed794409eb682cfa75fc541c, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 3363108460247933538, guid: 2195ed6bed794409eb682cfa75fc541c, type: 3}
       propertyPath: m_Name
       value: Human Male (v4.1.1)
@@ -41597,6 +41612,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3363108460247933686, guid: 2195ed6bed794409eb682cfa75fc541c, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 3363108460247933694, guid: 2195ed6bed794409eb682cfa75fc541c, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 3363108460248432130, guid: 2195ed6bed794409eb682cfa75fc541c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -410,13 +410,13 @@ public class HitBox : MonoBehaviour
         {
             for (int i = 0; i < weaponAudio.Length; i++)
             {
-                if (weaponAudio[i].audioClip.GetComponent<RandomAudioPlayer>().gameObject.name == weaponAS)
+                if (weaponAudio[i]?.audioClip?.GetComponent<RandomAudioPlayer>()?.gameObject?.name == weaponAS)
                 {
                     weaponAudio[i].audioClip.PlayRandomClip();
 
                     if (detachFromObject)
                     {
-                        if (GetComponent<ItemData>() != null && GetComponent<ItemData>().equipped) return;
+                        if (GetComponent<ItemData>()?.equipped == true) return;
 
                         weaponAudio[i].audioClip.transform.SetParent(null, true);
                         Destroy(weaponAudio[i].audioClip, weaponAudio[i].audioClip.clip == null ? 0.0f : weaponAudio[i].audioClip.clip.length + 0.5f);
@@ -425,6 +425,7 @@ public class HitBox : MonoBehaviour
             }
         }
     }
+
 
     public void AerialAttackReaction()
     {
@@ -455,28 +456,24 @@ public class HitBox : MonoBehaviour
         {
             for (int i = 0; i < attackPoints.Length; ++i)
             {
-                AttackPoint pts = attackPoints[i];
+                if (attackPoints[i]?.attackRoot == null)
+                    continue;
 
+                AttackPoint pts = attackPoints[i];
                 Vector3 worldPos = pts.attackRoot.position + pts.attackRoot.TransformVector(pts.offset);
                 Vector3 attackVector = worldPos - m_PreviousPos[i];
 
                 if (attackVector.magnitude < 0.001f)
                 {
-                    // A zero vector for the sphere cast don't yield any result, even if a collider overlap the "sphere" created by radius. 
-                    // so we set a very tiny microscopic forward cast to be sure it will catch anything overlaping that "stationary" sphere cast
                     attackVector = Vector3.forward * 0.0001f;
                 }
 
                 Ray r = new Ray(worldPos, attackVector.normalized);
-
-                int contacts = Physics.SphereCastNonAlloc(r, pts.radius, s_RaycastHitCache, attackVector.magnitude,
-                    ~0,
-                    QueryTriggerInteraction.Ignore);
+                int contacts = Physics.SphereCastNonAlloc(r, pts.radius, s_RaycastHitCache, attackVector.magnitude, ~0, QueryTriggerInteraction.Ignore);
 
                 for (int c = 0; c < contacts; ++c)
                 {
                     Collider col = s_RaycastHitCache[c].collider;
-
                     if (col != null)
                     {
                         if (isAttacking)
@@ -489,6 +486,7 @@ public class HitBox : MonoBehaviour
             }
         }
     }
+
 
     private bool CheckParry(Collider other, AttackPoint pts)
     {
