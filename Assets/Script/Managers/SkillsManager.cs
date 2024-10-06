@@ -90,12 +90,12 @@ public class SkillsManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HighLight();
-        AbilityIconHUD();
-        UpdateAbility();
-        PerformAbility();
-        SkillTreeMenuUpdate();
-        ControllerButtonType();
+        //HighLight();
+        //AbilityIconHUD();
+        //UpdateAbility();
+        //PerformAbility();
+        //SkillTreeMenuUpdate();
+        //ControllerButtonType();
     }
 
     void SetLerpPosition()

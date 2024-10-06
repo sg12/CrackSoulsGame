@@ -39,7 +39,8 @@ public class HideUI : MonoBehaviour
         {
             foreach (GameObject hide in hideUI)
             {
-                hide.SetActive(false);
+                if (hide != null)
+                    hide.SetActive(false);
             }
         }
 
@@ -47,7 +48,8 @@ public class HideUI : MonoBehaviour
         {
             foreach (GameObject show in showUI)
             {
-                show.SetActive(true);
+                if (show != null)
+                    show.SetActive(true);
             }
         }
 
@@ -57,7 +59,8 @@ public class HideUI : MonoBehaviour
         {
             foreach (GameObject show in normalizeShow)
             {
-                show.SetActive(true);
+                if (show != null)
+                    show.SetActive(true);
             }
         }
     }
@@ -68,14 +71,16 @@ public class HideUI : MonoBehaviour
         {
             foreach (GameObject show in normalizeShow)
             {
-                show.SetActive(true);
+                if(show != null)
+                    show.SetActive(true);
             }
         }
         if (normalizeHide != null)
         {
             foreach (GameObject hide in normalizeHide)
             {
-                hide.SetActive(false);
+                if (hide != null)
+                    hide.SetActive(false);
             }
         }
     }

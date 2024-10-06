@@ -478,7 +478,7 @@ public class InventoryManager : MonoBehaviour
                 referencesObj.levelGuage.canvasGroup.alpha = 1;
 
             referencesObj.playerGuage.canvasGroup.alpha = 0;
-            referencesObj.abilityHUD.canvasGroup.alpha = 0;
+            //referencesObj.abilityHUD.canvasGroup.alpha = 0;
             referencesObj.buttonsHUD.canvasGroup.alpha = 0;
 
             if (FindObjectOfType<BossHealthGuage>() != null)
@@ -517,7 +517,7 @@ public class InventoryManager : MonoBehaviour
             cc.hudM.fadeUIQuestObjective.canvasGroup.alpha = 0;
             referencesObj.playerGuage.canvasGroup.alpha = 1;
             referencesObj.levelGuage.canvasGroup.alpha = 0;
-            referencesObj.abilityHUD.canvasGroup.alpha = 1;
+            //referencesObj.abilityHUD.canvasGroup.alpha = 1;
             referencesObj.buttonsHUD.canvasGroup.alpha = 1;
 
             referencesObj.coinHUD.canvasGroup.alpha = 0;
