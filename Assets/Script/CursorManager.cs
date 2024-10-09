@@ -1,4 +1,4 @@
-using System;
+using UnityEngine.EventSystems;
 using UnityEngine;
 
 public class CursorManager : MonoBehaviour
@@ -23,6 +23,13 @@ public class CursorManager : MonoBehaviour
 
     private void Update()
     {
+        //проверка для установления дефолтного курсора на Canvas
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            Cursor.SetCursor(_defaultCursor, Vector2.zero, CursorMode.Auto);
+            return;
+        }
+        
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -49,10 +56,13 @@ public class CursorManager : MonoBehaviour
             {
                 Cursor.SetCursor(_itemSelectionCursor, Vector2.zero, CursorMode.Auto);
             }
-            else
-            {
-                Cursor.SetCursor(_defaultCursor, Vector2.zero, CursorMode.Auto);
-            }
+           
         }
+        else
+        {
+            Cursor.SetCursor(_defaultCursor, Vector2.zero, CursorMode.Auto);
+        }
+        
+
     }
 }
