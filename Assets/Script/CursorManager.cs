@@ -7,62 +7,78 @@ public class CursorManager : MonoBehaviour
     [SerializeField] private Texture2D _defaultCursor;
     [SerializeField] private Texture2D _groundCursor;
     [SerializeField] private Texture2D _enemyCursor;
-    [SerializeField] private Texture2D _environmentCursor;
     [SerializeField] private Texture2D _itemSelectionCursor;
-   
+    [Header("ENVIRONMENT FIELD FOR ANY OBJECTS")]
+    [SerializeField] private Texture2D _environmentCursor;  //необходимо продумать какой курсор показывать
+                                                            //при наведении на какой-либо предмет
+                                                            //окружения(дом, деревья и тд)
     [Header("LAYERS")]
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private LayerMask _enemyLayer; 
   
-    //[SerializeField] private LayerMask _envoirnmentLayer;
+    private Texture2D _currentCursor;
 
     private void Start()
     {
-        Cursor.SetCursor(_defaultCursor, Vector2.zero, CursorMode.Auto);
+        _currentCursor = _defaultCursor;
+        Cursor.SetCursor(_currentCursor, Vector2.zero, CursorMode.Auto);
     }
 
     private void Update()
     {
-        //проверка для установления дефолтного курсора на Canvas
+        Texture2D newCursor = _defaultCursor;
+        
+        // Проверка для установления дефолтного курсора на Canvas
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            Cursor.SetCursor(_defaultCursor, Vector2.zero, CursorMode.Auto);
-            return;
-        }
-        
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        { 
-            //проверка на слой врага
-            if (((1 << hit.collider.gameObject.layer) & _enemyLayer) != 0)
-            {
-                Cursor.SetCursor(_enemyCursor, Vector2.zero, CursorMode.Auto);
-            }
-            //проверка на слой земли
-            else if (((1 << hit.collider.gameObject.layer) & _groundLayer) != 0)
-            {
-                Cursor.SetCursor(_groundCursor, Vector2.zero, CursorMode.Auto);
-            }
-            
-            //проверка на окружение
-            else if (hit.collider.gameObject.CompareTag("Environment"))
-            {
-                Cursor.SetCursor(_environmentCursor, Vector2.zero, CursorMode.Auto);
-            }
-            //проверка на предметы
-            else if (hit.collider.gameObject.CompareTag("Item"))
-            {
-                Cursor.SetCursor(_itemSelectionCursor, Vector2.zero, CursorMode.Auto);
-            }
-           
+            newCursor = _defaultCursor;
         }
         else
         {
-            Cursor.SetCursor(_defaultCursor, Vector2.zero, CursorMode.Auto);
-        }
-        
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
+            if (Physics.Raycast(ray, out hit))
+            { 
+                GameObject hitObject = hit.collider.gameObject;
+                int hitLayer = hitObject.layer;
+
+                // Проверка на слой врага
+                if (((1 << hitLayer) & _enemyLayer) != 0)
+                {
+                    newCursor = _enemyCursor;
+                }
+                // Проверка на слой земли
+                else if (((1 << hitLayer) & _groundLayer) != 0)
+                {
+                    newCursor = _groundCursor;
+                }
+                // Проверка на окружение
+                else if (hitObject.CompareTag("Environment"))
+                {
+                    newCursor = _environmentCursor;
+                }
+                // Проверка на предметы
+                else if (hitObject.CompareTag("Item"))
+                {
+                    newCursor = _itemSelectionCursor;
+                }
+                else
+                {
+                    newCursor = _defaultCursor;
+                }
+            }
+            else
+            {
+                newCursor = _defaultCursor;
+            }
+        }
+
+        // Обновляем курсор только если он изменился
+        if (_currentCursor != newCursor)
+        {
+            Cursor.SetCursor(newCursor, Vector2.zero, CursorMode.Auto);
+            _currentCursor = newCursor;
+        }
     }
 }
