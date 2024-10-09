@@ -200,7 +200,7 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
         {
             IdleState();
         }
-
+        //Debug.Log(state);
         FindTarget();
         WeaponAim();
         SheathingWeapon();
@@ -270,7 +270,6 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
             state = State.Pursuit;
             return;
         }
-
         #region NPC Pose 
 
         switch (npcPose)
@@ -342,131 +341,131 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
 
     void RoamState()
     {
-        if (!controller.grounded || !controller.navmeshAgent.enabled) return;
+        //if (!controller.grounded || !controller.navmeshAgent.enabled) return;
 
-        if (enemyTarget != null)
-        {
-            controller.animator.SetBool("Patrol", false);
-            state = State.Pursuit;
-            return;
-        }
+        //if (enemyTarget != null)
+        //{
+        //    controller.animator.SetBool("Patrol", false);
+        //    state = State.Pursuit;
+        //    return;
+        //}
+        //Debug.Log("----RoamState");
+        //controller.animator.SetBool("Patrol", true);
+        //controller.navmeshAgent.stoppingDistance = 0.5f;
+        //controller.animator.SetBool("IsMoving", controller.navmeshAgent.hasPath);
 
-        controller.animator.SetBool("Patrol", true);
-        controller.navmeshAgent.stoppingDistance = 0.5f;
-        controller.animator.SetBool("IsMoving", controller.navmeshAgent.hasPath);
+        //if (!controller.navmeshAgent.pathPending)
+        //{
+        //    if (controller.navmeshAgent.remainingDistance <= controller.navmeshAgent.stoppingDistance)
+        //    {
+        //        if (!controller.navmeshAgent.hasPath || controller.navmeshAgent.velocity.sqrMagnitude == 0)
+        //        {
+        //            idleWaitTimer += Time.deltaTime;
+        //            if (idleWaitTimer > idleWaitTime)
+        //            {
+        //                Vector3 randomPosition = Random.insideUnitSphere * roamRadius;
+        //                NavMesh.SamplePosition(originalPosition + randomPosition, out navHit, 20f, NavMesh.AllAreas);
 
-        if (!controller.navmeshAgent.pathPending)
-        {
-            if (controller.navmeshAgent.remainingDistance <= controller.navmeshAgent.stoppingDistance)
-            {
-                if (!controller.navmeshAgent.hasPath || controller.navmeshAgent.velocity.sqrMagnitude == 0)
-                {
-                    idleWaitTimer += Time.deltaTime;
-                    if (idleWaitTimer > idleWaitTime)
-                    {
-                        Vector3 randomPosition = Random.insideUnitSphere * roamRadius;
-                        NavMesh.SamplePosition(originalPosition + randomPosition, out navHit, 20f, NavMesh.AllAreas);
+        //                patrolPosition = navHit.position;
 
-                        patrolPosition = navHit.position;
+        //                GetPivotAngle(patrolPosition);
+        //                controller.navmeshAgent.SetDestination(patrolPosition);
 
-                        GetPivotAngle(patrolPosition);
-                        controller.navmeshAgent.SetDestination(patrolPosition);
-
-                        idleWaitTimer = 0;
-                    }
-                }
-            }
-        }
+        //                idleWaitTimer = 0;
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     public void PatrolPointsState()
     {
-        if (!controller.grounded || !controller.navmeshAgent.enabled) return;
+        //if (!controller.grounded || !controller.navmeshAgent.enabled) return;
 
-        if (enemyTarget != null)
-        {
-            controller.animator.SetBool("Patrol", false);
-            state = State.Pursuit;
-            return;
-        }
+        //if (enemyTarget != null)
+        //{
+        //    controller.animator.SetBool("Patrol", false);
+        //    state = State.Pursuit;
+        //    return;
+        //}
 
-        controller.animator.SetBool("Patrol", true);
-        controller.navmeshAgent.stoppingDistance = 0.5f;
-        controller.animator.SetBool("IsMoving", controller.navmeshAgent.hasPath);
+        //controller.animator.SetBool("Patrol", true);
+        //controller.navmeshAgent.stoppingDistance = 0.5f;
+        //controller.animator.SetBool("IsMoving", controller.navmeshAgent.hasPath);
 
-        if (!controller.navmeshAgent.pathPending)
-        {
-            if (controller.navmeshAgent.remainingDistance <= controller.navmeshAgent.stoppingDistance)
-            {
-                if (!controller.navmeshAgent.hasPath || controller.navmeshAgent.velocity.sqrMagnitude == 0)
-                {
-                    idleWaitTimer += Time.deltaTime;
-                    if (idleWaitTimer > idleWaitTime)
-                    {
-                        patrolPosition = patrolPoints[destPoint].position;
+        //if (!controller.navmeshAgent.pathPending)
+        //{
+        //    if (controller.navmeshAgent.remainingDistance <= controller.navmeshAgent.stoppingDistance)
+        //    {
+        //        if (!controller.navmeshAgent.hasPath || controller.navmeshAgent.velocity.sqrMagnitude == 0)
+        //        {
+        //            idleWaitTimer += Time.deltaTime;
+        //            if (idleWaitTimer > idleWaitTime)
+        //            {
+        //                patrolPosition = patrolPoints[destPoint].position;
 
-                        GetPivotAngle(patrolPosition);
-                        GotoNextPoint(patrolPosition);
+        //                GetPivotAngle(patrolPosition);
+        //                GotoNextPoint(patrolPosition);
 
-                        idleWaitTimer = 0;
-                    }
-                }
-            }
-        }
+        //                idleWaitTimer = 0;
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     void GotoNextPoint(Vector3 pos)
     {
-        if (patrolPoints.Length == 0)
-            return;
+        //if (patrolPoints.Length == 0)
+        //    return;
 
-        controller.navmeshAgent.destination = pos;
-        destPoint = (destPoint + 1) % patrolPoints.Length;
+        //controller.navmeshAgent.destination = pos;
+        //destPoint = (destPoint + 1) % patrolPoints.Length;
     }
 
     public void FollowCompanionState()
     {
-        controller.animator.SetBool("Patrol", true);
-        controller.navmeshAgent.stoppingDistance = followStoppingDistance;
-        distanceFromTarget = Vector3.Distance(followCompanion.position, transform.position);
+        //controller.animator.SetBool("Patrol", true);
+        //controller.navmeshAgent.stoppingDistance = followStoppingDistance;
+        //distanceFromTarget = Vector3.Distance(followCompanion.position, transform.position);
 
-        if (!controller.IsAnimatorTag("Heavy Charge") || !controller.IsAnimatorTag("Attack") || !controller.IsAnimatorTag("Hit"))
-            EquipWeapon(false);
+        //if (!controller.IsAnimatorTag("Heavy Charge") || !controller.IsAnimatorTag("Attack") || !controller.IsAnimatorTag("Hit"))
+        //    EquipWeapon(false);
 
-        if (enemyTarget != null)
-        {
-            controller.animator.SetBool("Patrol", false);
-            state = State.Pursuit;
-            return;
-        }
+        //if (enemyTarget != null)
+        //{
+        //    controller.animator.SetBool("Patrol", false);
+        //    state = State.Pursuit;
+        //    return;
+        //}
 
-        if (distanceFromTarget <= followStoppingDistance)
-        {
-            GetPivotAngle(followCompanion.position);
-            controller.animator.SetBool("IsMoving", false);
-        }
-        else
-        {
-            if (distanceFromTarget > followStoppingDistance * 1.9f)
-                controller.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
-            else
-                controller.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+        //if (distanceFromTarget <= followStoppingDistance)
+        //{
+        //    GetPivotAngle(followCompanion.position);
+        //    controller.animator.SetBool("IsMoving", false);
+        //}
+        //else
+        //{
+        //    if (distanceFromTarget > followStoppingDistance * 1.9f)
+        //        controller.animator.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+        //    else
+        //        controller.animator.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
 
 
-            if (!controller.baseLayerInfo.IsTag("Pivot"))
-            {
-                Vector3 targetDirection = followCompanion.position - transform.position;
+        //    if (!controller.baseLayerInfo.IsTag("Pivot"))
+        //    {
+        //        Vector3 targetDirection = followCompanion.position - transform.position;
 
-                targetDirection.y = 0;
-                targetDirection.Normalize();
-                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2 * Time.deltaTime);
-            }
+        //        targetDirection.y = 0;
+        //        targetDirection.Normalize();
+        //        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+        //        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2 * Time.deltaTime);
+        //    }
 
-            controller.animator.SetBool("IsMoving", true);
-            if (controller.navmeshAgent.enabled)
-                controller.navmeshAgent.SetDestination(followCompanion.position);
-        }
+        //    controller.animator.SetBool("IsMoving", true);
+        //    if (controller.navmeshAgent.enabled)
+        //        controller.navmeshAgent.SetDestination(followCompanion.position);
+        //}
     }
 
     #endregion
@@ -505,14 +504,15 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
 
         controller.SetDestination(enemyTarget.transform.position);
 
-        controller.RotateWithNavMeshAgent();
+        //controller.RotateWithNavMeshAgent();
+        controller.LookAtTarget(enemyTarget.transform);
 
-        Vector3 targetDirection = enemyTarget.transform.position - transform.position;
+        //Vector3 targetDirection = enemyTarget.transform.position - transform.position;
 
-        targetDirection.y = 0;
-        targetDirection.Normalize();
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2 * Time.deltaTime);
+        //targetDirection.y = 0;
+        //targetDirection.Normalize();
+        //Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2 * Time.deltaTime);
 
         EquipWeapon(true);
 
@@ -521,7 +521,7 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
         if (!controller.animator.GetBool("Pursuit"))
         {
             controller.animator.SetFloat("Vertical", 1);
-            GetPivotAngle(enemyTarget.transform.position);
+            //GetPivotAngle(enemyTarget.transform.position);
             controller.animator.SetBool("Pursuit", true);
         }
 
@@ -548,8 +548,13 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
             #endregion
 
             if (controller.baseLayerInfo.IsName("Combat Stance"))
+            {
+                controller.navmeshAgent.enabled = false;
                 state = State.CombatStance;
+                controller.navmeshAgent.enabled = true;
+            }
         }
+        Debug.Log("ChaseTarget");
     }
 
     void WalkBackToBase()
@@ -567,24 +572,30 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
         // Pivot towards destination 
         if (!controller.baseLayerInfo.IsTag("Pivot"))
         {
-           GetPivotAngle(originalPosition);
-           controller.navmeshAgent.SetDestination(originalPosition);
+            //GetPivotAngle(originalPosition);
+            controller.navmeshAgent.enabled = false;
+            Debug.Log("controller.navmeshAgent: " + originalPosition);
+            controller.LookAtPoint(originalPosition);
+            controller.navmeshAgent.enabled = true;
+            controller.navmeshAgent.SetDestination(originalPosition);
         }
-
-        // Target is in your reach, the chase continues
-        if (enemyTarget != null)
-        {
-            battleStanceDecisionMade = false;
-            controller.navmeshAgent.nextPosition = transform.position;
-            state = State.Pursuit;
-        }
+        //Debug.Log("enemyTarget: " + enemyTarget);
+        //// Target is in your reach, the chase continues
+        //if (enemyTarget != null)
+        //{
+        //    Debug.Log("enemyTarget controller.navmeshAgent: " + originalPosition);
+        //    battleStanceDecisionMade = false;
+        //    controller.navmeshAgent.nextPosition = transform.position;
+        //    state = State.Pursuit;
+        //}
 
         // Once you reach your orignal position change current state to previous
         Vector3 toOriginPosition = originalPosition - transform.position;
         toOriginPosition.y = 0;
-        if (toOriginPosition.sqrMagnitude < 0.01f)
+        if (toOriginPosition.sqrMagnitude < 0.2f)
         {
             state = (State)behaviour;
+            controller.navmeshAgent.enabled = false;
         }
     }
 
@@ -595,15 +606,15 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
             return;
         }
         distanceFromTarget = Vector3.Distance(enemyTarget.transform.position, transform.position);
-        Vector3 targetDirection = enemyTarget.transform.position - transform.position;
+        //Vector3 targetDirection = enemyTarget.transform.position - transform.position;
 
         if (controller.stunned == true)
             state = State.Stunned;
 
         #region Get Pivot Angle
 
-        if (!controller.IsAnimatorTag("Pivot") && (controller.IsAnimatorTag("Attack") || controller.IsAnimatorTag("Aim")))
-            GetPivotAngle(enemyTarget.transform.position);
+        //if (!controller.IsAnimatorTag("Pivot") && (controller.IsAnimatorTag("Attack") || controller.IsAnimatorTag("Aim")))
+        //    GetPivotAngle(enemyTarget.transform.position);
 
         #endregion
 
@@ -618,10 +629,10 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
             controller.SetDestination(enemyTarget.transform.position);
 
             // Extra rotation for strafe
-            targetDirection.y = 0;
-            targetDirection.Normalize();
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2 * Time.deltaTime);
+            //targetDirection.y = 0;
+            //targetDirection.Normalize();
+            //Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 2 * Time.deltaTime);
         }
         else
         {
@@ -641,7 +652,8 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
         }
 
         // Constantly rotating for agent's target direction
-        controller.RotateWithNavMeshAgent();
+        //controller.RotateWithNavMeshAgent();
+        controller.LookAtTarget(enemyTarget.transform);
 
         // Leave the combat stance and chase your target
         bool conditonToPursuit = !controller.IsAnimatorTag("Attack") && !controller.baseLayerInfo.IsName("Aim") 
@@ -654,7 +666,9 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
             if (conditonToPursuit && horizontalMovement == 0)
             {
                 battleStanceDecisionMade = false;
+                controller.navmeshAgent.enabled = false;
                 state = State.Pursuit;
+                controller.navmeshAgent.enabled = false;
             }
         }
         // Too close back up
@@ -693,15 +707,15 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
 
     void RandomCircleAction()
     {
-        horizontalMovement = Mathf.Lerp(horizontalMovement, 0.0f, 80 * Time.deltaTime);
-        // Strafe direction
-        int randomNumber = Random.Range(-100, 100);
-        if (randomNumber > 0)
-            horizontalMovement = 1;
-        else if (randomNumber < 0)
-            horizontalMovement = -1;
-        else if (randomNumber == 0)
-            horizontalMovement = 1;
+        //horizontalMovement = Mathf.Lerp(horizontalMovement, 0.0f, 80 * Time.deltaTime);
+        //// Strafe direction
+        //int randomNumber = Random.Range(-100, 100);
+        //if (randomNumber > 0)
+        //    horizontalMovement = 1;
+        //else if (randomNumber < 0)
+        //    horizontalMovement = -1;
+        //else if (randomNumber == 0)
+        //    horizontalMovement = 1;
     }
 
     void Attack()
@@ -1387,6 +1401,8 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
                 targetDirection.Normalize();
                 Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 4000);
+
+                Debug.Log("-------- StunnedState");
             }
         }
 
