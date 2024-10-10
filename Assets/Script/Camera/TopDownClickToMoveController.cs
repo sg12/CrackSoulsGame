@@ -20,7 +20,7 @@ namespace BLINK.Controller
         public bool Held;
     }
 
-    [RequireComponent(typeof(NavMeshAgent), typeof(ThirdPersonInput))]
+    [RequireComponent(typeof(NavMeshAgent))]
     public class TopDownClickToMoveController : MonoBehaviour
     {
         // REFERENCES
@@ -86,29 +86,28 @@ namespace BLINK.Controller
         private static readonly int Standing = Animator.StringToHash("IsStanding");
         private static readonly int IsStunned = Animator.StringToHash("IsStunned");
 
-        private ThirdPersonInput controlP;
+        public ThirdPersonInput controlP;
 
         private void Awake()
         {
             InitCameraValues();
             InitCamera();
             InitAudio();
-            controlP = GetComponent<ThirdPersonAnimator>();
         }
 
         private void Update()
         {
-            if (NeedBlockAnyAction())
+            if (controlP == null)
+                controlP = GameObject.FindAnyObjectByType<ThirdPersonAnimator>();
+            else
+            {
+                if (controlP.inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
                     return;
+            }
 
             StandingLogic();
             MovementLogic();
             CameraLogic();
-        }
-
-        private bool NeedBlockAnyAction()
-        {
-            return controlP.inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0;
         }
 
         private void LateUpdate()

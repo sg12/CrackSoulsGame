@@ -11,6 +11,7 @@ public class HUDManager : MonoBehaviour
     public int strength;
     public int defence;
     public int agility;
+    public int faith;
 
     [Header("LEVEL")]
     public float curLevel = 1;
@@ -38,14 +39,20 @@ public class HUDManager : MonoBehaviour
     public TextMeshProUGUI hpCounterText;
     public Slider epSliderStat;
     public TextMeshProUGUI epCounterText;
+    public Slider mpSliderStat;
+    public TextMeshProUGUI mpCounterText;
     public TextMeshProUGUI strengthText;
     public TextMeshProUGUI defenceText;
     public TextMeshProUGUI agilityText;
+    public TextMeshProUGUI faithText;
+
 
     [HideInInspector] public float curHealth;
     [HideInInspector] public float maxHealth = 100f;
     public float curEnegry;
     public float maxEnegry = 100f;
+    public float curMana;
+    public float maxMana = 100f;
 
     [Header("HEALTH UI/ENEGRY UI")]
     public Slider healthSlider;
@@ -54,6 +61,9 @@ public class HUDManager : MonoBehaviour
     public Slider enegrySlider;
     public Slider enegrySliderGhost;
     public Image enegryGlow;
+    public Slider manaSlider;
+    public Slider manaSliderGhost;
+    public Image manaGlow;
     public bool canCharge;
     public Color minGlow = new Color32(255, 255, 255, 102);
     public Color maxGlow = new Color32(255, 255, 255, 204);
@@ -131,6 +141,7 @@ public class HUDManager : MonoBehaviour
     {
         curHealth = maxHealth;
         curEnegry = maxEnegry;
+        curMana = maxMana;
         expRequired += 140 * curLevel * 2;
 
         // Get Components
@@ -286,9 +297,11 @@ public class HUDManager : MonoBehaviour
         // Player Stats
         hpCounterText.text = curHealth + "/" + maxHealth;
         epCounterText.text = curEnegry + "/" + maxEnegry;
-        strengthText.text = "STRENGTH: " + strength;
-        defenceText.text = "DEFENCE: " + defence;
-        agilityText.text = "AGILITY: " + agility;
+        mpCounterText.text = curMana + "/" + maxMana;
+        strengthText.text = "Сила: " + strength;
+        defenceText.text = "Броня: " + defence;
+        agilityText.text = "Ловкость: " + agility;
+        faithText.text = "Вера: " + faith;
 
         if (curExp >= expRequired)
         {
@@ -635,6 +648,8 @@ public class HUDManager : MonoBehaviour
         else { healthGlow.color = minGlow; }
         if (Mathf.Abs(enegrySlider.value - maxEnegry) < 0.35) { enegryGlow.color = Color.Lerp(minGlow, maxGlow, Mathf.PingPong(Time.time, 1)); }
         else { enegryGlow.color = minGlow; }
+        if (Mathf.Abs(manaSlider.value - maxMana) < 0.35) { manaGlow.color = Color.Lerp(minGlow, maxGlow, Mathf.PingPong(Time.time, 1)); }
+        else { enegryGlow.color = minGlow; }
 
         // MAX VALUE SLIDER
         if (levelSlider.maxValue != expRequired)
@@ -653,6 +668,8 @@ public class HUDManager : MonoBehaviour
             healthSliderGhost.value = Mathf.Lerp(healthSliderGhost.value, curHealth, 15 * Time.fixedDeltaTime);
         if (Mathf.Abs(enegrySlider.value - curEnegry) < 0.35f)
             enegrySliderGhost.value = Mathf.Lerp(enegrySliderGhost.value, curEnegry, 15 * Time.fixedDeltaTime);
+        if (Mathf.Abs(manaSlider.value - curMana) < 0.35f)
+            manaSliderGhost.value = Mathf.Lerp(manaSliderGhost.value, curMana, 15 * Time.fixedDeltaTime);
 
         // LEVEL SLIDER
         levelSlider.value = Mathf.Lerp(levelSlider.value, curExp, 15 * Time.fixedDeltaTime);
@@ -670,6 +687,7 @@ public class HUDManager : MonoBehaviour
         // PLAYER STATS SLIDER
         hpSliderStat.value = Mathf.Lerp(hpSliderStat.value, curHealth, 15 * Time.fixedDeltaTime);
         epSliderStat.value = Mathf.Lerp(epSliderStat.value, curEnegry, 15 * Time.fixedDeltaTime);
+        mpSliderStat.value = Mathf.Lerp(mpSliderStat.value, curMana, 15 * Time.fixedDeltaTime);
 
 
         bool conditionsToCharge = cc.IsAnimatorTag("Light Attack") || cc.IsAnimatorTag("Heavy Attack") 

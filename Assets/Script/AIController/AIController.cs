@@ -124,8 +124,6 @@ public class AIController : MonoBehaviour
 
         if (grounded && navmeshAgent && !m_UnderExternalForce)
         {
-            //navmeshAgent.updatePosition = false;
-            //navmeshAgent.updatePosition = true;
             //Debug.Log("nextPosition: " + navmeshAgent.nextPosition);
             transform.position = navmeshAgent.nextPosition;
             //navmeshAgent.velocity = (animator.deltaPosition / Time.deltaTime);
@@ -220,25 +218,19 @@ public class AIController : MonoBehaviour
 
     public bool SetDestination(Vector3 position)
     {
-        //Debug.Log("---SetDestination: " + position);
         if (!navmeshAgent.enabled) return false;        
         return navmeshAgent.SetDestination(position);
     }
 
     public void RotateWithNavMeshAgent()
     {
-        //transform.rotation = Quaternion.Slerp(transform.rotation, navmeshAgent.transform.rotation,
-        //    navmeshAgent.angularSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, navmeshAgent.transform.rotation,
+            navmeshAgent.angularSpeed * Time.deltaTime);
     }
 
     public void LookAtTarget(Transform transformTarget)
     {
         transform.LookAt(transformTarget);
-    }
-
-    public void LookAtPoint(Vector3 point)
-    {
-        transform.LookAt(point);
     }
 
     public void CheckGrounded()
