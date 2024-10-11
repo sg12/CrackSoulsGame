@@ -102,7 +102,7 @@ namespace BLINK.Controller
             if (NeedBlockAnyAction())
                     return;
 
-            StandingLogic();
+            StandingLogic(); 
             MovementLogic();
             CameraLogic();
             EnemyClickMovement();
