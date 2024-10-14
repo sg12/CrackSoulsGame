@@ -33,8 +33,8 @@ namespace BLINK.Controller
             GUILayout.Space(5);
             
             //added layer
-            REF.enemyLayer = EditorGUILayout.LayerField(GetGUIContent("Enemy Layer:", "The layer that defines the enemy"),
-                REF.enemyLayer);
+            //REF.enemyLayer = EditorGUILayout.LayerField(GetGUIContent("Enemy Layer:", "The layer that defines the enemy"),
+                //REF.enemyLayer);
 
             REF.cameraAudio = (AudioSource) EditorGUILayout.ObjectField(GetGUIContent("Audio Source:", "The audio source used by the character controller"),
                 REF.cameraAudio, typeof(AudioSource), true);

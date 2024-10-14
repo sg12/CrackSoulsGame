@@ -28,7 +28,7 @@ namespace BLINK.Controller
         public Animator anim;
         private static readonly int IsMoving = Animator.StringToHash("isMoving");
         public NavMeshAgent agent;
-        public LayerMask enemyLayer;
+        //public LayerMask enemyLayer;
         
         // CAMERA
         public Camera playerCamera;
@@ -105,7 +105,7 @@ namespace BLINK.Controller
             StandingLogic(); 
             MovementLogic();
             CameraLogic();
-            EnemyClickMovement();
+            //EnemyClickMovement();
         }
 
         private bool NeedBlockAnyAction()
@@ -196,6 +196,7 @@ namespace BLINK.Controller
             PlayGroundPathAudio(validClick);
         }
 
+        /*
         private void EnemyClickMovement()
         {
             if (Input.GetKeyDown(moveKey))
@@ -239,6 +240,7 @@ namespace BLINK.Controller
                 }
             }
         }
+        */
 
         
         
