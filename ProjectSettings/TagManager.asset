@@ -17,6 +17,7 @@ TagManager:
   - QuestPosPrefab
   - Environment
   - Terrain
+  - Enemy
   layers:
   - Default
   - TransparentFX

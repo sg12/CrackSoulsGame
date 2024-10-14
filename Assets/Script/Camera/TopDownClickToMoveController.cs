@@ -28,7 +28,6 @@ namespace BLINK.Controller
         public Animator anim;
         private static readonly int IsMoving = Animator.StringToHash("isMoving");
         public NavMeshAgent agent;
-        //public LayerMask enemyLayer;
         
         // CAMERA
         public Camera playerCamera;
@@ -105,7 +104,7 @@ namespace BLINK.Controller
             StandingLogic(); 
             MovementLogic();
             CameraLogic();
-            //EnemyClickMovement();
+           
         }
 
         private bool NeedBlockAnyAction()
@@ -196,54 +195,7 @@ namespace BLINK.Controller
             PlayGroundPathAudio(validClick);
         }
 
-        /*
-        private void EnemyClickMovement()
-        {
-            if (Input.GetKeyDown(moveKey))
-            {
-                if (IsPointerOverUIObject()) return; 
-
-                Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit, maxGroundRaycastDistance))
-                {
-                    GameObject hitObject = hit.collider.gameObject;
-                    int hitLayer = hitObject.layer;
-
-                    //слой врага
-                    if (((1 << hitLayer) & enemyLayer) != 0)
-                    {
-                        Vector3 destination = hit.point;
-
-                        if (IsPathAllowed(destination))
-                        {
-                            TriggerNewDestination(destination);
-                        }
-                        else
-                        {
-                            ValidCoordinate newResult = closestAllowedDestination(destination);
-                            if (newResult.Valid)
-                            {
-                                destination = newResult.ValidPoint;
-                                TriggerNewDestination(destination);
-                            }
-                            else
-                            {
-                                // Точка недостижима
-                                return;
-                            }
-                        }
-
-                        // доп логика
-                    }
-                }
-            }
-        }
-        */
-
-        
-        
+       
         private void CameraLogic()
         {
             if (!cameraEnabled) return;
