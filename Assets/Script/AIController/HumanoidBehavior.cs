@@ -554,7 +554,7 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
                 controller.navmeshAgent.enabled = true;
             }
         }
-        Debug.Log("ChaseTarget");
+        //Debug.Log("ChaseTarget");
     }
 
     void WalkBackToBase()
@@ -574,7 +574,7 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
         {
             //GetPivotAngle(originalPosition);
             controller.navmeshAgent.enabled = false;
-            Debug.Log("controller.navmeshAgent: " + originalPosition);
+            //Debug.Log("controller.navmeshAgent: " + originalPosition);
             controller.LookAtPoint(originalPosition);
             controller.navmeshAgent.enabled = true;
             controller.navmeshAgent.SetDestination(originalPosition);

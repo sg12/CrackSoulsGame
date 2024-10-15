@@ -86,6 +86,10 @@ namespace RPGAE.CharacterController
             rpgaeIM.PlayerControls.Strafe.performed += context => cc.isStrafing = true;
             rpgaeIM.PlayerControls.Strafe.canceled += context => cc.isStrafing = false;
 
+            //rpgaeIM.PlayerControls.RightClick.started += context => cc.isRightClicking = true;
+            //rpgaeIM.PlayerControls.RightClick.performed += context => cc.isRightClicking = true;
+            //rpgaeIM.PlayerControls.RightClick.canceled += context => cc.isRightClicking = false;
+
             wpnHolster = GameObject.Find("PlayerHolster").GetComponent<WeaponHolster>();
 
             if (cc != null)
@@ -216,7 +220,8 @@ namespace RPGAE.CharacterController
         void InputHandle()
         {
             MoveInput();
-            SprintInput();
+            ShiftInput();
+            //SprintInput();
             CameraInput();
             cc.Dodging();
             LockOnInput();
@@ -240,6 +245,16 @@ namespace RPGAE.CharacterController
             //cc.input.x = rpgaeIM.PlayerControls.Movement.ReadValue<Vector2>().x;
             //cc.input.z = rpgaeIM.PlayerControls.Movement.ReadValue<Vector2>().y;
             //cc.input.Normalize();
+        }
+
+        protected void ShiftInput()
+        {
+            bool conditiions = !inventoryM.isPauseMenuOn;
+
+            if (sprintButton && cc.input.magnitude > 0.1f && conditiions)
+                cc.Sprint(true);
+            else
+                cc.Sprint(false);
         }
 
         protected void SprintInput()
@@ -274,6 +289,10 @@ namespace RPGAE.CharacterController
 
         void Update()
         {
+            //Debug.Log("attackButton: " + attackButton);
+            //Debug.Log("isAiming: " + cc.isAiming);
+            //Debug.Log("isStrafing: " + cc.isStrafing);
+            //Debug.Log("isStrafing: " + cc.isSheathing);
             InputHandle();      
             cc.ActionUpdate();
             cc.UpdateMotor();             

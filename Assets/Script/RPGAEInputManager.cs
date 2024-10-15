@@ -146,6 +146,15 @@ public partial class @RPGAEInputManager: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""RightClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""13aa54c9-9ac7-4907-80c9-6caff5cea9e7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""DPadLeft"",
                     ""type"": ""Button"",
                     ""id"": ""4d2aa3c9-4f7a-4132-92ae-a477c5155634"",
@@ -665,6 +674,17 @@ public partial class @RPGAEInputManager: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""3d1a0121-59c7-48cc-a73f-f322fce39236"",
                     ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3da80e58-43e4-49b8-942a-9828fa9d14d4"",
+                    ""path"": ""<Keyboard>/7"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -1202,6 +1222,7 @@ public partial class @RPGAEInputManager: IInputActionCollection2, IDisposable
         m_PlayerControls_Throw = m_PlayerControls.FindAction("Throw", throwIfNotFound: true);
         m_PlayerControls_Projectile = m_PlayerControls.FindAction("Projectile", throwIfNotFound: true);
         m_PlayerControls_Sprint = m_PlayerControls.FindAction("Sprint", throwIfNotFound: true);
+        m_PlayerControls_RightClick = m_PlayerControls.FindAction("RightClick", throwIfNotFound: true);
         // UICursor
         m_UICursor = asset.FindActionMap("UICursor", throwIfNotFound: true);
         m_UICursor_Point = m_UICursor.FindAction("Point", throwIfNotFound: true);
@@ -1294,6 +1315,7 @@ public partial class @RPGAEInputManager: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControls_Throw;
     private readonly InputAction m_PlayerControls_Projectile;
     private readonly InputAction m_PlayerControls_Sprint;
+    private readonly InputAction m_PlayerControls_RightClick;
     public struct PlayerControlsActions
     {
         private @RPGAEInputManager m_Wrapper;
@@ -1318,6 +1340,8 @@ public partial class @RPGAEInputManager: IInputActionCollection2, IDisposable
         public InputAction @Throw => m_Wrapper.m_PlayerControls_Throw;
         public InputAction @Projectile => m_Wrapper.m_PlayerControls_Projectile;
         public InputAction @Sprint => m_Wrapper.m_PlayerControls_Sprint;
+        public InputAction @RightClick => m_Wrapper.m_PlayerControls_RightClick;
+
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1387,6 +1411,9 @@ public partial class @RPGAEInputManager: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @RightClick.started += instance.OnRightClick;
+            @RightClick.performed += instance.OnRightClick;
+            @RightClick.canceled += instance.OnRightClick;
         }
 
         private void UnregisterCallbacks(IPlayerControlsActions instance)
@@ -1451,6 +1478,9 @@ public partial class @RPGAEInputManager: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @RightClick.started -= instance.OnRightClick;
+            @RightClick.performed -= instance.OnRightClick;
+            @RightClick.canceled -= instance.OnRightClick;
         }
 
         public void RemoveCallbacks(IPlayerControlsActions instance)
@@ -1579,6 +1609,7 @@ public partial class @RPGAEInputManager: IInputActionCollection2, IDisposable
         void OnThrow(InputAction.CallbackContext context);
         void OnProjectile(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnRightClick(InputAction.CallbackContext context);
     }
     public interface IUICursorActions
     {
