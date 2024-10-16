@@ -1927,14 +1927,10 @@ namespace RPGAE.CharacterController
 
         void BowAndArrowAttack()
         {
-            //Debug.Log("CombatManagement - BowAndArrowAttack");
-            //Debug.Log("CombatManagement - cc.weaponArmsID: " + cc.weaponArmsID);
             if (cc.weaponArmsID != 6) return;
-            //Debug.Log("CombatManagement - isStrafing: " + isStrafing);
-            //Debug.Log("CombatManagement - cc.rightArmdInfo-WeaponArms: " + cc.rightArmdInfo.IsTag("WeaponArms"));
-            if (isStrafing && cc.rightArmdInfo.IsTag("WeaponArms"))
+
+            if (attackButton && cc.rightArmdInfo.IsTag("WeaponArms"))
             {
-                //Debug.Log("CombatManagement - wpnHolster.SecondaryActive(): " + wpnHolster.SecondaryActive());
                 if (wpnHolster.SecondaryActive() && cc.weaponArmsID == 6)
                 {
                     ItemData itemData = wpnHolster.secondaryE.GetComponent<ItemData>();
@@ -1946,22 +1942,28 @@ namespace RPGAE.CharacterController
                     Quaternion aimLookPoint = Quaternion.LookRotation(aimDirection.normalized);
                     Vector3 arrowSpawnPoint = wpnHolster.arrowPrefabSpot.transform.position;
 
-                    if (cc.rpgaeIM.PlayerControls.Attack.triggered &&
-                    inventoryM.bowAndArrowInv.counter[inventoryM.bowAndArrowInv.slotArrowEquipped] > 0)
+                    if (inventoryM.bowAndArrowInv.counter[inventoryM.bowAndArrowInv.slotArrowEquipped] > 0)
                         isAiming = true;
                     else if (inventoryM.bowAndArrowInv.counter[inventoryM.bowAndArrowInv.slotArrowEquipped] < 1)
                     {
-                        wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetBool("Draw", false);
-                        wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetFloat("DrawPower", 0);
+                        //wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetBool("Draw", false);
+                        //wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetFloat("DrawPower", 0);
                         isAiming = false;
                     }
-                    Debug.Log("CombatManagement - isAiming: " + isAiming);
                     cc.DrawingBowAnimation();
-
-                    if (wpnHolster.ArrowOnStringActive() && !wpnHolster.ArrowActive() && isAiming)
+                    Debug.Log("wpnHolster.ArrowOnStringActive(): " + wpnHolster.ArrowOnStringActive());
+                    Debug.Log("!wpnHolster.ArrowActive(): " + !wpnHolster.ArrowActive());
+                    Debug.Log("isAiming: " + isAiming);
+                    //if (wpnHolster.ArrowOnStringActive() && !wpnHolster.ArrowActive() && isAiming)
+                    if (wpnHolster.ArrowOnStringActive() && isAiming)
                     {
-                        if (!cc.upperBodyInfo.IsName("Reload") && !isReloading && !attackButton && cc.drawPower > 0)
+                        Debug.Log("!cc.upperBodyInfo.IsName(Reload): " + !cc.upperBodyInfo.IsName("Reload"));
+                        Debug.Log("isReloading: " + isReloading);
+                        Debug.Log("cc.drawPower: " + cc.drawPower);
+                        //if (!cc.upperBodyInfo.IsName("Reload") && !isReloading && !attackButton && cc.drawPower > 0)
+                        if (!isReloading && cc.drawPower > 0)
                         {
+                            Debug.Log("itemData.bowRange.shotAmount: " + itemData.bowRange.shotAmount);
                             for (int i = 0; i < itemData.bowRange.shotAmount; i++)
                             {
                                 GameObject arrow = Instantiate(wpnHolster.arrowD, arrowSpawnPoint, aimLookPoint) as GameObject;
@@ -1987,6 +1989,8 @@ namespace RPGAE.CharacterController
                             isReloading = true;
                             if (wpnHolster.arrowString)
                                 wpnHolster.arrowString.SetActive(false);
+
+                            cc.DrawingBowAnimation();
                         }
                     }
                 }
@@ -1994,8 +1998,8 @@ namespace RPGAE.CharacterController
             else
             {
                 isAiming = false;
-                wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetBool("Draw", false);
-                wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetFloat("DrawPower", 0);
+                //wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetBool("Draw", false);
+                //wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetFloat("DrawPower", 0);
             }
         }
 

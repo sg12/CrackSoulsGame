@@ -208,16 +208,16 @@ namespace RPGAE.CharacterController
             if (attackButton && isAiming && !isReloading)
             {
                 rightHandWeight = drawPower;
-                drawPower += 2 * Time.deltaTime;
+                drawPower += 10 * Time.deltaTime;
             }
-            if (!attackButton && isAiming)
-            {
-                rightHandWeight = 0;
-                if (cc.upperBodyInfo.IsName("Shoot"))
-                {
-                    drawPower -= 4 * Time.deltaTime;
-                }
-            }
+            //if (!attackButton && isAiming)
+            //{
+            //    rightHandWeight = 0;
+            //    if (cc.upperBodyInfo.IsName("Shoot"))
+            //    {
+            //        drawPower -= 4 * Time.deltaTime;
+            //    }
+            //}
             lookWeight = drawPower;
             drawPower = Mathf.Clamp(drawPower, 0, 1);
 

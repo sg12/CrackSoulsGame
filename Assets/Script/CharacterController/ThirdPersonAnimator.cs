@@ -381,7 +381,8 @@ namespace RPGAE.CharacterController
             #endregion
 
             #region Reload
-
+            //Debug.Log("upperBodyInfo.IsName Reload: " + upperBodyInfo.IsName("Reload"));
+            //Debug.Log("upperBodyInfo.normalizedTime: " + upperBodyInfo.normalizedTime);
             if (upperBodyInfo.IsName("Reload"))
             {
                 // disbale muzzzle flash for gun
