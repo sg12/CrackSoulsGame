@@ -165,9 +165,17 @@ namespace BLINK.Controller
 
         private void MovementLogic()
         {
-            //  проверка флага enemyClicked
-            if (!movementEnabled || stunned || IsPointerOverUIObject() || ClickToAttackController.enemyClicked)
+            // Проверка флагов для блокировки действий
+            if (!movementEnabled || stunned || IsPointerOverUIObject() || ClickToAttackController.enemyClicked || ClickToAttackController.attackOnClickWithShift)
+            {
+                // Остановить агента, если выполняется лёгкий удар с зажатым Shift
+                if (ClickToAttackController.attackOnClickWithShift && agent != null)
+                {
+                    agent.isStopped = true;
+                    agent.ResetPath();
+                }
                 return;
+            }
 
             if (IsStanding()) return;
 
@@ -196,12 +204,27 @@ namespace BLINK.Controller
                 }
             }
 
+            // Если зажат Shift и клик, то не устанавливаем новую точку назначения
+            if (ClickToAttackController.attackOnClickWithShift)
+            {
+                // Персонаж выполняет лёгкий удар, перемещение не требуется
+                if (agent != null)
+                {
+                    agent.isStopped = true;
+                    agent.ResetPath();
+                }
+                return;
+            }
+
             TriggerNewDestination(destination);
 
             if (!alwaysTriggerGroundPathFeedback && moveInputType.Held) return;
             SpawnGroundPathMarker(destination, validClick);
             PlayGroundPathAudio(validClick);
         }
+
+
+
 
        
         private void CameraLogic()

@@ -8,7 +8,7 @@ namespace BLINK.Controller
     public class ClickToAttackController : MonoBehaviour
     {
         public static bool enemyClicked = false;
-
+        public static bool attackOnClickWithShift = false;
         
         private NavMeshAgent agent;
         private Transform attackTarget;
@@ -63,38 +63,59 @@ namespace BLINK.Controller
         
         private void LateUpdate()
         {
-            // сбрасывание флага в конце кадра
+            // Сброс флага в конце кадра
             enemyClicked = false;
+            // attackOnClickWithShift не сбрасываем здесь
         }
+
         
         private void HandleAttackClick()
         {
-            // проверка на нажатие по UI
+            //проверка на нажатие по UI
             if (IsPointerOverUIObject())
             {
                 Debug.Log("ЛКМ нажата по UI элементу.");
                 return;
             }
-            
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            
+
             if (Physics.Raycast(ray, out hit, 100f))
             {
-                // Получение компонента Interactable, который висит на врагах
+                //проверка, зажат ли левый Shift
+                bool isShiftHeld = Input.GetKey(KeyCode.LeftShift);
+
+                if (isShiftHeld)
+                {
+                    //клик с зажатым Shift
+                    attackOnClickWithShift = true;
+                    Debug.Log("Выполняется лёгкий удар.");
+                    
+                    //остановить любое текущее движение
+                    if (agent != null)
+                    {
+                        agent.ResetPath();
+                        agent.isStopped = true;
+                    }
+
+                    return;
+                }
+
+                //получение компонента Interactable, который висит на врагах
                 Interactable interactable = hit.transform.GetComponent<Interactable>() ?? hit.transform.GetComponentInParent<Interactable>();
                 if (interactable != null && interactable.interactionType == InteractableType.Enemy)
                 {
-                    // устанавливаем флаг, что клик был по врагу
+                    //устанавливаем флаг, что клик был по врагу
                     enemyClicked = true;
 
                     Debug.Log($"Враг кликнут: {interactable.gameObject.name}");
                     attackTarget = interactable.transform;
 
-                    // установка stopping distance для атаки
+                    //установка stopping distance для атаки
                     agent.stoppingDistance = enemyStoppingDistance;
 
-                    // установка цели с учётом attackDistance
+                    //установка цели с учётом attackDistance
                     SetDestinationWithAttackDistance(attackTarget.position);
                     isAttacking = true;
                 }
@@ -102,18 +123,22 @@ namespace BLINK.Controller
                 {
                     Debug.Log("Кликнутый объект не имеет компонента Interactable типа Enemy.");
 
-                    // если клик не по врагу, то устанавливается стандартная дистанция
+                    //если клик не по врагу, то устанавливается стандартная дистанция и перемещение
                     agent.stoppingDistance = defaultStoppingDistance;
+                    SetDestinationWithAttackDistance(hit.point);
+                    isAttacking = true;
                 }
             }
             else
             {
                 Debug.Log("ЛКМ кликнула по недостижимой позиции или не по врагу.");
 
-                // если клик не по врагу, то устанавливается стандартная дистанция
+                //если клик не по врагу, то устанавливается стандартная дистанция и перемещение
                 agent.stoppingDistance = defaultStoppingDistance;
             }
         }
+
+
         
         private void SetDestinationWithAttackDistance(Vector3 targetPosition)
         {
