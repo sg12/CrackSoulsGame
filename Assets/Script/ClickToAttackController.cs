@@ -7,6 +7,9 @@ namespace BLINK.Controller
 {
     public class ClickToAttackController : MonoBehaviour
     {
+        public static bool enemyClicked = false;
+
+        
         private NavMeshAgent agent;
         private Transform attackTarget;
         
@@ -58,6 +61,12 @@ namespace BLINK.Controller
             }
         }
         
+        private void LateUpdate()
+        {
+            // сбрасывание флага в конце кадра
+            enemyClicked = false;
+        }
+        
         private void HandleAttackClick()
         {
             // проверка на нажатие по UI
@@ -76,6 +85,9 @@ namespace BLINK.Controller
                 Interactable interactable = hit.transform.GetComponent<Interactable>() ?? hit.transform.GetComponentInParent<Interactable>();
                 if (interactable != null && interactable.interactionType == InteractableType.Enemy)
                 {
+                    // устанавливаем флаг, что клик был по врагу
+                    enemyClicked = true;
+
                     Debug.Log($"Враг кликнут: {interactable.gameObject.name}");
                     attackTarget = interactable.transform;
 
@@ -97,7 +109,7 @@ namespace BLINK.Controller
             else
             {
                 Debug.Log("ЛКМ кликнула по недостижимой позиции или не по врагу.");
-                
+
                 // если клик не по врагу, то устанавливается стандартная дистанция
                 agent.stoppingDistance = defaultStoppingDistance;
             }

@@ -165,15 +165,23 @@ namespace BLINK.Controller
 
         private void MovementLogic()
         {
-            if (!movementEnabled || stunned || IsPointerOverUIObject()) return;
+            //  проверка флага enemyClicked
+            if (!movementEnabled || stunned || IsPointerOverUIObject() || ClickToAttackController.enemyClicked)
+                return;
+
             if (IsStanding()) return;
+
             MoveInputType moveInputType = MovingInput();
             if (!moveInputType.Valid) return;
+
             if (!Physics.Raycast(playerCamera.ScreenPointToRay(Input.mousePosition), out var hit,
-                maxGroundRaycastDistance, groundLayers)) return;
+                    maxGroundRaycastDistance, groundLayers)) return;
+
             var destination = hit.point;
             bool validClick = true;
+
             if (IsPathTooClose(destination)) return;
+
             if (!IsPathAllowed(destination))
             {
                 ValidCoordinate newResult = closestAllowedDestination(destination);

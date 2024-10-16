@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine;
+using BLINK.Controller;
 
 namespace RPGAE.CharacterController
 {
     public class ThirdPersonMotor : ThirdPersonInput, DamageReceiver
     {
+        
         #region General Settings 
 
         [Header("MOVEMENT SETTINGS")]
@@ -1785,6 +1787,13 @@ namespace RPGAE.CharacterController
 
         void CombatManagement()
         {
+            //проверка, был ли клик по врагу
+            if (!ClickToAttackController.enemyClicked)
+            {
+                attackPower = 0;
+                return;
+            }
+
             if (attackButton == false)
                 preventAtkInteruption = false;
             if (inventoryM.isPauseMenuOn || !inventoryM.ConditionsToOpenMenu() || isSwimming || cc.IsAnimatorTag("Carry") || 
@@ -1797,8 +1806,8 @@ namespace RPGAE.CharacterController
             if (grounded && attackButton)
             {
                 bool conditionsToUnarmedAttack = !wpnHolster.PrimaryWeaponHActive()
-                    && !wpnHolster.PrimaryWeaponActive() && !wpnHolster.SecondaryActive() 
-                    && !wpnHolster.ShieldHActive() && !wpnHolster.ShieldActive();
+                                                 && !wpnHolster.PrimaryWeaponActive() && !wpnHolster.SecondaryActive() 
+                                                 && !wpnHolster.ShieldHActive() && !wpnHolster.ShieldActive();
                 if (conditionsToUnarmedAttack)
                     attackPower += Time.deltaTime;
 
@@ -1822,6 +1831,7 @@ namespace RPGAE.CharacterController
             BowAndArrowAttack();
             GunAttack();
         }
+
 
         void LightAttack()
         {
