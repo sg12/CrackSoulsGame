@@ -18,7 +18,7 @@ namespace RPGAE.CharacterController
         [HideInInspector]
         public bool attackButton;
         [HideInInspector]
-        public bool sprintButton;
+        public bool shiftButton;
         [HideInInspector]
         public bool cursorButton;
         [HideInInspector]
@@ -74,9 +74,9 @@ namespace RPGAE.CharacterController
             animator = GetComponentInChildren<Animator>();
             itemObtained = FindObjectOfType<ItemObtained>();
 
-            rpgaeIM.PlayerControls.Sprint.started += context => sprintButton = true;
-            rpgaeIM.PlayerControls.Sprint.performed += context => sprintButton = true;
-            rpgaeIM.PlayerControls.Sprint.canceled += context => sprintButton = false;
+            rpgaeIM.PlayerControls.Sprint.started += context => shiftButton = true;
+            rpgaeIM.PlayerControls.Sprint.performed += context => shiftButton = true;
+            rpgaeIM.PlayerControls.Sprint.canceled += context => shiftButton = false;
 
             rpgaeIM.PlayerControls.Attack.started += context => attackButton = true;
             rpgaeIM.PlayerControls.Attack.performed += context => attackButton = true;
@@ -85,6 +85,10 @@ namespace RPGAE.CharacterController
             rpgaeIM.PlayerControls.Strafe.started += context => cc.isStrafing = true;
             rpgaeIM.PlayerControls.Strafe.performed += context => cc.isStrafing = true;
             rpgaeIM.PlayerControls.Strafe.canceled += context => cc.isStrafing = false;
+
+            //rpgaeIM.PlayerControls.RightClick.started += context => cc.isRightClicking = true;
+            //rpgaeIM.PlayerControls.RightClick.performed += context => cc.isRightClicking = true;
+            //rpgaeIM.PlayerControls.RightClick.canceled += context => cc.isRightClicking = false;
 
             wpnHolster = GameObject.Find("PlayerHolster").GetComponent<WeaponHolster>();
 
@@ -216,7 +220,8 @@ namespace RPGAE.CharacterController
         void InputHandle()
         {
             MoveInput();
-            SprintInput();
+            ShiftInput();
+            //SprintInput();
             CameraInput();
             cc.Dodging();
             LockOnInput();
@@ -242,11 +247,21 @@ namespace RPGAE.CharacterController
             //cc.input.Normalize();
         }
 
+        protected void ShiftInput()
+        {
+            bool conditiions = !inventoryM.isPauseMenuOn;
+
+            if (shiftButton && cc.input.magnitude > 0.1f && conditiions)
+                cc.Sprint(true);
+            else
+                cc.Sprint(false);
+        }
+
         protected void SprintInput()
         {
             bool conditiions = !inventoryM.isPauseMenuOn;
 
-            if (sprintButton && cc.input.magnitude > 0.1f && conditiions)
+            if (shiftButton && cc.input.magnitude > 0.1f && conditiions)
                 cc.Sprint(true);
             else
                 cc.Sprint(false);
@@ -274,6 +289,10 @@ namespace RPGAE.CharacterController
 
         void Update()
         {
+            //Debug.Log("attackButton: " + attackButton);
+            //Debug.Log("isAiming: " + cc.isAiming);
+            //Debug.Log("isStrafing: " + cc.isStrafing);
+            //Debug.Log("isStrafing: " + cc.isSheathing);
             InputHandle();      
             cc.ActionUpdate();
             cc.UpdateMotor();             

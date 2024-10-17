@@ -135,17 +135,17 @@ public class AIController : MonoBehaviour
 
     void LayerInfo()
     {
-        animator.SetLayerWeight(1, faceLayerWeight);
-        animator.SetLayerWeight(2, leftArmLayerWeight);
-        animator.SetLayerWeight(3, rightArmLayerWeight);
-        animator.SetLayerWeight(4, upperBodyWeight);
-        animator.SetLayerWeight(5, fullBodyWeight);
-        baseLayerInfo = animator.GetCurrentAnimatorStateInfo(0);
-        faceLayerInfo = animator.GetCurrentAnimatorStateInfo(1);
-        leftArmdInfo = animator.GetCurrentAnimatorStateInfo(2);
-        rightArmdInfo = animator.GetCurrentAnimatorStateInfo(3);
-        upperBodyInfo = animator.GetCurrentAnimatorStateInfo(4);
-        fullBodyInfo = animator.GetCurrentAnimatorStateInfo(5);
+        //animator.SetLayerWeight(1, faceLayerWeight);
+        //animator.SetLayerWeight(2, leftArmLayerWeight);
+        //animator.SetLayerWeight(3, rightArmLayerWeight);
+        //animator.SetLayerWeight(4, upperBodyWeight);
+        //animator.SetLayerWeight(5, fullBodyWeight);
+        //baseLayerInfo = animator.GetCurrentAnimatorStateInfo(0);
+        //faceLayerInfo = animator.GetCurrentAnimatorStateInfo(1);
+        //leftArmdInfo = animator.GetCurrentAnimatorStateInfo(2);
+        //rightArmdInfo = animator.GetCurrentAnimatorStateInfo(3);
+        //upperBodyInfo = animator.GetCurrentAnimatorStateInfo(4);
+        //fullBodyInfo = animator.GetCurrentAnimatorStateInfo(5);
     }
 
     public bool IsAnimatorTag(string tag)

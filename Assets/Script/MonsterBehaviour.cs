@@ -125,7 +125,8 @@ public class MonsterBehaviour : MonoBehaviour
     #region Idle
     private void IdleState()
     {
-        controller.animator.SetFloat("Vertical", 0);
+        //controller.animator.SetFloat("Vertical", 0);
+        controller.animator.SetTrigger("Idle");
     }
     #endregion
 

@@ -566,6 +566,7 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
 
         // Pivot towards destination 
         if (!controller.baseLayerInfo.IsTag("Pivot"))
+//<<<<<<< HEAD
         {
            GetPivotAngle(originalPosition);
            controller.navmeshAgent.SetDestination(originalPosition);
@@ -577,6 +578,15 @@ public class HumanoidBehavior : MonoBehaviour, DamageReceiver
             battleStanceDecisionMade = false;
             controller.navmeshAgent.nextPosition = transform.position;
             state = State.Pursuit;
+//=======
+//        {
+//            //GetPivotAngle(originalPosition);
+//            controller.navmeshAgent.enabled = false;
+//            //Debug.Log("controller.navmeshAgent: " + originalPosition);
+//            controller.LookAtPoint(originalPosition);
+//            controller.navmeshAgent.enabled = true;
+//            controller.navmeshAgent.SetDestination(originalPosition);
+//>>>>>>> WOR-135-distant-attack-and-rotate
         }
 
         // Once you reach your orignal position change current state to previous

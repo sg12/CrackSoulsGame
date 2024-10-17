@@ -181,17 +181,18 @@ namespace RPGAE.CharacterController
             {
                 // AIM REFERENCE TO CAMERA FORWARD
                 aimReference.position = Vector3.Lerp(aimReference.position, lookPosition, 100 * Time.deltaTime);
-
+                aimReference.position = transform.forward * 100f;
+                //Debug.Log("aimReference.position: " + aimReference.position);
                 weaponAimIK.LookAt(aimReference.position);
 
                 if (cc.weaponArmsID == 6)
                     rightHandIKTarget.position = wpnHolster.bowString.transform.position;
 
                 // PLAYER ROTATION TOWARDS AIM REFERENCE
-                Vector3 targetDirection = tpCam.transform.TransformDirection(Vector3.forward);
-                targetDirection.y = 0;
-                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 60 * Time.deltaTime);
+                //Vector3 targetDirection = tpCam.transform.TransformDirection(Vector3.forward);
+                //targetDirection.y = 0;
+                //Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 60 * Time.deltaTime);
             }
             else
             {
@@ -207,20 +208,21 @@ namespace RPGAE.CharacterController
             if (attackButton && isAiming && !isReloading)
             {
                 rightHandWeight = drawPower;
-                drawPower += 2 * Time.deltaTime;
+                drawPower += 10 * Time.deltaTime;
             }
-            if (!attackButton && isAiming)
-            {
-                rightHandWeight = 0;
-                if (cc.upperBodyInfo.IsName("Shoot"))
-                {
-                    drawPower -= 4 * Time.deltaTime;
-                }
-            }
+            //if (!attackButton && isAiming)
+            //{
+            //    rightHandWeight = 0;
+            //    if (cc.upperBodyInfo.IsName("Shoot"))
+            //    {
+            //        drawPower -= 4 * Time.deltaTime;
+            //    }
+            //}
             lookWeight = drawPower;
             drawPower = Mathf.Clamp(drawPower, 0, 1);
 
             // PLAYER PULLING BOW ANIMATION
+            //Debug.Log("CombatManagement - PLAYER PULLING BOW ANIMATION: " + drawPower);
             animator.SetBool("Draw", attackButton);
             animator.SetFloat("DrawPower", drawPower);
 

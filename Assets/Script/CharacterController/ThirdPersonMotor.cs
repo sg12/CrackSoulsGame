@@ -246,7 +246,8 @@ namespace RPGAE.CharacterController
         isReloading,
         isCarrying,
         canShoot,
-        isKnockedBack;
+        isKnockedBack,
+        isRightClicking;
 
         #endregion
 
@@ -1790,6 +1791,7 @@ namespace RPGAE.CharacterController
         #region Combat Behaviour
         public void CombatManagement()
         {
+//<<<<<<< HEAD
         //был ли клик по врагу или по земле с зажатым Shift
         if (!ClickToAttackController.enemyClicked && !ClickToAttackController.attackOnClickWithShift)
         {
@@ -1799,6 +1801,27 @@ namespace RPGAE.CharacterController
 
         if (attackButton == false)
             preventAtkInteruption = false;
+//=======
+            
+//            if (attackButton == false)
+//                preventAtkInteruption = false;
+//            if (inventoryM.isPauseMenuOn || !inventoryM.ConditionsToOpenMenu() || isSwimming || cc.IsAnimatorTag("Carry") || 
+//                preventAtkInteruption || cc.fullBodyInfo.IsTag("Intro") || climbData.inPosition || inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
+//            {
+//                //Debug.Log("CombatManagement - return");
+//                attackPower = 0;
+//                return;
+//            }
+
+//            if (grounded && attackButton)
+//            {
+//                //Debug.Log("CombatManagement - attackButton");
+//                bool conditionsToUnarmedAttack = !wpnHolster.PrimaryWeaponHActive()
+//                    && !wpnHolster.PrimaryWeaponActive() && !wpnHolster.SecondaryActive() 
+//                    && !wpnHolster.ShieldHActive() && !wpnHolster.ShieldActive();
+//                if (conditionsToUnarmedAttack)
+//                    attackPower += Time.deltaTime;
+//>>>>>>> WOR-135-distant-attack-and-rotate
 
         if (inventoryM.isPauseMenuOn || !inventoryM.ConditionsToOpenMenu() || isSwimming || cc.IsAnimatorTag("Carry") || 
             preventAtkInteruption || cc.fullBodyInfo.IsTag("Intro") || climbData.inPosition || inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
@@ -1851,7 +1874,6 @@ namespace RPGAE.CharacterController
             WeaponProjectile();
             FinisherAttack();
             BowAndArrowAttack();
-            GunAttack();
         } 
         }
         
@@ -1989,7 +2011,7 @@ namespace RPGAE.CharacterController
         {
             if (cc.weaponArmsID != 6) return;
 
-            if (isStrafing && cc.rightArmdInfo.IsTag("WeaponArms"))
+            if (attackButton && cc.rightArmdInfo.IsTag("WeaponArms"))
             {
                 if (wpnHolster.SecondaryActive() && cc.weaponArmsID == 6)
                 {
@@ -1997,25 +2019,23 @@ namespace RPGAE.CharacterController
 
                     cc.upperBodyID = cc.weaponArmsID;
 
-                    Vector3 aimDirection = cc.aimReference.position - cc.rightHandIKTarget.position;
+                    //Vector3 aimDirection = cc.aimReference.position - cc.rightHandIKTarget.position;
+                    Vector3 aimDirection = transform.position + transform.forward * 10000f + transform.up*10f;
                     Quaternion aimLookPoint = Quaternion.LookRotation(aimDirection.normalized);
                     Vector3 arrowSpawnPoint = wpnHolster.arrowPrefabSpot.transform.position;
 
-                    if (cc.rpgaeIM.PlayerControls.Attack.triggered &&
-                    inventoryM.bowAndArrowInv.counter[inventoryM.bowAndArrowInv.slotArrowEquipped] > 0)
+                    if (inventoryM.bowAndArrowInv.counter[inventoryM.bowAndArrowInv.slotArrowEquipped] > 0)
                         isAiming = true;
                     else if (inventoryM.bowAndArrowInv.counter[inventoryM.bowAndArrowInv.slotArrowEquipped] < 1)
                     {
-                        wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetBool("Draw", false);
-                        wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetFloat("DrawPower", 0);
+                        //wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetBool("Draw", false);
+                        //wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetFloat("DrawPower", 0);
                         isAiming = false;
                     }
-
                     cc.DrawingBowAnimation();
-
-                    if (wpnHolster.ArrowOnStringActive() && !wpnHolster.ArrowActive() && isAiming)
+                    if (wpnHolster.ArrowOnStringActive() && isAiming)
                     {
-                        if (!cc.upperBodyInfo.IsName("Reload") && !isReloading && !attackButton && cc.drawPower > 0)
+                        if (!isReloading && cc.drawPower > 0)
                         {
                             for (int i = 0; i < itemData.bowRange.shotAmount; i++)
                             {
@@ -2042,6 +2062,8 @@ namespace RPGAE.CharacterController
                             isReloading = true;
                             if (wpnHolster.arrowString)
                                 wpnHolster.arrowString.SetActive(false);
+
+                            cc.DrawingBowAnimation();
                         }
                     }
                 }
@@ -2049,79 +2071,8 @@ namespace RPGAE.CharacterController
             else
             {
                 isAiming = false;
-                wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetBool("Draw", false);
-                wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetFloat("DrawPower", 0);
-            }
-        }
-
-        void GunAttack()
-        {
-            if (cc.weaponArmsID != 7) return;
-
-            if (isStrafing)
-            {
-                if (wpnHolster.SecondaryActive() && cc.weaponArmsID == 7)
-                {
-                    ItemData itemData = wpnHolster.secondaryE.GetComponent<ItemData>();
-
-                    cc.upperBodyID = cc.weaponArmsID;
-
-                    Vector3 aimDirection = cc.aimReference.position - cc.rightHandIKTarget.position;
-                    Quaternion aimLookPoint = Quaternion.LookRotation(aimDirection.normalized);
-                    Vector3 arrowSpawnPoint = wpnHolster.arrowPrefabSpot.transform.position;
-
-                    animator.SetBool("Reloading", cc.isReloading);
-                    animator.SetFloat("UpperBodyID", cc.weaponArmsID);
-
-                    if (inventoryM.bowAndArrowInv.counter[inventoryM.bowAndArrowInv.slotArrowEquipped] > 0)
-                    {
-                        isAiming = true;
-                        cc.lookWeight = 1;
-                        animator.SetBool("Draw", attackButton);
-                        if (!cc.upperBodyInfo.IsName("Reload") && !isReloading && attackButton)
-                        {
-                            wpnHolster.secondaryE.GetComponent<HitBox>().effects.signatureEffect.gameObject.SetActive(true);
-                            wpnHolster.secondaryE.GetComponent<HitBox>().effects.signatureEffect.Play();
-                            for (int i = 0; i < itemData.bowRange.shotAmount; i++)
-                            {
-                                GameObject _bullet = Instantiate(wpnHolster.arrowD, arrowSpawnPoint, aimLookPoint) as GameObject;
-                                _bullet.SetActive(true);
-                                wpnHolster.SetArrowDamage(ref _bullet, ref itemData);
-                                _bullet.GetComponentInChildren<HitBox>().tag = "Player";
-                                _bullet.GetComponentInChildren<HitBox>().targetLayers = targetLayer;
-                                _bullet.GetComponentInChildren<HitBox>().isAttacking = true;
-                                _bullet.GetComponentInChildren<HitBox>().isProjectile = true;
-                                _bullet.GetComponentInChildren<HitBox>().weaponTrail = true;
-                                _bullet.GetComponentInChildren<ItemData>().itemActive = true;
-                                _bullet.GetComponentInChildren<HitBox>().BeginAttack("Small Blood Hit");
-
-                                wpnHolster.secondaryE.GetComponent<HitBox>().PlayRandomSound("RifleShotAS", false);
-                            }
-                            wpnHolster.secondaryE.GetComponent<HealthPoints>().curHealthPoints -= 1;
-
-                            inventoryM.RemoveStackableItem(ref inventoryM.bowAndArrowInv.itemData, ref inventoryM.bowAndArrowInv.image,
-                            ref inventoryM.bowAndArrowInv.highLight, ref inventoryM.bowAndArrowInv.outLineBorder, ref inventoryM.bowAndArrowInv.statValueBG, ref inventoryM.bowAndArrowInv.quantity,
-                            ref inventoryM.bowAndArrowInv.statValue, ref inventoryM.bowAndArrowInv.slotArrowEquipped, ref inventoryM.bowAndArrowInv.counter,
-                            ref inventoryM.bowAndArrowInv.statCounter, ref inventoryM.bowAndArrowInv.removeNullSlots, 1);
-
-                            isReloading = true;
-                        }
-                    }
-                    else
-                    {
-                        isAiming = false;
-                        isStrafing = false;
-                        isReloading = false;
-                        wpnHolster.secondaryE.GetComponent<HitBox>().effects.signatureEffect.gameObject.SetActive(false);
-                    }
-                }
-            }
-            else
-            {
-                isAiming = false;
-                isStrafing = false;
-                isReloading = false;
-                wpnHolster.secondaryE.GetComponent<HitBox>().effects.signatureEffect.gameObject.SetActive(false);
+                //wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetBool("Draw", false);
+                //wpnHolster.secondaryE.GetComponentInChildren<Animator>().SetFloat("DrawPower", 0);
             }
         }
 
@@ -2146,12 +2097,13 @@ namespace RPGAE.CharacterController
                 cc.leftHandIKWeight = 0;
                 cc.aimReference.position = Vector3.Lerp(cc.aimReference.position, lookPosition, 100 * Time.deltaTime);
 
-                Vector3 toAimReferece = cc.aimReference.position - transform.position;
-                Vector3 newDirection = Vector3.ProjectOnPlane(toAimReferece, Vector3.up);
-                targetRotation = Quaternion.LookRotation(newDirection);
+                //Vector3 toAimReferece = cc.aimReference.position - transform.position;
+                ////Vector3 newDirection = Vector3.ProjectOnPlane(toAimReferece, Vector3.up);
+                //Vector3 newDirection = transform.position + transform.forward*100f + transform.up;
+                //targetRotation = Quaternion.LookRotation(newDirection);
 
-                Quaternion newRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-                transform.rotation = newRotation;
+                //Quaternion newRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                //transform.rotation = newRotation;
             }
             else
                 actionState = 0;
@@ -2159,18 +2111,18 @@ namespace RPGAE.CharacterController
             // Throw Weapon Aim Stance
             if (cc.rpgaeIM.PlayerControls.Throw.triggered)
             {
-                isAiming = true;
-                canShoot = true;
-                actionState = 3;
-                cc.upperBodyID = 1;
+                //isAiming = true;
+                //canShoot = true;
+                //actionState = 3;
+                //cc.upperBodyID = 1;
             }
 
             // Throw weapon 
             if (attackButton && cc.upperBodyID == 1 && canShoot)
             {
-                animator.SetTrigger("Throw");
-                preventAtkInteruption = true;
-                isStrafing = false;
+                //animator.SetTrigger("Throw");
+                //preventAtkInteruption = true;
+                //isStrafing = false;
             }
 
             // Projectile Aim Stance

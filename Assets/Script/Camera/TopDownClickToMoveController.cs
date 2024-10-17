@@ -86,7 +86,7 @@ namespace BLINK.Controller
         private static readonly int Standing = Animator.StringToHash("IsStanding");
         private static readonly int IsStunned = Animator.StringToHash("IsStunned");
 
-        private ThirdPersonInput controlP;
+        private ThirdPersonAnimator controlP;
 
         private void Awake()
         {
@@ -109,7 +109,8 @@ namespace BLINK.Controller
 
         private bool NeedBlockAnyAction()
         {
-            return controlP.inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0;
+            bool isAnyDialogActive = controlP.inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0;
+            return isAnyDialogActive;
         }
 
         private void LateUpdate()
@@ -165,6 +166,7 @@ namespace BLINK.Controller
 
         private void MovementLogic()
         {
+//<<<<<<< HEAD
             // Проверка флагов для блокировки действий
             if (!movementEnabled || stunned || IsPointerOverUIObject() || ClickToAttackController.enemyClicked || ClickToAttackController.attackOnClickWithShift)
             {
@@ -177,6 +179,24 @@ namespace BLINK.Controller
                 return;
             }
 
+//=======
+//            if (controlP.shiftButton)
+//            {
+//                var mouseScreenPos = Input.mousePosition;
+//                float coefSign = 1f;
+//                if (transform.rotation.eulerAngles.y >= 0f && transform.rotation.eulerAngles.y <= 180f)
+//                    coefSign = -1f;
+//                Vector3 offsetPosition = transform.position + transform.up * 2f * coefSign;
+//                var startingScreenPos = Camera.main.WorldToScreenPoint(offsetPosition);
+//                mouseScreenPos.x -= startingScreenPos.x;
+//                mouseScreenPos.y -= startingScreenPos.y;
+//                var angle = Mathf.Atan2(mouseScreenPos.y, mouseScreenPos.x) * Mathf.Rad2Deg + 180f;
+//                transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
+//                return;
+//            }
+
+//            if (!movementEnabled || stunned || IsPointerOverUIObject()) return;
+//>>>>>>> WOR-135-distant-attack-and-rotate
             if (IsStanding()) return;
 
             MoveInputType moveInputType = MovingInput();
@@ -236,6 +256,7 @@ namespace BLINK.Controller
 
         private void StandingLogic()
         {
+            //Debug.Log("Input.GetKeyDown(standKey): " + Input.GetKeyDown(standKey));
             if (Input.GetKeyDown(standKey)) InitStanding();
             if (IsStanding())
             {
@@ -328,7 +349,7 @@ namespace BLINK.Controller
         {
             yield return new WaitForEndOfFrame();
             currentCharacterState = state;
-            StartAnimation(state);
+            //StartAnimation(state);
         }
         
         #endregion
