@@ -20,7 +20,7 @@ namespace BLINK.Controller
         public bool Held;
     }
 
-    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(NavMeshAgent), typeof(ThirdPersonInput))]
     public class TopDownClickToMoveController : MonoBehaviour
     {
         // REFERENCES
@@ -28,7 +28,7 @@ namespace BLINK.Controller
         public Animator anim;
         private static readonly int IsMoving = Animator.StringToHash("isMoving");
         public NavMeshAgent agent;
-
+        
         // CAMERA
         public Camera playerCamera;
         public bool cameraEnabled = true;
@@ -86,28 +86,30 @@ namespace BLINK.Controller
         private static readonly int Standing = Animator.StringToHash("IsStanding");
         private static readonly int IsStunned = Animator.StringToHash("IsStunned");
 
-        public ThirdPersonInput controlP;
+        private ThirdPersonInput controlP;
 
         private void Awake()
         {
             InitCameraValues();
             InitCamera();
             InitAudio();
+            controlP = GetComponent<ThirdPersonAnimator>();
         }
 
         private void Update()
         {
-            if (controlP == null)
-                controlP = GameObject.FindAnyObjectByType<ThirdPersonAnimator>();
-            else
-            {
-                if (controlP.inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
+            if (NeedBlockAnyAction())
                     return;
-            }
 
-            StandingLogic();
+            StandingLogic(); 
             MovementLogic();
             CameraLogic();
+           
+        }
+
+        private bool NeedBlockAnyAction()
+        {
+            return controlP.inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0;
         }
 
         private void LateUpdate()
@@ -163,15 +165,31 @@ namespace BLINK.Controller
 
         private void MovementLogic()
         {
-            if (!movementEnabled || stunned || IsPointerOverUIObject()) return;
+            // Проверка флагов для блокировки действий
+            if (!movementEnabled || stunned || IsPointerOverUIObject() || ClickToAttackController.enemyClicked || ClickToAttackController.attackOnClickWithShift)
+            {
+                // Остановить агента, если выполняется лёгкий удар с зажатым Shift
+                if (ClickToAttackController.attackOnClickWithShift && agent != null)
+                {
+                    agent.isStopped = true;
+                    agent.ResetPath();
+                }
+                return;
+            }
+
             if (IsStanding()) return;
+
             MoveInputType moveInputType = MovingInput();
             if (!moveInputType.Valid) return;
+
             if (!Physics.Raycast(playerCamera.ScreenPointToRay(Input.mousePosition), out var hit,
-                maxGroundRaycastDistance, groundLayers)) return;
+                    maxGroundRaycastDistance, groundLayers)) return;
+
             var destination = hit.point;
             bool validClick = true;
+
             if (IsPathTooClose(destination)) return;
+
             if (!IsPathAllowed(destination))
             {
                 ValidCoordinate newResult = closestAllowedDestination(destination);
@@ -186,6 +204,18 @@ namespace BLINK.Controller
                 }
             }
 
+            // Если зажат Shift и клик, то не устанавливаем новую точку назначения
+            if (ClickToAttackController.attackOnClickWithShift)
+            {
+                // Персонаж выполняет лёгкий удар, перемещение не требуется
+                if (agent != null)
+                {
+                    agent.isStopped = true;
+                    agent.ResetPath();
+                }
+                return;
+            }
+
             TriggerNewDestination(destination);
 
             if (!alwaysTriggerGroundPathFeedback && moveInputType.Held) return;
@@ -193,6 +223,10 @@ namespace BLINK.Controller
             PlayGroundPathAudio(validClick);
         }
 
+
+
+
+       
         private void CameraLogic()
         {
             if (!cameraEnabled) return;

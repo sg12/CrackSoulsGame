@@ -3,13 +3,19 @@ using System.Collections.Generic;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine;
+using UnityEngine.AI;
+using BLINK.Controller;
 
 namespace RPGAE.CharacterController
 {
     public class ThirdPersonMotor : ThirdPersonInput, DamageReceiver
     {
+        private NavMeshAgent agent;
+
         #region General Settings 
 
+       
+        
         [Header("MOVEMENT SETTINGS")]
         public bool canMove;
         public float rotationSpeed = 18f;
@@ -1782,36 +1788,61 @@ namespace RPGAE.CharacterController
         #endregion
 
         #region Combat Behaviour
-
-        void CombatManagement()
+        public void CombatManagement()
         {
-            if (attackButton == false)
-                preventAtkInteruption = false;
-            if (inventoryM.isPauseMenuOn || !inventoryM.ConditionsToOpenMenu() || isSwimming || cc.IsAnimatorTag("Carry") || 
-                preventAtkInteruption || cc.fullBodyInfo.IsTag("Intro") || climbData.inPosition || inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
-            {
-                attackPower = 0;
-                return;
-            }
+        //был ли клик по врагу или по земле с зажатым Shift
+        if (!ClickToAttackController.enemyClicked && !ClickToAttackController.attackOnClickWithShift)
+        {
+            attackPower = 0;
+            return;
+        }
 
-            if (grounded && attackButton)
-            {
-                bool conditionsToUnarmedAttack = !wpnHolster.PrimaryWeaponHActive()
-                    && !wpnHolster.PrimaryWeaponActive() && !wpnHolster.SecondaryActive() 
-                    && !wpnHolster.ShieldHActive() && !wpnHolster.ShieldActive();
-                if (conditionsToUnarmedAttack)
-                    attackPower += Time.deltaTime;
+        if (attackButton == false)
+            preventAtkInteruption = false;
 
-                bool conditionsToArmedAttack = wpnHolster.PrimaryWeaponActive() || wpnHolster.SecondaryActive();
-                if (conditionsToArmedAttack)
-                    attackPower += Time.deltaTime;
-            }
-            else
-            {
-                attackPower -= Time.deltaTime;
-            }
-            attackPower = Mathf.Clamp(attackPower, 0.0f, 1);
+        if (inventoryM.isPauseMenuOn || !inventoryM.ConditionsToOpenMenu() || isSwimming || cc.IsAnimatorTag("Carry") || 
+            preventAtkInteruption || cc.fullBodyInfo.IsTag("Intro") || climbData.inPosition || inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
+        {
+            attackPower = 0;
+            return;
+        }
 
+        if (grounded && attackButton)
+        {
+            bool conditionsToUnarmedAttack = !wpnHolster.PrimaryWeaponHActive()
+                                             && !wpnHolster.PrimaryWeaponActive() && !wpnHolster.SecondaryActive() 
+                                             && !wpnHolster.ShieldHActive() && !wpnHolster.ShieldActive();
+            if (conditionsToUnarmedAttack)
+                attackPower += Time.deltaTime;
+
+            bool conditionsToArmedAttack = wpnHolster.PrimaryWeaponActive() || wpnHolster.SecondaryActive();
+            if (conditionsToArmedAttack)
+                attackPower += Time.deltaTime;
+        }
+        else
+        {
+            attackPower -= Time.deltaTime;
+        }
+        attackPower = Mathf.Clamp(attackPower, 0.0f, 1);
+
+        //лёгкий удар, если зажат Shift и был клик
+        if (ClickToAttackController.attackOnClickWithShift)
+        {
+            //Debug.Log("Выполняется лёгкий удар в CombatManagement.");
+            LightAttack();
+
+            //сброс флага после атаки
+            ClickToAttackController.attackOnClickWithShift = false;
+            
+            if (agent != null)
+            {
+                agent.isStopped = false;
+            }
+        }
+
+       
+        if (ClickToAttackController.enemyClicked)
+        {
             LightAttack();
             HeavyAttack();
             AerialAttack();
@@ -1821,25 +1852,58 @@ namespace RPGAE.CharacterController
             FinisherAttack();
             BowAndArrowAttack();
             GunAttack();
+        } 
         }
-
-        void LightAttack()
+        
+        public void SetAttackPower(float value)
         {
-            if (!attackButton && !performingLightAttack && !isAttacking && attackPower > 0.0f && 
-                wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
-            {
-                animator.SetTrigger("Light Attack");
-                performingLightAttack = true;
-            }
-
-            // Start combo chain attack after intial light attack
-            bool conditions = !performingHeavyAttack && !cc.fullBodyInfo.IsTag("Heavy Attack");
-            if (cc.rpgaeIM.PlayerControls.Attack.triggered && isAttacking && conditions &&
-                wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
-                animator.SetTrigger("Light Attack");
+            attackPower = value;
+            Debug.Log($"CombatManager: attackPower установлен в {attackPower}");
         }
 
-        void HeavyAttack()
+        
+        public void LightAttack()
+        {
+            bool isShiftAttack = ClickToAttackController.attackOnClickWithShift;
+            Debug.Log($"isShiftAttack: {isShiftAttack}");
+
+            if (isShiftAttack)
+            {
+                if (!performingLightAttack && attackPower > 0.0f && 
+                    wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
+                {
+                    animator.SetTrigger("Light Attack");
+                    performingLightAttack = true; ;
+                }
+                else
+                {
+                    Debug.Log("Условия для легкого удара с Shift не выполнены.");
+                }
+            }
+            else
+            {
+                if (!attackButton && !performingLightAttack && !isAttacking && attackPower > 0.0f && 
+                    wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
+                {
+                    animator.SetTrigger("Light Attack");
+                    performingLightAttack = true;
+                    Debug.Log("Выполнен обычный лёгкий удар.");
+                }
+                
+                bool conditions = !performingHeavyAttack && !cc.fullBodyInfo.IsTag("Heavy Attack");
+                if (cc.rpgaeIM.PlayerControls.Attack.triggered && isAttacking && conditions &&
+                    wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
+                {
+                    animator.SetTrigger("Light Attack");
+                }
+            }
+            SetAttackPower(0.0f);
+           
+        }
+
+
+
+        public void HeavyAttack()
         {
             if (slowDown) return;
 
