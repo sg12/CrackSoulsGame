@@ -166,7 +166,6 @@ namespace BLINK.Controller
 
         private void MovementLogic()
         {
-//<<<<<<< HEAD
             // Проверка флагов для блокировки действий
             if (!movementEnabled || stunned || IsPointerOverUIObject() || ClickToAttackController.enemyClicked || ClickToAttackController.attackOnClickWithShift)
             {
@@ -179,24 +178,24 @@ namespace BLINK.Controller
                 return;
             }
 
-//=======
-//            if (controlP.shiftButton)
-//            {
-//                var mouseScreenPos = Input.mousePosition;
-//                float coefSign = 1f;
-//                if (transform.rotation.eulerAngles.y >= 0f && transform.rotation.eulerAngles.y <= 180f)
-//                    coefSign = -1f;
-//                Vector3 offsetPosition = transform.position + transform.up * 2f * coefSign;
-//                var startingScreenPos = Camera.main.WorldToScreenPoint(offsetPosition);
-//                mouseScreenPos.x -= startingScreenPos.x;
-//                mouseScreenPos.y -= startingScreenPos.y;
-//                var angle = Mathf.Atan2(mouseScreenPos.y, mouseScreenPos.x) * Mathf.Rad2Deg + 180f;
-//                transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
-//                return;
-//            }
+            //=======
+            if (controlP.shiftButton)
+            {
+                var mouseScreenPos = Input.mousePosition;
+                float coefSign = 1f;
+                if (transform.rotation.eulerAngles.y >= 0f && transform.rotation.eulerAngles.y <= 180f)
+                    coefSign = -1f;
+                Vector3 offsetPosition = transform.position + transform.up * 2f * coefSign;
+                var startingScreenPos = Camera.main.WorldToScreenPoint(offsetPosition);
+                mouseScreenPos.x -= startingScreenPos.x;
+                mouseScreenPos.y -= startingScreenPos.y;
+                var angle = Mathf.Atan2(mouseScreenPos.y, mouseScreenPos.x) * Mathf.Rad2Deg + 180f;
+                transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
+                return;
+            }
 
-//            if (!movementEnabled || stunned || IsPointerOverUIObject()) return;
-//>>>>>>> WOR-135-distant-attack-and-rotate
+            //            if (!movementEnabled || stunned || IsPointerOverUIObject()) return;
+            //>>>>>>> WOR-135-distant-attack-and-rotate
             if (IsStanding()) return;
 
             MoveInputType moveInputType = MovingInput();

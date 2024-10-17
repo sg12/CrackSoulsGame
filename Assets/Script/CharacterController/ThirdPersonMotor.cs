@@ -1791,90 +1791,68 @@ namespace RPGAE.CharacterController
         #region Combat Behaviour
         public void CombatManagement()
         {
-//<<<<<<< HEAD
-        //был ли клик по врагу или по земле с зажатым Shift
-        if (!ClickToAttackController.enemyClicked && !ClickToAttackController.attackOnClickWithShift)
-        {
-            attackPower = 0;
-            return;
-        }
-
-        if (attackButton == false)
-            preventAtkInteruption = false;
-//=======
-            
-//            if (attackButton == false)
-//                preventAtkInteruption = false;
-//            if (inventoryM.isPauseMenuOn || !inventoryM.ConditionsToOpenMenu() || isSwimming || cc.IsAnimatorTag("Carry") || 
-//                preventAtkInteruption || cc.fullBodyInfo.IsTag("Intro") || climbData.inPosition || inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
-//            {
-//                //Debug.Log("CombatManagement - return");
-//                attackPower = 0;
-//                return;
-//            }
-
-//            if (grounded && attackButton)
-//            {
-//                //Debug.Log("CombatManagement - attackButton");
-//                bool conditionsToUnarmedAttack = !wpnHolster.PrimaryWeaponHActive()
-//                    && !wpnHolster.PrimaryWeaponActive() && !wpnHolster.SecondaryActive() 
-//                    && !wpnHolster.ShieldHActive() && !wpnHolster.ShieldActive();
-//                if (conditionsToUnarmedAttack)
-//                    attackPower += Time.deltaTime;
-//>>>>>>> WOR-135-distant-attack-and-rotate
-
-        if (inventoryM.isPauseMenuOn || !inventoryM.ConditionsToOpenMenu() || isSwimming || cc.IsAnimatorTag("Carry") || 
-            preventAtkInteruption || cc.fullBodyInfo.IsTag("Intro") || climbData.inPosition || inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
-        {
-            attackPower = 0;
-            return;
-        }
-
-        if (grounded && attackButton)
-        {
-            bool conditionsToUnarmedAttack = !wpnHolster.PrimaryWeaponHActive()
-                                             && !wpnHolster.PrimaryWeaponActive() && !wpnHolster.SecondaryActive() 
-                                             && !wpnHolster.ShieldHActive() && !wpnHolster.ShieldActive();
-            if (conditionsToUnarmedAttack)
-                attackPower += Time.deltaTime;
-
-            bool conditionsToArmedAttack = wpnHolster.PrimaryWeaponActive() || wpnHolster.SecondaryActive();
-            if (conditionsToArmedAttack)
-                attackPower += Time.deltaTime;
-        }
-        else
-        {
-            attackPower -= Time.deltaTime;
-        }
-        attackPower = Mathf.Clamp(attackPower, 0.0f, 1);
-
-        //лёгкий удар, если зажат Shift и был клик
-        if (ClickToAttackController.attackOnClickWithShift)
-        {
-            //Debug.Log("Выполняется лёгкий удар в CombatManagement.");
-            LightAttack();
-
-            //сброс флага после атаки
-            ClickToAttackController.attackOnClickWithShift = false;
-            
-            if (agent != null)
+            //был ли клик по врагу или по земле с зажатым Shift
+            if (!ClickToAttackController.enemyClicked && !ClickToAttackController.attackOnClickWithShift)
             {
-                agent.isStopped = false;
+                attackPower = 0;
+                return;
             }
-        }
 
-       
-        if (ClickToAttackController.enemyClicked)
-        {
-            LightAttack();
-            HeavyAttack();
-            AerialAttack();
-            ShieldAttack();
-            AdrenalineRush();
-            WeaponProjectile();
-            FinisherAttack();
-            BowAndArrowAttack();
-        } 
+            if (attackButton == false)
+                preventAtkInteruption = false;
+
+            if (inventoryM.isPauseMenuOn || !inventoryM.ConditionsToOpenMenu() || isSwimming || cc.IsAnimatorTag("Carry") ||
+                preventAtkInteruption || cc.fullBodyInfo.IsTag("Intro") || climbData.inPosition || inventoryM.dialogueM.fadeUI.canvasGroup.alpha != 0)
+            {
+                attackPower = 0;
+                return;
+            }
+
+            if (grounded && attackButton)
+            {
+                bool conditionsToUnarmedAttack = !wpnHolster.PrimaryWeaponHActive()
+                                                 && !wpnHolster.PrimaryWeaponActive() && !wpnHolster.SecondaryActive()
+                                                 && !wpnHolster.ShieldHActive() && !wpnHolster.ShieldActive();
+                if (conditionsToUnarmedAttack)
+                    attackPower += Time.deltaTime;
+
+                bool conditionsToArmedAttack = wpnHolster.PrimaryWeaponActive() || wpnHolster.SecondaryActive();
+                if (conditionsToArmedAttack)
+                    attackPower += Time.deltaTime;
+            }
+            else
+            {
+                attackPower -= Time.deltaTime;
+            }
+            attackPower = Mathf.Clamp(attackPower, 0.0f, 1);
+
+            //лёгкий удар, если зажат Shift и был клик
+            if (ClickToAttackController.attackOnClickWithShift)
+            {
+                //Debug.Log("Выполняется лёгкий удар в CombatManagement.");
+                LightAttack();
+
+                //сброс флага после атаки
+                ClickToAttackController.attackOnClickWithShift = false;
+
+                if (agent != null)
+                {
+                    agent.isStopped = false;
+                }
+            }
+
+
+            if (ClickToAttackController.enemyClicked)
+            {
+                LightAttack();
+                HeavyAttack();
+                AerialAttack();
+                ShieldAttack();
+                AdrenalineRush();
+                WeaponProjectile();
+                FinisherAttack();
+                BowAndArrowAttack();
+            }
         }
         
         public void SetAttackPower(float value)
