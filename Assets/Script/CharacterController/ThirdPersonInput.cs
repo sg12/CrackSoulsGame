@@ -18,7 +18,7 @@ namespace RPGAE.CharacterController
         [HideInInspector]
         public bool attackButton;
         [HideInInspector]
-        public bool sprintButton;
+        public bool shiftButton;
         [HideInInspector]
         public bool cursorButton;
         [HideInInspector]
@@ -74,9 +74,9 @@ namespace RPGAE.CharacterController
             animator = GetComponentInChildren<Animator>();
             itemObtained = FindObjectOfType<ItemObtained>();
 
-            rpgaeIM.PlayerControls.Sprint.started += context => sprintButton = true;
-            rpgaeIM.PlayerControls.Sprint.performed += context => sprintButton = true;
-            rpgaeIM.PlayerControls.Sprint.canceled += context => sprintButton = false;
+            rpgaeIM.PlayerControls.Sprint.started += context => shiftButton = true;
+            rpgaeIM.PlayerControls.Sprint.performed += context => shiftButton = true;
+            rpgaeIM.PlayerControls.Sprint.canceled += context => shiftButton = false;
 
             rpgaeIM.PlayerControls.Attack.started += context => attackButton = true;
             rpgaeIM.PlayerControls.Attack.performed += context => attackButton = true;
@@ -251,7 +251,7 @@ namespace RPGAE.CharacterController
         {
             bool conditiions = !inventoryM.isPauseMenuOn;
 
-            if (sprintButton && cc.input.magnitude > 0.1f && conditiions)
+            if (shiftButton && cc.input.magnitude > 0.1f && conditiions)
                 cc.Sprint(true);
             else
                 cc.Sprint(false);
@@ -261,7 +261,7 @@ namespace RPGAE.CharacterController
         {
             bool conditiions = !inventoryM.isPauseMenuOn;
 
-            if (sprintButton && cc.input.magnitude > 0.1f && conditiions)
+            if (shiftButton && cc.input.magnitude > 0.1f && conditiions)
                 cc.Sprint(true);
             else
                 cc.Sprint(false);

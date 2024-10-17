@@ -1938,7 +1938,7 @@ namespace RPGAE.CharacterController
                     cc.upperBodyID = cc.weaponArmsID;
 
                     //Vector3 aimDirection = cc.aimReference.position - cc.rightHandIKTarget.position;
-                    Vector3 aimDirection = transform.position + transform.forward * 100f + transform.up;
+                    Vector3 aimDirection = transform.position + transform.forward * 10000f + transform.up*10f;
                     Quaternion aimLookPoint = Quaternion.LookRotation(aimDirection.normalized);
                     Vector3 arrowSpawnPoint = wpnHolster.arrowPrefabSpot.transform.position;
 
@@ -1951,19 +1951,10 @@ namespace RPGAE.CharacterController
                         isAiming = false;
                     }
                     cc.DrawingBowAnimation();
-                    Debug.Log("wpnHolster.ArrowOnStringActive(): " + wpnHolster.ArrowOnStringActive());
-                    Debug.Log("!wpnHolster.ArrowActive(): " + !wpnHolster.ArrowActive());
-                    Debug.Log("isAiming: " + isAiming);
-                    //if (wpnHolster.ArrowOnStringActive() && !wpnHolster.ArrowActive() && isAiming)
                     if (wpnHolster.ArrowOnStringActive() && isAiming)
                     {
-                        Debug.Log("!cc.upperBodyInfo.IsName(Reload): " + !cc.upperBodyInfo.IsName("Reload"));
-                        Debug.Log("isReloading: " + isReloading);
-                        Debug.Log("cc.drawPower: " + cc.drawPower);
-                        //if (!cc.upperBodyInfo.IsName("Reload") && !isReloading && !attackButton && cc.drawPower > 0)
                         if (!isReloading && cc.drawPower > 0)
                         {
-                            Debug.Log("itemData.bowRange.shotAmount: " + itemData.bowRange.shotAmount);
                             for (int i = 0; i < itemData.bowRange.shotAmount; i++)
                             {
                                 GameObject arrow = Instantiate(wpnHolster.arrowD, arrowSpawnPoint, aimLookPoint) as GameObject;

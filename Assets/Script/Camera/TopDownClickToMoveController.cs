@@ -163,53 +163,20 @@ namespace BLINK.Controller
 
         #region LOGIC
 
-        float AngleBetweenPoints(Vector3 a, Vector3 b)
-        {
-            return Mathf.Atan2(a.z + b.z, a.x - b.x) * Mathf.Rad2Deg;
-        }
-
         private void MovementLogic()
         {
-            if (controlP.sprintButton)
+            if (controlP.shiftButton)
             {
-                //Vector3 diference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                //float rotateZ = Mathf.Atan2(diference.y, diference.x) * Mathf.Rad2Deg;
-                //transform.rotation = Quaternion.Euler(transform.rotation.x, rotateZ, transform.rotation.z);
-
-                //Vector3 vecWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * (Camera.main.transform.position.y));
-
-                //float fAngle = AngleBetweenPoints(transform.position, vecWorldPos) - 90f;
-
-                //transform.rotation = Quaternion.Euler(new Vector3(0f, fAngle, 0f));
-
-                //Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                //difference.Normalize();
-
-                //float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-                //transform.rotation = Quaternion.Euler(0f, rotZ + 90, 0f);
-
                 var mouseScreenPos = Input.mousePosition;
-                var startingScreenPos = Camera.main.WorldToScreenPoint(transform.position);
+                float coefSign = 1f;
+                if (transform.rotation.eulerAngles.y >= 0f && transform.rotation.eulerAngles.y <= 180f)
+                    coefSign = -1f;
+                Vector3 offsetPosition = transform.position + transform.up * 2f * coefSign;
+                var startingScreenPos = Camera.main.WorldToScreenPoint(offsetPosition);
                 mouseScreenPos.x -= startingScreenPos.x;
                 mouseScreenPos.y -= startingScreenPos.y;
                 var angle = Mathf.Atan2(mouseScreenPos.y, mouseScreenPos.x) * Mathf.Rad2Deg + 180f;
                 transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
-
-
-                //Vector3 mousePos = Input.mousePosition;
-
-                //// Convert the mouse position from screen coordinates to world coordinates
-                //mousePos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, Camera.main.transform.position.y - transform.position.y));
-
-                //// Calculate the direction from the player to the mouse position
-                //Vector3 lookDirection = mousePos - transform.position;
-                //lookDirection.y = 0; // Ensure the player doesn't tilt up or down
-
-                //// Rotate the player to face the mouse position
-                //Quaternion rotation = Quaternion.LookRotation(lookDirection);
-                //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 100f * Time.deltaTime);
-
-                //agent.transform.LookAt(newResult.ValidPoint);
                 return;
             }
 

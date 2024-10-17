@@ -593,6 +593,7 @@ public class InventoryManager : MonoBehaviour
 
     public void AddItemDataSlot(ref ItemData[] currentInventory, ref Image[] itemImages, ref GameObject addedItem)
     {
+        Debug.Log("AddItemDataSlot");
         // You need inventory slots!
         if (itemImages.Length == 0 || itemImages[0] == null)
         {
