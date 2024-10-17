@@ -1788,7 +1788,7 @@ namespace RPGAE.CharacterController
         #endregion
 
         #region Combat Behaviour
-        void CombatManagement()
+        public void CombatManagement()
         {
         //был ли клик по врагу или по земле с зажатым Shift
         if (!ClickToAttackController.enemyClicked && !ClickToAttackController.attackOnClickWithShift)
@@ -1852,36 +1852,42 @@ namespace RPGAE.CharacterController
             FinisherAttack();
             BowAndArrowAttack();
             GunAttack();
+        } 
         }
-    }
-
-
-
-        void LightAttack()
+        
+        public void SetAttackPower(float value)
         {
-            //проверка был ли клик с зажатым Shift
+            attackPower = value;
+            Debug.Log($"CombatManager: attackPower установлен в {attackPower}");
+        }
+
+        
+        public void LightAttack()
+        {
             bool isShiftAttack = ClickToAttackController.attackOnClickWithShift;
+            Debug.Log($"isShiftAttack: {isShiftAttack}");
 
             if (isShiftAttack)
             {
-                //лёгкий удар при зажатом Shift
                 if (!performingLightAttack && attackPower > 0.0f && 
                     wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
                 {
                     animator.SetTrigger("Light Attack");
-                    performingLightAttack = true; 
-                    //Debug.Log("Выполнен лёгкий удар с зажатым Shift.");
+                    performingLightAttack = true; ;
+                }
+                else
+                {
+                    Debug.Log("Условия для легкого удара с Shift не выполнены.");
                 }
             }
             else
             {
-                // Обычная логика лёгкого удара для ударов по мобам вблизи
                 if (!attackButton && !performingLightAttack && !isAttacking && attackPower > 0.0f && 
                     wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
                 {
                     animator.SetTrigger("Light Attack");
                     performingLightAttack = true;
-                   // Debug.Log("Выполнен обычный лёгкий удар.");
+                    Debug.Log("Выполнен обычный лёгкий удар.");
                 }
                 
                 bool conditions = !performingHeavyAttack && !cc.fullBodyInfo.IsTag("Heavy Attack");
@@ -1889,13 +1895,15 @@ namespace RPGAE.CharacterController
                     wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
                 {
                     animator.SetTrigger("Light Attack");
-                    Debug.Log("Комбо-атака: Дополнительный лёгкий удар.");
                 }
             }
+            SetAttackPower(0.0f);
+           
         }
 
 
-        void HeavyAttack()
+
+        public void HeavyAttack()
         {
             if (slowDown) return;
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using RPGAE.CharacterController;
 
 namespace BLINK.Controller
 {
@@ -17,6 +18,7 @@ namespace BLINK.Controller
         private float enemyStoppingDistance = 2.0f;
         private bool isAttacking = false;
 
+        public ThirdPersonMotor combatManager;
         private void Start()
         {
             agent = GetComponent<NavMeshAgent>();
@@ -28,6 +30,15 @@ namespace BLINK.Controller
             {
                 // установка стандартного stopping distance
                 agent.stoppingDistance = defaultStoppingDistance;
+            }
+            
+            if (combatManager == null)
+            {
+                combatManager = FindObjectOfType<ThirdPersonMotor>();
+                if (combatManager == null)
+                {
+                    Debug.LogError("ClickToAttackController: CombatManager не найден в сцене.");
+                }
             }
         }
 
@@ -49,12 +60,21 @@ namespace BLINK.Controller
                         agent.ResetPath();
                         isAttacking = false;
                         Debug.Log($"Персонаж достиг цели для атаки: {attackTarget.name}");
-
+                        
+                        if (combatManager != null)
+                        {
+                            combatManager.SetAttackPower(1.0f);
+                            combatManager.LightAttack();
+                        }
+                        else
+                        {
+                            Debug.LogError("CombatManager не установлен.");
+                        }
+    
                         // установка стандартного stopping distance
                         agent.stoppingDistance = defaultStoppingDistance;
-                        
-                        // место для доп логики
-                        
+    
+                        // сброс цели атаки
                         attackTarget = null;
                     }
                 }
@@ -63,9 +83,7 @@ namespace BLINK.Controller
         
         private void LateUpdate()
         {
-            // Сброс флага в конце кадра
             enemyClicked = false;
-            // attackOnClickWithShift не сбрасываем здесь
         }
 
         
@@ -132,7 +150,6 @@ namespace BLINK.Controller
             else
             {
                 Debug.Log("ЛКМ кликнула по недостижимой позиции или не по врагу.");
-
                 //если клик не по врагу, то устанавливается стандартная дистанция и перемещение
                 agent.stoppingDistance = defaultStoppingDistance;
             }
