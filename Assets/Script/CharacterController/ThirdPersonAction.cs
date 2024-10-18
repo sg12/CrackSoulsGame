@@ -104,8 +104,10 @@ namespace RPGAE.CharacterController
                 data.arrowStun = 0;
                 data.shdAtk = 0;
                 data.shdStun = 0;
+                data.isCritical = 0;
+                data.playerDefense = 0;
 
-                cc.GetComponent<HealthPoints>().ApplyDamage(data);
+        cc.GetComponent<HealthPoints>().ApplyDamage(data);
             }
 
             #region Ladder
