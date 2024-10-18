@@ -579,7 +579,8 @@ public class HitBox : MonoBehaviour
                 data.wpnAtk += (int)hudM.strength;
                 data.arrowAtk += (int)hudM.strength;
                 data.shdAtk += (int)hudM.strength;
-
+                data.isCritical = 0;
+                data.playerDefense = 0;
                 d.ApplyDamage(data);
             }
             else
@@ -595,7 +596,8 @@ public class HitBox : MonoBehaviour
                 data.wpnAtk += (int)hudM.strength;
                 data.arrowAtk += (int)hudM.strength;
                 data.shdAtk += (int)hudM.strength;
-
+                data.isCritical = 0;
+                data.playerDefense = 0;
                 d.ApplyDamage(data);
             }
         }
@@ -608,6 +610,8 @@ public class HitBox : MonoBehaviour
             data.shdAtk = shdAtk;
             data.shdStun = 0;
 
+            data.isCritical = 0;
+            data.playerDefense = 0;
             d.ApplyDamage(data);
         }
         return true;

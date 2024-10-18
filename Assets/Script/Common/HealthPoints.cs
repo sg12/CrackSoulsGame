@@ -156,6 +156,17 @@ public partial class HealthPoints : MonoBehaviour
         {
             return;
         }
+        // Параметры для расчета
+        float attack = data.wpnAtk; // A 
+        float critMultiplier = data.isCritical; // C
+        float defense = data.playerDefense; // F 
+        float defenseCoefficient = 0.5f; // B 
+
+        // Вызов метода расчета урона
+        float damageDealt = CalculateDamage(attack, critMultiplier, defense, defenseCoefficient);
+
+        // Применение урона
+        curHealthPoints -= damageDealt;
 
         curHealthPoints -= data.wpnAtk;
         Debug.Log("NPC получил урон: " + data.wpnAtk + " Очки здоровья: " + curHealthPoints);
@@ -190,6 +201,16 @@ public partial class HealthPoints : MonoBehaviour
             Debug.Log("NPC is dead.");
         }
     }
+    private float CalculateDamage(float attack, float critMultiplier, float defense, float defenseCoefficient)
+    {        
+        // D = (A * C) - (F * B)
+        float D = (defense * defenseCoefficient);
 
+        
+        // D1 = (A * C) - D
+        float D1 = (attack * critMultiplier) - D;
+
+        return Mathf.Max(0, D1); 
+    }
 
 }
