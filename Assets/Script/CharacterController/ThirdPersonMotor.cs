@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering.Universal;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +11,12 @@ namespace RPGAE.CharacterController
 {
     public class ThirdPersonMotor : ThirdPersonInput, DamageReceiver
     {
+        // перенесенные переменные
         private NavMeshAgent agent;
+        private Transform attackTarget;
+        private float defaultStoppingDistance = 1.0f;
+        private float enemyStoppingDistance = 2.0f; 
+        public bool attackOnClickWithShift = false;
 
         #region General Settings 
 
@@ -270,6 +276,20 @@ namespace RPGAE.CharacterController
 
         #endregion
 
+        private void Start()
+        {
+            agent = GetComponent<NavMeshAgent>();
+            if (agent == null)
+            {
+                Debug.LogError("ThirdPersonMotor: NavMeshAgent не найден на персонаже.");
+            }
+            else
+            {
+                agent.stoppingDistance = defaultStoppingDistance;
+            }
+        }
+        
+        
         public void Init()
         {
             animator.updateMode = AnimatorUpdateMode.Fixed;
@@ -318,6 +338,7 @@ namespace RPGAE.CharacterController
             climbState = ClimbState.NA;
             grounded = true;
         }
+        
 
         public virtual void UpdateMotor()
         {
@@ -334,9 +355,38 @@ namespace RPGAE.CharacterController
             if (!canSwim && !isSwimming)
                 CheckForJump();
 
+            // Вызов обработки атаки
+            HandleAttackClick();
+
+            // Обработка достижения цели для атаки
+            if (isAttacking && attackTarget != null)
+            {
+                if (!agent.pathPending)
+                {
+                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    {
+                        agent.ResetPath();
+                        isAttacking = false;
+                        Debug.Log($"Персонаж достиг цели для атаки: {attackTarget.name}");
+
+                        SetAttackPower(1.0f);
+                        LightAttack();
+
+                        // Сброс дистанции остановки и цели атаки
+                        agent.stoppingDistance = defaultStoppingDistance;
+                        attackTarget = null;
+
+                        // Сброс флага атаки после выполнения LightAttack
+                        attackButton = false;
+                    }
+                }
+            }
+
             CombatManagement();
             ClimbManagement();
         }
+
+
 
         void ExtraTurnRotation()
         {
@@ -1791,8 +1841,8 @@ namespace RPGAE.CharacterController
         #region Combat Behaviour
         public void CombatManagement()
         {
-            //был ли клик по врагу или по земле с зажатым Shift
-            if (!ClickToAttackController.enemyClicked && !ClickToAttackController.attackOnClickWithShift)
+            // Был ли клик по врагу или по земле с зажатым Shift
+            if (!attackButton && !attackOnClickWithShift)
             {
                 attackPower = 0;
                 return;
@@ -1826,14 +1876,14 @@ namespace RPGAE.CharacterController
             }
             attackPower = Mathf.Clamp(attackPower, 0.0f, 1);
 
-            //лёгкий удар, если зажат Shift и был клик
-            if (ClickToAttackController.attackOnClickWithShift)
+            // Лёгкий удар, если зажат Shift и был клик
+            if (attackOnClickWithShift)
             {
                 //Debug.Log("Выполняется лёгкий удар в CombatManagement.");
                 LightAttack();
 
-                //сброс флага после атаки
-                ClickToAttackController.attackOnClickWithShift = false;
+                // Сброс флага после атаки
+                attackOnClickWithShift = false;
 
                 if (agent != null)
                 {
@@ -1841,10 +1891,8 @@ namespace RPGAE.CharacterController
                 }
             }
 
-
-            if (ClickToAttackController.enemyClicked)
+            if (attackButton)
             {
-                LightAttack();
                 HeavyAttack();
                 AerialAttack();
                 ShieldAttack();
@@ -1852,8 +1900,109 @@ namespace RPGAE.CharacterController
                 WeaponProjectile();
                 FinisherAttack();
                 BowAndArrowAttack();
+
+                
+                attackButton = false;
+            }
+
+        }
+
+        
+        private void HandleAttackClick()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (IsPointerOverUIObject())
+                {
+                    Debug.Log("ЛКМ нажата по UI элементу.");
+                    return;
+                }
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, 100f))
+                {
+                    bool isShiftHeld = Input.GetKey(KeyCode.LeftShift);
+
+                    if (isShiftHeld)
+                    {
+                        attackOnClickWithShift = true;
+                        Debug.Log("Выполняется лёгкий удар.");
+
+                        if (agent != null)
+                        {
+                            agent.ResetPath();
+                            agent.isStopped = true;
+                        }
+
+                        return;
+                    }
+
+                    Interactable interactable = hit.transform.GetComponent<Interactable>() ?? hit.transform.GetComponentInParent<Interactable>();
+                    if (interactable != null && interactable.interactionType == InteractableType.Enemy)
+                    {
+                        attackButton = true; // Устанавливаем флаг атаки
+                        Debug.Log($"Враг кликнут: {interactable.gameObject.name}");
+                        attackTarget = interactable.transform;
+
+                        agent.stoppingDistance = enemyStoppingDistance;
+                        SetDestinationWithAttackDistance(attackTarget.position);
+                        isAttacking = true;
+                    }
+                    else
+                    {
+                        Debug.Log("Кликнутый объект не имеет компонента Interactable типа Enemy.");
+                        attackButton = false; // Сбрасываем флаг атаки при клике по земле
+                        agent.stoppingDistance = defaultStoppingDistance;
+                        SetDestinationWithAttackDistance(hit.point);
+                        isAttacking = true;
+                    }
+                }
+                else
+                {
+                    Debug.Log("ЛКМ кликнула по недостижимой позиции или не по врагу.");
+                    attackButton = false; // Сбрасываем флаг атаки при неудачном клике
+                    agent.stoppingDistance = defaultStoppingDistance;
+                }
             }
         }
+
+
+        
+        private void SetDestinationWithAttackDistance(Vector3 targetPosition)
+        {
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            Vector3 destination = targetPosition - direction * enemyStoppingDistance;
+
+            NavMeshHit navHit;
+            if (NavMesh.SamplePosition(destination, out navHit, enemyStoppingDistance, NavMesh.AllAreas))
+            {
+                agent.SetDestination(navHit.position);
+                Debug.Log($"Установлена точка назначения: {navHit.position}");
+            }
+            else
+            {
+                agent.SetDestination(targetPosition);
+                Debug.LogWarning("Не удалось найти допустимую точку назначения на заданном расстоянии. Устанавливается позиция врага.");
+            }
+        }
+
+        private bool IsPointerOverUIObject()
+        {
+            if (EventSystem.current == null) return false;
+
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current)
+            {
+                position = Input.mousePosition
+            };
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            return results.Count > 0;
+        }
+
+        
+        
         
         public void SetAttackPower(float value)
         {
@@ -1864,7 +2013,7 @@ namespace RPGAE.CharacterController
         
         public void LightAttack()
         {
-            bool isShiftAttack = ClickToAttackController.attackOnClickWithShift;
+            bool isShiftAttack = attackOnClickWithShift;
             Debug.Log($"isShiftAttack: {isShiftAttack}");
 
             if (isShiftAttack)
@@ -1873,23 +2022,24 @@ namespace RPGAE.CharacterController
                     wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
                 {
                     animator.SetTrigger("Light Attack");
-                    performingLightAttack = true; ;
+                    performingLightAttack = true;
+                    Debug.Log("Выполняется лёгкий удар с Shift.");
                 }
                 else
                 {
-                    Debug.Log("Условия для легкого удара с Shift не выполнены.");
+                    Debug.Log("Условия для лёгкого удара с Shift не выполнены.");
                 }
             }
             else
             {
-                if (!attackButton && !performingLightAttack && !isAttacking && attackPower > 0.0f && 
+                if (!performingLightAttack && attackPower > 0.0f && 
                     wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
                 {
                     animator.SetTrigger("Light Attack");
                     performingLightAttack = true;
-                    Debug.Log("Выполнен обычный лёгкий удар.");
+                    Debug.Log("Выполнен лёгкий удар по достижении цели.");
                 }
-                
+        
                 bool conditions = !performingHeavyAttack && !cc.fullBodyInfo.IsTag("Heavy Attack");
                 if (cc.rpgaeIM.PlayerControls.Attack.triggered && isAttacking && conditions &&
                     wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
@@ -1898,8 +2048,8 @@ namespace RPGAE.CharacterController
                 }
             }
             SetAttackPower(0.0f);
-           
         }
+
 
 
 
