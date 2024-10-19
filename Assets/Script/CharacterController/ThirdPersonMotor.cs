@@ -2002,14 +2002,11 @@ namespace RPGAE.CharacterController
         }
 
         
-        
-        
         public void SetAttackPower(float value)
         {
             attackPower = value;
             Debug.Log($"CombatManager: attackPower установлен в {attackPower}");
         }
-
         
         public void LightAttack()
         {
@@ -2050,8 +2047,7 @@ namespace RPGAE.CharacterController
             SetAttackPower(0.0f);
         }
 
-
-
+        
 
         public void HeavyAttack()
         {
