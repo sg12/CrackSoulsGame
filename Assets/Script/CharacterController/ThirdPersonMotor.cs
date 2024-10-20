@@ -1893,6 +1893,7 @@ namespace RPGAE.CharacterController
 
             if (attackButton)
             {
+                //LightAttack();
                 HeavyAttack();
                 AerialAttack();
                 ShieldAttack();
@@ -1910,7 +1911,7 @@ namespace RPGAE.CharacterController
         
         private void HandleAttackClick()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (attackButton)
             {
                 if (IsPointerOverUIObject())
                 {
@@ -1923,9 +1924,7 @@ namespace RPGAE.CharacterController
 
                 if (Physics.Raycast(ray, out hit, 100f))
                 {
-                    bool isShiftHeld = Input.GetKey(KeyCode.LeftShift);
-
-                    if (isShiftHeld)
+                    if (shiftButton)
                     {
                         attackOnClickWithShift = true;
                         Debug.Log("Выполняется лёгкий удар.");
@@ -2012,11 +2011,13 @@ namespace RPGAE.CharacterController
         {
             bool isShiftAttack = attackOnClickWithShift;
             Debug.Log($"isShiftAttack: {isShiftAttack}");
-
+            Debug.Log($"performingLightAttack: {performingLightAttack}");
+            Debug.Log($"attackPower: {attackPower}");
+            Debug.Log($"preventAtkInteruption: {preventAtkInteruption}");
             if (isShiftAttack)
             {
-                if (!performingLightAttack && attackPower > 0.0f && 
-                    wpnHolster.LightAttackStaminaConditions() && !preventAtkInteruption)
+                if (!performingLightAttack && !preventAtkInteruption) // && 
+                                                                                            //wpnHolster.LightAttackStaminaConditions() && attackPower > 0.0f)
                 {
                     animator.SetTrigger("Light Attack");
                     performingLightAttack = true;
@@ -2592,74 +2593,25 @@ namespace RPGAE.CharacterController
             cc.systemM.blackScreenFUI.canvasGroup.alpha != 0 || cc.fullBodyInfo.IsTag("Intro") || !inventoryM.ConditionsToOpenMenu()) return;
 
             // EQUIP-------------------------------------------------------------------------------------- 
-            if (cc.rpgaeIM.PlayerControls.Attack.triggered && !isSheathing && CanSheath())
+            //if (cc.rpgaeIM.PlayerControls.Attack.triggered && !isSheathing && CanSheath())
+
+            if (cc.rpgaeIM.PlayerControls.Interact.triggered && !isSheathing && CanSheath())
             {
-                if (wpnHolster.PrimaryWeaponHActive())
-                {
-                    if (cc.weaponArmsID == 6)
-                    {
-                        animator.SetInteger("EquipLeftHandID", 0);
-                        animator.SetTrigger("EquipLeftHand");
-                    }
-
-                    if (wpnHolster.SecondaryActive() && wpnHolster.ArrowActive() || wpnHolster.ArrowOnStringActive())
-                    {
-                        if (wpnHolster.arrowE)
-                            wpnHolster.arrowE.SetActive(true);
-                        if (wpnHolster.arrowString)
-                            wpnHolster.arrowString.SetActive(false);
-                    }
-
-                    SetWeaponArms(wpnHolster.primaryE);
-                    animator.SetInteger("EquipRightHandID", 1);
-                    animator.SetTrigger("EquipRightHand");
-                    isSheathing = true;
-                }
-
-                if (wpnHolster.ShieldHActive())
-                {
-                    if (wpnHolster.primaryE != null &&
-                    wpnHolster.primaryE.GetComponent<ItemData>().weaponArmsID > 1)
-                    {
-                        return;
-                    }
-
-                    #region Switch 
-
-                    if (wpnHolster.SecondaryActive() && wpnHolster.ArrowActive() || wpnHolster.ArrowOnStringActive() &&
-                      wpnHolster.primaryE == null)
-                    {
-                        wpnHolster.arrowE.SetActive(true);
-                        wpnHolster.arrowString.SetActive(false);
-                        animator.SetInteger("EquipRightHandID", 0);
-                        animator.SetTrigger("EquipRightHand");
-                    }
-
-                    if (wpnHolster.PrimaryWeaponHActive())
-                    {
-                        animator.SetInteger("EquipRightHandID", 1);
-                        animator.SetTrigger("EquipRightHand");
-                    }
-
-                    #endregion
-
-                    SetWeaponArms(wpnHolster.shieldE);
-                    animator.SetInteger("EquipLeftHandID", 2);
-                    animator.SetTrigger("EquipLeftHand");
-                    isSheathing = true;
-                }
+                SetActiveWeaponFromHolster();
             }
+            //if (cc.rpgaeIM.PlayerControls.Secondary.triggered && !isSheathing && CanSheath())
 
-            if (cc.rpgaeIM.PlayerControls.Secondary.triggered && !isSheathing && CanSheath())
+            if (cc.rpgaeIM.PlayerControls.Interact.triggered && !isSheathing && CanSheath())
             {
                 if (wpnHolster.SecondaryHActive())
                 {
                     if (!wpnHolster.ArrowOnStringActive() && !wpnHolster.ArrowActive())
                     {
+                        Debug.Log("--EquipRightHandID-5");
                         animator.SetInteger("EquipRightHandID", 2);
                         animator.SetTrigger("EquipRightHand");
                     }
-
+                    Debug.Log("--EquipRightHandID-6");
                     SetWeaponArms(wpnHolster.secondaryE);
                     animator.SetInteger("EquipLeftHandID", 1);
                     animator.SetTrigger("EquipLeftHand");
@@ -2713,6 +2665,67 @@ namespace RPGAE.CharacterController
                     animator.SetTrigger("EquipLeftHand");
                     isSheathing = true;
                 }
+            }
+        }
+
+        protected void SetActiveWeaponFromHolster()
+        {
+            if (wpnHolster.PrimaryWeaponHActive())
+            {
+                if (cc.weaponArmsID == 6)
+                {
+                    animator.SetInteger("EquipLeftHandID", 0);
+                    animator.SetTrigger("EquipLeftHand");
+                }
+
+                if (wpnHolster.SecondaryActive() && wpnHolster.ArrowActive() || wpnHolster.ArrowOnStringActive())
+                {
+                    if (wpnHolster.arrowE)
+                        wpnHolster.arrowE.SetActive(true);
+                    if (wpnHolster.arrowString)
+                        wpnHolster.arrowString.SetActive(false);
+                }
+
+                SetWeaponArms(wpnHolster.primaryE);
+                Debug.Log("--EquipRightHandID-2");
+                animator.SetInteger("EquipRightHandID", 1);
+                animator.SetTrigger("EquipRightHand");
+                isSheathing = true;
+            }
+
+            if (wpnHolster.ShieldHActive())
+            {
+                if (wpnHolster.primaryE != null &&
+                wpnHolster.primaryE.GetComponent<ItemData>().weaponArmsID > 1)
+                {
+                    return;
+                }
+
+                #region Switch 
+
+                if (wpnHolster.SecondaryActive() && wpnHolster.ArrowActive() || wpnHolster.ArrowOnStringActive() &&
+                  wpnHolster.primaryE == null)
+                {
+                    wpnHolster.arrowE.SetActive(true);
+                    wpnHolster.arrowString.SetActive(false);
+                    Debug.Log("--EquipRightHandID-3");
+                    animator.SetInteger("EquipRightHandID", 0);
+                    animator.SetTrigger("EquipRightHand");
+                }
+
+                if (wpnHolster.PrimaryWeaponHActive())
+                {
+                    Debug.Log("--EquipRightHandID-4");
+                    animator.SetInteger("EquipRightHandID", 1);
+                    animator.SetTrigger("EquipRightHand");
+                }
+
+                #endregion
+
+                SetWeaponArms(wpnHolster.shieldE);
+                animator.SetInteger("EquipLeftHandID", 2);
+                animator.SetTrigger("EquipLeftHand");
+                isSheathing = true;
             }
         }
 

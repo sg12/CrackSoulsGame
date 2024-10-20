@@ -289,6 +289,7 @@ public class WeaponHolster : MonoBehaviour
 
     public bool LightAttackStaminaConditions()
     {
+        Debug.Log("--weaponArmsID: " + cc.weaponArmsID);
         if (!PrimaryWeaponActive() && !ShieldActive() && !SecondaryActive() && hudM.curEnegry > 10)
             return true;
         if (PrimaryWeaponActive() && hudM.curEnegry > primaryE.GetComponent<ItemData>().wpnWeight)

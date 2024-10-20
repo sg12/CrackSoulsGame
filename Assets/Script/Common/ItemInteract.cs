@@ -61,7 +61,7 @@ public class ItemInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(itemData.itemActive);
+        //Debug.Log(itemData.itemActive);
         float dist = Vector3.Distance(transform.position, cc.transform.position);
         if(itemData.itemActive && dist < pickUpDistance)
         {
@@ -223,7 +223,7 @@ public class ItemInteract : MonoBehaviour
         //itemData.gameObject.SetActive(true);
         WeaponHolster wpnHolster = inventoryM.wpnHolster;
         itemData.itemActive = false;
-        Debug.Log(itemData.itemType);
+        Debug.Log("AddItemsIntoInventory: " + itemData.itemType);
         switch (itemData.itemType)
         {
             case ItemData.ItemType.Weapon:
@@ -332,7 +332,7 @@ public class ItemInteract : MonoBehaviour
                 }
 
                 if (inventoryM.preSwordEquipped)
-                    cc.preWeaponArmsID = 2;
+                    cc.preWeaponArmsID = 1;
                 else if (inventoryM.preDaggerEquipped)
                     cc.preWeaponArmsID = 2;
                 else if (inventoryM.pre2HSwordEquipped)
@@ -683,5 +683,7 @@ public class ItemInteract : MonoBehaviour
                 //oneShot = true;
                 break;
         }
+
+        cc.SetActiveWeaponInHand();
     }
 }

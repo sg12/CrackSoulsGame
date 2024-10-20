@@ -289,10 +289,6 @@ namespace RPGAE.CharacterController
 
         void Update()
         {
-            //Debug.Log("attackButton: " + attackButton);
-            //Debug.Log("isAiming: " + cc.isAiming);
-            //Debug.Log("isStrafing: " + cc.isStrafing);
-            //Debug.Log("isStrafing: " + cc.isSheathing);
             InputHandle();      
             cc.ActionUpdate();
             cc.UpdateMotor();             

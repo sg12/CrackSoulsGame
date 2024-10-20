@@ -262,11 +262,6 @@ namespace RPGAE.CharacterController
 
         protected void CombatAnimation()
         {
-            //Debug.Log(isAiming);
-            //Debug.Log(isBlocking);
-            //Debug.Log(isAttacking);
-            //Debug.Log(upperBodyID);
-            //Debug.Log(isBlocking);
             animator.SetBool("Aiming", isAiming);
             animator.SetBool("IsBlocking", isBlocking);
             animator.SetBool("IsAttacking", isAttacking);
@@ -277,12 +272,19 @@ namespace RPGAE.CharacterController
             isAttacking = IsAnimatorTag("Light Attack") || fullBodyInfo.IsName("Heavy Charge")
             || IsAnimatorTag("Heavy Attack") || fullBodyInfo.IsName("Aerial Attack Land") || IsAnimatorTag("Ability Attack");
             isKnockedBack = fullBodyInfo.IsName("Knock Back");
+            
             if (isAttacking)
                 rigidBody.linearVelocity = Vector3.zero;
 
             FinisherAnimation();
             GeneralAttackAnimation();
             SheathingWeaponAnimation();
+        }
+
+        public void SetActiveWeaponInHand()
+        {
+            weaponArmsID = preWeaponArmsID;
+            SetActiveWeaponFromHolster();
         }
 
         void GeneralAttackAnimation()
@@ -327,7 +329,7 @@ namespace RPGAE.CharacterController
         void SheathingWeaponAnimation()
         {
             #region Weapon arms IK weight 
-
+            //Debug.Log("weaponArmsID: " + weaponArmsID);
             if (weaponArmsID == 1 || weaponArmsID == 2 || weaponArmsID == 5 || weaponArmsID == 6)
             {
                 lhandLayerWeight = 1;
@@ -357,7 +359,7 @@ namespace RPGAE.CharacterController
 
             if (animator.GetInteger("EquipLeftHandID") == 0 && animator.GetInteger("EquipRightHandID") == 0)
                 weaponArmsID = 0;
-
+            //Debug.Log("lhandLayerWeight: " + lhandLayerWeight);
             #endregion
 
             #region Place equipped arrow on bow string
@@ -381,8 +383,6 @@ namespace RPGAE.CharacterController
             #endregion
 
             #region Reload
-            //Debug.Log("upperBodyInfo.IsName Reload: " + upperBodyInfo.IsName("Reload"));
-            //Debug.Log("upperBodyInfo.normalizedTime: " + upperBodyInfo.normalizedTime);
             if (upperBodyInfo.IsName("Reload"))
             {
                 // disbale muzzzle flash for gun
@@ -412,7 +412,7 @@ namespace RPGAE.CharacterController
             }
 
             #endregion
-
+            //Debug.Log("rightArmdInfo.IsTag(Sheath R): " + rightArmdInfo.IsTag("Sheath R"));
             if (rightArmdInfo.IsTag("Sheath R"))
             {
                 if (isAiming) return;
@@ -457,7 +457,6 @@ namespace RPGAE.CharacterController
                     // EQUIP--------------------------------------
 
                     #region Equip primary weapon
-
                     if (animator.GetInteger("EquipRightHandID") == 1)
                     {
                         if (wpnHolster.PrimaryWeaponHActive())
@@ -563,7 +562,7 @@ namespace RPGAE.CharacterController
                         {
                             wpnHolster.shieldE.SetActive(false);
                             wpnHolster.shieldH.SetActive(true);
-                            //cc.weaponArmsID = wpnHolster.secondaryE.GetComponent<ItemData>().weaponArmsID;
+                            cc.weaponArmsID = wpnHolster.secondaryE.GetComponent<ItemData>().weaponArmsID;
                         }
                     }
 
@@ -577,7 +576,7 @@ namespace RPGAE.CharacterController
                         {
                             wpnHolster.secondaryE.SetActive(false);
                             wpnHolster.secondaryH.SetActive(true);
-                            //cc.weaponArmsID = wpnHolster.shieldE.GetComponent<ItemData>().weaponArmsID;
+                            cc.weaponArmsID = wpnHolster.shieldE.GetComponent<ItemData>().weaponArmsID;
                         }
 
                         if (wpnHolster.ArrowActive() || wpnHolster.ArrowOnStringActive())
