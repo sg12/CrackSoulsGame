@@ -7,6 +7,7 @@ public class CursorManager : MonoBehaviour
     [SerializeField] private Texture2D _defaultCursor;
     [SerializeField] private Texture2D _groundCursor;
     [SerializeField] private Texture2D _enemyCursor;
+    [SerializeField] private Texture2D _botCursor;
     [SerializeField] private Texture2D _itemSelectionCursor;
     [Header("ENVIRONMENT FIELD FOR ANY OBJECTS")]
     [SerializeField] private Texture2D _environmentCursor;  //необходимо продумать какой курсор показывать
@@ -15,6 +16,7 @@ public class CursorManager : MonoBehaviour
     [Header("LAYERS")]
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private LayerMask _enemyLayer; 
+    [SerializeField] private LayerMask _botLayer; 
   
     private Texture2D _currentCursor;
 
@@ -25,6 +27,11 @@ public class CursorManager : MonoBehaviour
     }
 
     private void Update()
+    {
+        SetCursor();
+    }
+
+    private void SetCursor()
     {
         Texture2D newCursor = _defaultCursor;
         
@@ -52,6 +59,11 @@ public class CursorManager : MonoBehaviour
                 else if (((1 << hitLayer) & _groundLayer) != 0)
                 {
                     newCursor = _groundCursor;
+                }
+                // Проверка на слой бота
+                else if (((1 << hitLayer) & _botLayer) != 0)
+                {
+                    newCursor = _botCursor;
                 }
                 // Проверка на окружение
                 else if (hitObject.CompareTag("Environment"))
