@@ -1,96 +1,130 @@
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CursorManager : MonoBehaviour
-{   
+{
+    public enum CursorType
+    {
+        Default,
+        Ground,
+        Enemy,
+        Bot,
+        Environment,
+        Item
+    }
+    
+    [System.Serializable]
+    public class CursorMapping
+    {
+        public CursorType type;
+        public Texture2D texture;
+        public Vector2 hotspot = Vector2.zero;
+        public CursorMode cursorMode = CursorMode.Auto;
+    }
+    
     [Header("CURSORS")]
-    [SerializeField] private Texture2D _defaultCursor;
-    [SerializeField] private Texture2D _groundCursor;
-    [SerializeField] private Texture2D _enemyCursor;
-    [SerializeField] private Texture2D _botCursor;
-    [SerializeField] private Texture2D _itemSelectionCursor;
-    [Header("ENVIRONMENT FIELD FOR ANY OBJECTS")]
-    [SerializeField] private Texture2D _environmentCursor;  //необходимо продумать какой курсор показывать
-                                                            //при наведении на какой-либо предмет
-                                                            //окружения(дом, деревья и тд)
+    [SerializeField] private List<CursorMapping> cursorMappings = new List<CursorMapping>();
+
     [Header("LAYERS")]
-    [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private LayerMask _enemyLayer; 
-    [SerializeField] private LayerMask _botLayer; 
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private LayerMask botLayer;
+
+    private Texture2D currentCursor;
+    private Dictionary<CursorType, CursorMapping> cursorDict;
   
-    private Texture2D _currentCursor;
+    private void Awake()
+    {
+        cursorDict = new Dictionary<CursorType, CursorMapping>();
+        foreach (var mapping in cursorMappings)
+        {
+            if (!cursorDict.ContainsKey(mapping.type))
+            {
+                cursorDict.Add(mapping.type, mapping);
+            }
+            else
+            {
+                Debug.LogWarning($"Duplicate CursorType detected: {mapping.type}. Only the first occurrence will be used.");
+            }
+        }
+    }
 
     private void Start()
     {
-        _currentCursor = _defaultCursor;
-        Cursor.SetCursor(_currentCursor, Vector2.zero, CursorMode.Auto);
+        SetCursor(CursorType.Default);
     }
 
     private void Update()
     {
-        SetCursor();
+        UpdateCursor();
     }
 
-    private void SetCursor()
+    private void UpdateCursor()
     {
-        Texture2D newCursor = _defaultCursor;
-        
-        // Проверка для установления дефолтного курсора на Canvas
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            newCursor = _defaultCursor;
+            SetCursor(CursorType.Default);
+            return;
+        }
+        
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            CursorType newCursorType = CursorType.Default;
+            GameObject hitObject = hit.collider.gameObject;
+            int hitLayer = hitObject.layer;
+            
+            //проверка на врага
+            if (((1 << hitLayer) & enemyLayer) != 0)
+            {
+                newCursorType = CursorType.Enemy;
+            }
+            //проверка на землю
+            else if (((1 << hitLayer) & groundLayer) != 0)
+            {
+                newCursorType = CursorType.Ground;
+            }
+            //проверка на бота
+            else if (((1 << hitLayer) & botLayer) != 0)
+            {
+                newCursorType = CursorType.Bot;
+            }
+            //проверка на окружение
+            else if (hitObject.CompareTag("Environment"))
+            {
+                newCursorType = CursorType.Environment;
+            }
+            //проверка на предмет
+            else if (hitObject.CompareTag("Item"))
+            {
+                newCursorType = CursorType.Item;
+            }
+
+            SetCursor(newCursorType);
         }
         else
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            { 
-                GameObject hitObject = hit.collider.gameObject;
-                int hitLayer = hitObject.layer;
-
-                // Проверка на слой врага
-                if (((1 << hitLayer) & _enemyLayer) != 0)
-                {
-                    newCursor = _enemyCursor;
-                }
-                // Проверка на слой земли
-                else if (((1 << hitLayer) & _groundLayer) != 0)
-                {
-                    newCursor = _groundCursor;
-                }
-                // Проверка на слой бота
-                else if (((1 << hitLayer) & _botLayer) != 0)
-                {
-                    newCursor = _botCursor;
-                }
-                // Проверка на окружение
-                else if (hitObject.CompareTag("Environment"))
-                {
-                    newCursor = _environmentCursor;
-                }
-                // Проверка на предметы
-                else if (hitObject.CompareTag("Item"))
-                {
-                    newCursor = _itemSelectionCursor;
-                }
-                else
-                {
-                    newCursor = _defaultCursor;
-                }
-            }
-            else
+            SetCursor(CursorType.Default);
+        }
+        
+    }
+    
+    private void SetCursor(CursorType type)
+    {
+        if (cursorDict.TryGetValue(type, out CursorMapping mapping))
+        {
+            if (currentCursor != mapping.texture)
             {
-                newCursor = _defaultCursor;
+                Cursor.SetCursor(mapping.texture, mapping.hotspot, mapping.cursorMode);
+                currentCursor = mapping.texture;
             }
         }
-
-        // Обновляем курсор только если он изменился
-        if (_currentCursor != newCursor)
+        else
         {
-            Cursor.SetCursor(newCursor, Vector2.zero, CursorMode.Auto);
-            _currentCursor = newCursor;
+            Debug.LogWarning($"No cursor mapping found for CursorType: {type}. Using default cursor.");
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            currentCursor = null;
         }
     }
 }
