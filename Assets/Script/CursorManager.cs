@@ -47,23 +47,6 @@ public class CursorManager : MonoBehaviour
             {
                 Debug.LogWarning($"Duplicate CursorType detected: {mapping.type}. Only the first occurrence will be used.");
             }
-            
-            /*if (!cursorDict.ContainsKey(mapping.type))
-            {
-                //масштабируем текстуры
-                float dpi = Screen.dpi;
-                if (dpi == 0) dpi = 96;
-                float scaleFactor = dpi / 96;
-                scaleFactor = Mathf.Clamp(scaleFactor, 0.5f, 1.5f);
-
-                //сохраняем отмасштабируемые
-                mapping.texture = ScaleTexture(mapping.texture, scaleFactor);
-                cursorDict.Add(mapping.type, mapping);
-            }
-            else
-            {
-                Debug.LogWarning($"Duplicate CursorType detected: {mapping.type}. Only the first occurrence will be used.");
-            }*/
         }
     }
 
@@ -133,15 +116,7 @@ public class CursorManager : MonoBehaviour
         {
             if (currentCursor != mapping.texture)
             {
-              
-                float dpi = Screen.dpi;
-                if (dpi == 0) dpi = 96; 
-                
-                float scaleFactor = 96 / dpi; 
-                
-                Vector2 scaledHotspot = mapping.hotspot * scaleFactor;
-                
-                Cursor.SetCursor(mapping.texture, scaledHotspot, mapping.cursorMode);
+                Cursor.SetCursor(mapping.texture, mapping.hotspot, mapping.cursorMode);
                 currentCursor = mapping.texture;
             }
         }
@@ -152,28 +127,4 @@ public class CursorManager : MonoBehaviour
             currentCursor = null;
         }
     }
-
-
-    //метод изменяет размеры текстур курсоров
-    /*private Texture2D ScaleTexture(Texture2D source, float scaleFactor)
-    {
-        int width = Mathf.RoundToInt(source.width * scaleFactor);
-        int height = Mathf.RoundToInt(source.height * scaleFactor);
-    
-        Texture2D result = new Texture2D(width, height, source.format, false);
-    
-        for (int y = 0; y < height; y++)
-        {
-            for (int x = 0; x < width; x++)
-            {
-                Color newColor = source.GetPixelBilinear((float)x / width, (float)y / height);
-                result.SetPixel(x, y, newColor);
-            }
-        }
-    
-        result.Apply();
-        return result;
-    }*/
-
-
 }
