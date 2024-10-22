@@ -41,6 +41,15 @@ public class CursorManager : MonoBehaviour
         {
             if (!cursorDict.ContainsKey(mapping.type))
             {
+                cursorDict.Add(mapping.type, mapping);
+            }
+            else
+            {
+                Debug.LogWarning($"Duplicate CursorType detected: {mapping.type}. Only the first occurrence will be used.");
+            }
+            
+            /*if (!cursorDict.ContainsKey(mapping.type))
+            {
                 //масштабируем текстуры
                 float dpi = Screen.dpi;
                 if (dpi == 0) dpi = 96;
@@ -54,7 +63,7 @@ public class CursorManager : MonoBehaviour
             else
             {
                 Debug.LogWarning($"Duplicate CursorType detected: {mapping.type}. Only the first occurrence will be used.");
-            }
+            }*/
         }
     }
 
@@ -138,7 +147,7 @@ public class CursorManager : MonoBehaviour
 
 
     //метод изменяет размеры текстур курсоров
-    private Texture2D ScaleTexture(Texture2D source, float scaleFactor)
+    /*private Texture2D ScaleTexture(Texture2D source, float scaleFactor)
     {
         int width = Mathf.RoundToInt(source.width * scaleFactor);
         int height = Mathf.RoundToInt(source.height * scaleFactor);
@@ -156,7 +165,7 @@ public class CursorManager : MonoBehaviour
     
         result.Apply();
         return result;
-    }
+    }*/
 
 
 }
