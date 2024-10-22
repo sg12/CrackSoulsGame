@@ -238,7 +238,7 @@ namespace BLINK.Controller
             TriggerNewDestination(destination);
 
             if (!alwaysTriggerGroundPathFeedback && moveInputType.Held) return;
-            SpawnGroundPathMarker(destination, validClick);
+            //SpawnGroundPathMarker(destination, validClick);
             PlayGroundPathAudio(validClick);
         }
 
