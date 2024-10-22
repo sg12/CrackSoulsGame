@@ -133,7 +133,15 @@ public class CursorManager : MonoBehaviour
         {
             if (currentCursor != mapping.texture)
             {
-                Cursor.SetCursor(mapping.texture, mapping.hotspot, mapping.cursorMode);
+              
+                float dpi = Screen.dpi;
+                if (dpi == 0) dpi = 96; 
+                
+                float scaleFactor = 96 / dpi; 
+                
+                Vector2 scaledHotspot = mapping.hotspot * scaleFactor;
+                
+                Cursor.SetCursor(mapping.texture, scaledHotspot, mapping.cursorMode);
                 currentCursor = mapping.texture;
             }
         }
