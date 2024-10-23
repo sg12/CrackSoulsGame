@@ -11,7 +11,8 @@ public class CursorManager : MonoBehaviour
         Enemy,
         Bot,
         Environment,
-        Item
+        Item,
+        Player
     }
     
     [System.Serializable]
@@ -30,6 +31,7 @@ public class CursorManager : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask botLayer;
+    [SerializeField] private LayerMask playerLayer;
 
     private Texture2D currentCursor;
     private Dictionary<CursorType, CursorMapping> cursorDict;
@@ -89,6 +91,11 @@ public class CursorManager : MonoBehaviour
             else if (((1 << hitLayer) & botLayer) != 0)
             {
                 newCursorType = CursorType.Bot;
+            }
+            //проверка на игрока
+            else if (((1 << hitLayer) & playerLayer) != 0)
+            {
+                newCursorType = CursorType.Player;
             }
             //проверка на окружение
             else if (hitObject.CompareTag("Environment"))
